@@ -1,0 +1,11 @@
+
+# node_modules ignored by default
+node_modules/*
+**/staticBundle.js
+**/main.js
+Libraries/vendor/**/*
+Libraries/Renderer/*
+pr-inactivity-bookmarklet.js
+question-bookmarklet.js
+flow/
+danger/
