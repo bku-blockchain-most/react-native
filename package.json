@@ -1,22 +1,67 @@
 {
-  "name": "dVApp",
+  "name": "decentralized-voting-mobile-app",
   "version": "0.0.1",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "jest",
+    "lint": "node_modules/.bin/eslint ./",
+    "lint:fix": "node_modules/.bin/eslint ./ --fix"
   },
   "dependencies": {
     "react": "16.4.1",
     "react-native": "0.56.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
     "babel-jest": "23.4.2",
     "babel-preset-react-native": "^5",
+    "eslint": "^5.2.0",
+    "eslint-plugin-eslint-comments": "^3.0.1",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-jest": "^21.18.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-react-native": "^3.2.1",
     "jest": "23.5.0",
+    "prettier": "^1.13.7",
     "react-test-renderer": "16.4.1"
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "prettier": {
+    "requirePragma": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": false,
+    "jsxBracketSameLine": true,
+    "parser": "flow"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:decentralized-voting/react-native.git"
+  },
+  "author": {
+    "email": "huynhsamha@gmail.com",
+    "name": "Sam",
+    "url": "https://huynhsamha.github.io"
+  },
+  "contributors": [
+    "huynhsamha"
+  ],
+  "keywords": [
+    "decentralized-voting",
+    "dapp",
+    "dvapp",
+    "react-native",
+    "react-native-cli",
+    "mobile",
+    "hyper-app",
+    "ios",
+    "android"
+  ]
 }
