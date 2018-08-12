@@ -1,5 +1,5 @@
 {
-  "name": "decentralized-voting-mobile-app",
+  "name": "dvapp",
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
@@ -7,15 +7,17 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "ios:X": "react-native run-ios --simulator \"iPhone X\"",
     "test": "jest",
-    "lint": "node_modules/.bin/eslint ./",
-    "lint:fix": "node_modules/.bin/eslint ./ --fix"
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "native-base": "^2.7.2",
     "react": "16.4.1",
-    "react-native": "0.56.0"
+    "react-native": "0.56.0",
+    "react-navigation": "^2.11.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
