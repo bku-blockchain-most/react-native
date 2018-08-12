@@ -12,6 +12,8 @@
     "lint:fix": "node_modules/.bin/eslint ./ --fix"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "native-base": "^2.7.2",
     "react": "16.4.1",
     "react-native": "0.56.0"
   },
