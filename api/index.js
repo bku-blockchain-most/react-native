@@ -1,7 +1,7 @@
-import * as authApi from './authentication';
-import * as dataApi from './authenticated';
+import * as authApi from './auth';
+import * as appApi from './app';
 
 export {
   authApi,
-  dataApi
+  appApi
 };

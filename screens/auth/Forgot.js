@@ -6,13 +6,18 @@
 import React, {Component} from 'react';
 import {View, Text, Button} from 'native-base';
 
+import {styles} from '../../styles';
+
 class ForgotScreen extends Component {
+  static navigationOptions = {
+    title: 'Forgot Password',
+  };
+
   render() {
     return (
-      <View>
-        <Text>Hello Forgot</Text>
+      <View style={styles.container}>
         <Button primary onPress={() => this.props.navigation.navigate('Login')}>
-          <Text>Login</Text>
+          <Text>Back to login</Text>
         </Button>
       </View>
     );

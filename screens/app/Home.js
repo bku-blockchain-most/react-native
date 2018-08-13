@@ -4,11 +4,19 @@
  */
 
 import React, {Component} from 'react';
+import {AsyncStorage} from 'react-native';
 import {Button, Text, View} from 'native-base';
+
+import {styles} from '../../styles';
 
 class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Welcome to the app!',
+  };
+
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
   };
 
   render() {
@@ -23,8 +31,7 @@ class HomeScreen extends Component {
     };
 
     return (
-      <View>
-        <Text>Hello Home</Text>
+      <View style={styles.container}>
         <Button
           primary
           onPress={() =>
@@ -32,7 +39,10 @@ class HomeScreen extends Component {
               polling,
             })
           }>
-          <Text>Home Screen</Text>
+          <Text>Go to one polling</Text>
+        </Button>
+        <Button danger onPress={this._signOutAsync}>
+          <Text>Sign me out</Text>
         </Button>
       </View>
     );

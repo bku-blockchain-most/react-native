@@ -7,6 +7,13 @@ import React, {Component} from 'react';
 import {Button, Text, View} from 'native-base';
 
 class PollingScreen extends Component {
+  static navigationOptions = ({navigation}) => {
+    const polling = navigation.getParam('polling', {name: 'Polling Default'});
+    return {
+      title: polling.name,
+    };
+  };
+
   render() {
     const {navigation} = this.props;
     const polling = navigation.getParam('polling');
