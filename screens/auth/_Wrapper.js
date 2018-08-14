@@ -4,15 +4,16 @@
  */
 
 import React, {Component} from 'react';
-import {ImageBackground, View, Image} from 'react-native';
+import {ImageBackground, View, Image, StatusBar} from 'react-native';
 
-import {styles} from '../../styles';
+import {styles, color} from '../../styles';
 
 class AuthScreenWrapper extends Component {
   render() {
     const faviconSize = 120;
     return (
       <View style={styles.centerBox}>
+        <StatusBar backgroundColor={color.primary} barStyle="light-content" />
         <ImageBackground
           source={require('../../assets/images/background.jpg')}
           style={{width: '100%', height: '100%', ...styles.centerBox}}>
