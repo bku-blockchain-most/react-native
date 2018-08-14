@@ -7,7 +7,7 @@ import React, {Component} from 'react';
 import {AsyncStorage} from 'react-native';
 import {Button, Text, View} from 'native-base';
 
-import {styles} from '../../styles';
+import styles from '../../styles';
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -31,7 +31,7 @@ class HomeScreen extends Component {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={styles.centerBox}>
         <Button
           primary
           onPress={() =>

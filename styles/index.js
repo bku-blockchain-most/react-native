@@ -1,9 +1,12 @@
 import {StyleSheet} from 'react-native';
 
-export const styles = StyleSheet.create({
-  container: {
+export default StyleSheet.create({
+  centerBox: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
   },
+  fullWidth: {
+    width: '100%'
+  }
 });
