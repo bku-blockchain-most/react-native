@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import {ActivityIndicator, AsyncStorage, StatusBar, View} from 'react-native';
 
-import styles from '../styles';
+import {styles} from '../styles';
 
 class AuthLoadingScreen extends Component {
   constructor(props) {

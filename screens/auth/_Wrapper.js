@@ -1,0 +1,47 @@
+/**
+ * @format
+ * @flow
+ */
+
+import React, {Component} from 'react';
+import {ImageBackground, View, Image} from 'react-native';
+
+import {styles} from '../../styles';
+
+class AuthScreenWrapper extends Component {
+  render() {
+    const faviconSize = 120;
+    return (
+      <View style={styles.centerBox}>
+        <ImageBackground
+          source={require('../../assets/images/background.jpg')}
+          style={{width: '100%', height: '100%', ...styles.centerBox}}>
+          <Image
+            source={require('../../assets/icons/favicon.png')}
+            style={{
+              height: faviconSize,
+              width: faviconSize,
+              borderRadius: faviconSize / 2,
+            }}
+            resizeMode="cover"
+          />
+          <View
+            style={{
+              width: '90%',
+              paddingTop: 30,
+              paddingBottom: 10,
+              marginTop: 15,
+              backgroundColor: '#fff',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 30,
+            }}>
+            {this.props.children}
+          </View>
+        </ImageBackground>
+      </View>
+    );
+  }
+}
+
+export default AuthScreenWrapper;

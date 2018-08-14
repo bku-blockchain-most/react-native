@@ -7,7 +7,7 @@ import React, {Component} from 'react';
 import {AsyncStorage} from 'react-native';
 import {Button, Text, View} from 'native-base';
 
-import styles from '../../styles';
+import {styles} from '../../styles';
 
 class HomeScreen extends Component {
   static navigationOptions = {
