@@ -4,13 +4,17 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Icon} from 'native-base';
 import {styles} from '../../../styles';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (
-      <Text style={{color: tintColor}}>Profile</Text>
+      <Icon
+        name="account-location"
+        type="MaterialCommunityIcons"
+        style={{color: tintColor}}
+      />
     ),
   };
 

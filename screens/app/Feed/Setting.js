@@ -5,13 +5,17 @@
 
 import React, {Component} from 'react';
 import {AsyncStorage} from 'react-native';
-import {View, Text, Button} from 'native-base';
+import {View, Text, Button, Icon} from 'native-base';
 import {styles} from '../../../styles';
 
 class SettingScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (
-      <Text style={{color: tintColor}}>Settings</Text>
+      <Icon
+        name="format-list-bulleted"
+        type="MaterialCommunityIcons"
+        style={{color: tintColor}}
+      />
     ),
   };
 

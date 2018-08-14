@@ -11,7 +11,10 @@
     "ios:X": "react-native run-ios --simulator \"iPhone X\"",
     "test": "jest",
     "lint": "eslint ./",
-    "lint:fix": "eslint ./ --fix"
+    "lint:fix": "eslint ./ --fix",
+    "clean:ios": "rm -rf ./ios/build/",
+    "clean:android": "",
+    "clean": "npm run clean:ios && npm run clean:android"
   },
   "dependencies": {
     "axios": "^0.18.0",

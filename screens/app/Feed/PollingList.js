@@ -4,14 +4,18 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Text, View} from 'native-base';
+import {Button, Text, View, Icon} from 'native-base';
 
 import {styles} from '../../../styles';
 
 class PollingListScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (
-      <Text style={{color: tintColor}}>Pollings</Text>
+      <Icon
+        name="poll-box"
+        type="MaterialCommunityIcons"
+        style={{color: tintColor}}
+      />
     ),
   };
 
