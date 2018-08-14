@@ -14,6 +14,7 @@ const AuthScreen = createStackNavigator(
     Forgot: ForgotScreen,
   },
   {
+    initialRouteName: 'Login',
     headerMode: 'none',
   },
 );

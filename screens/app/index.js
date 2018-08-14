@@ -5,12 +5,18 @@
 
 import {createStackNavigator} from 'react-navigation';
 
-import HomeScreen from './Home';
-import PollingScreen from './Polling';
+import FeedAppNavigator from './Feed';
+import PollingDetailScreen from './PollingDetail';
 
-const AppNavigator = createStackNavigator({
-  Home: HomeScreen,
-  Polling: PollingScreen,
-});
+const AppNavigator = createStackNavigator(
+  {
+    FeedApp: FeedAppNavigator,
+    PollingDetail: PollingDetailScreen,
+  },
+  {
+    initialRouteName: 'FeedApp',
+    headerMode: 'none',
+  },
+);
 
 export default AppNavigator;

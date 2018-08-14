@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import {Button, Text, View} from 'native-base';
 
-class PollingScreen extends Component {
+class PollingDetailScreen extends Component {
   static navigationOptions = ({navigation}) => {
     const polling = navigation.getParam('polling', {name: 'Polling Default'});
     return {
@@ -36,4 +36,4 @@ class PollingScreen extends Component {
   }
 }
 
-export default PollingScreen;
+export default PollingDetailScreen;

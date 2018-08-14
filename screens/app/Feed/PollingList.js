@@ -4,19 +4,15 @@
  */
 
 import React, {Component} from 'react';
-import {AsyncStorage} from 'react-native';
 import {Button, Text, View} from 'native-base';
 
-import {styles} from '../../styles';
+import {styles} from '../../../styles';
 
-class HomeScreen extends Component {
+class PollingListScreen extends Component {
   static navigationOptions = {
-    title: 'Welcome to the app!',
-  };
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+    tabBarIcon: ({tintColor}) => (
+      <Text style={{color: tintColor}}>Pollings</Text>
+    ),
   };
 
   render() {
@@ -35,18 +31,15 @@ class HomeScreen extends Component {
         <Button
           primary
           onPress={() =>
-            this.props.navigation.navigate('Polling', {
+            this.props.navigation.navigate('PollingDetail', {
               polling,
             })
           }>
           <Text>Go to one polling</Text>
-        </Button>
-        <Button danger onPress={this._signOutAsync}>
-          <Text>Sign me out</Text>
         </Button>
       </View>
     );
   }
 }
 
-export default HomeScreen;
+export default PollingListScreen;
