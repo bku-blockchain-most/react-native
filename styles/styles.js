@@ -4,7 +4,7 @@
  */
 
 import {StyleSheet} from 'react-native';
-import {color} from './theme';
+import {color, fonts} from './theme';
 
 export const styles = StyleSheet.create({
   centerBox: {
@@ -20,5 +20,8 @@ export const styles = StyleSheet.create({
   },
   textPrimary: {
     color: color.primary,
+  },
+  fontOpenSans: {
+    fontFamily: fonts.OpenSans,
   },
 });

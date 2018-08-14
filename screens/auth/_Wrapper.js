@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {ImageBackground, View, Image, StatusBar} from 'react-native';
+import {ImageBackground, View, Image, StatusBar, Text} from 'react-native';
 
 import {styles, color} from '../../styles';
 
@@ -37,6 +37,16 @@ class AuthScreenWrapper extends Component {
               alignItems: 'center',
               borderRadius: 30,
             }}>
+            <Text
+              style={{
+                ...styles.fontOpenSans,
+                textTransform: 'uppercase',
+                fontWeight: '700',
+                fontSize: 24,
+                color: color.primary,
+              }}>
+              {this.props.title}
+            </Text>
             {this.props.children}
           </View>
         </ImageBackground>

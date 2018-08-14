@@ -9,7 +9,7 @@ import {Button, Text, Form, Item, Input, Label, H2, View} from 'native-base';
 
 import AuthScreenWrapper from './_Wrapper';
 import {authApi} from '../../api';
-import {styles, color} from '../../styles';
+import {styles} from '../../styles';
 import {handleError} from '../../utils';
 
 class ForgotScreen extends Component {
@@ -31,8 +31,7 @@ class ForgotScreen extends Component {
     const defaultEmail = navigation.getParam('email', '');
 
     return (
-      <AuthScreenWrapper>
-        <H2 style={{textTransform: 'uppercase'}}>Forgot Password</H2>
+      <AuthScreenWrapper title="Forgot Password">
         <Form
           style={{
             ...styles.fullWidth,
@@ -41,8 +40,9 @@ class ForgotScreen extends Component {
             marginTop: 10,
           }}>
           <Item floatingLabel>
-            <Label>Enter your email</Label>
+            <Label style={{...styles.fontOpenSans}}>Enter your email</Label>
             <Input
+              style={{...styles.fontOpenSans}}
               autoCapitalize="none"
               defaultValue={defaultEmail}
               value={this.state.email}
@@ -54,7 +54,9 @@ class ForgotScreen extends Component {
             rounded
             style={{marginTop: 40, marginLeft: 15, ...styles.bgPrimary}}
             onPress={this._onClickForgotPassword}>
-            <Text uppercase>Send</Text>
+            <Text uppercase style={{...styles.fontOpenSans}}>
+              Send
+            </Text>
           </Button>
         </Form>
 
@@ -63,7 +65,9 @@ class ForgotScreen extends Component {
             transparent
             style={{marginTop: 10}}
             onPress={() => navigation.goBack()}>
-            <Text style={styles.textPrimary}>Back to login</Text>
+            <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>
+              Back to login
+            </Text>
           </Button>
         </View>
       </AuthScreenWrapper>

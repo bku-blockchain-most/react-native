@@ -9,7 +9,7 @@ import {Button, Text, Form, Item, Input, Label, H2, View} from 'native-base';
 import AuthScreenWrapper from './_Wrapper';
 
 import {authApi} from '../../api';
-import {styles, color} from '../../styles';
+import {styles} from '../../styles';
 import {handleError} from '../../utils';
 
 class LoginScreen extends Component {
@@ -27,8 +27,7 @@ class LoginScreen extends Component {
     const {navigation} = this.props;
 
     return (
-      <AuthScreenWrapper>
-        <H2 style={{textTransform: 'uppercase'}}>Login</H2>
+      <AuthScreenWrapper title="Login">
         <Form
           style={{
             ...styles.fullWidth,
@@ -37,16 +36,18 @@ class LoginScreen extends Component {
             marginTop: 10,
           }}>
           <Item floatingLabel>
-            <Label>Email</Label>
+            <Label style={{...styles.fontOpenSans}}>Email</Label>
             <Input
+              style={{...styles.fontOpenSans}}
               autoCapitalize="none"
               value={this.state.email}
               onChangeText={value => this.setState({email: value})}
             />
           </Item>
           <Item floatingLabel>
-            <Label>Password</Label>
+            <Label style={{...styles.fontOpenSans}}>Password</Label>
             <Input
+              style={{...styles.fontOpenSans}}
               secureTextEntry
               defaultValue={this.state.password}
               onChangeText={value => this.setState({password: value})}
@@ -58,7 +59,9 @@ class LoginScreen extends Component {
             rounded
             style={{marginTop: 40, marginLeft: 15, ...styles.bgPrimary}}
             onPress={this._onClickLogin}>
-            <Text uppercase>Login</Text>
+            <Text uppercase style={{...styles.fontOpenSans}}>
+              Login
+            </Text>
           </Button>
         </Form>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -68,7 +71,9 @@ class LoginScreen extends Component {
             onPress={() =>
               navigation.navigate('Forgot', {email: this.state.email})
             }>
-            <Text style={styles.textPrimary}>Forgot Password?</Text>
+            <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>
+              Forgot Password?
+            </Text>
           </Button>
         </View>
       </AuthScreenWrapper>
