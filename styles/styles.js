@@ -18,6 +18,12 @@ export const styles = StyleSheet.create({
   bgPrimary: {
     backgroundColor: color.primary,
   },
+  bgPrimaryLight: {
+    backgroundColor: color.primaryLight,
+  },
+  bgPrimaryDark: {
+    backgroundColor: color.primaryDark,
+  },
   textPrimary: {
     color: color.primary,
   },

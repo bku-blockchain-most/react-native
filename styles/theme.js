@@ -4,7 +4,9 @@
  */
 
 export const color = {
-  primary: 'rgb(214, 70, 104)',
+  primary: '#d64668',
+  primaryLight: '#f16f8e',
+  primaryDark: '#c43758',
 };
 
 export const fonts = {

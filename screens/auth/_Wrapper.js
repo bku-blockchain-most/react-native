@@ -10,7 +10,7 @@ import {styles, color} from '../../styles';
 
 class AuthScreenWrapper extends Component {
   render() {
-    const faviconSize = 120;
+    const faviconSize = 100;
     return (
       <View style={styles.centerBox}>
         <StatusBar backgroundColor={color.primary} barStyle="light-content" />
