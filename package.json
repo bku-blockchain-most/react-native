@@ -4,8 +4,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "react-native start",
     "restart": "react-native start --reset-cache",
+    "link": "react-native link",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios:X": "react-native run-ios --simulator \"iPhone X\"",
@@ -13,8 +14,9 @@
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "clean:ios": "rm -rf ./ios/build/",
-    "clean:android": "",
+    "clean:android": "rm -rf ./android/**/build/",
     "clean": "npm run clean:ios && npm run clean:android"
+
   },
   "dependencies": {
     "axios": "^0.18.0",
