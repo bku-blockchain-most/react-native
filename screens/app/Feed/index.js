@@ -21,9 +21,23 @@ const FeedAppNavigator = createTabNavigator(
   {
     initialRouteName: 'PollingList',
     tabBarPosition: 'top',
+
     tabBarOptions: {
-      activeTintColor: color.primary,
       showLabel: false,
+      showIcon: true,
+      activeTintColor: color.primary,
+      activeBackgroundColor: color.inactiveLight,
+      inactiveBackgroundColor: color.white,
+      inactiveTintColor: color.inactive,
+      style: {
+        backgroundColor: color.white,
+      },
+      tabStyle: {
+        backgroundColor: color.white,
+      },
+      indicatorStyle: {
+        backgroundColor: color.white,
+      },
     },
   },
 );

@@ -25,7 +25,7 @@ class SplashScreen extends Component {
     // screen will be unmounted and thrown away.
     setTimeout(() => {
       this.props.navigation.navigate(authToken ? 'App' : 'Auth');
-    }, 1000);
+    }, 500);
   };
 
   // Render any loading content that you like here

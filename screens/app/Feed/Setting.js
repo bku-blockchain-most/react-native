@@ -6,7 +6,8 @@
 import React, {Component} from 'react';
 import {AsyncStorage} from 'react-native';
 import {View, Text, Button, Icon} from 'native-base';
-import {styles} from '../../../styles';
+
+import FeedScreenWrapper from './_wrapper';
 
 class SettingScreen extends Component {
   static navigationOptions = {
@@ -26,14 +27,14 @@ class SettingScreen extends Component {
 
   render() {
     return (
-      <View style={styles.centerBox}>
+      <FeedScreenWrapper>
         <Text style={{marginVertical: 20}}>Setting screen</Text>
         <View style={{width: '90%'}}>
           <Button full rounded danger onPress={this._signOutAsync}>
             <Text>Sign me out</Text>
           </Button>
         </View>
-      </View>
+      </FeedScreenWrapper>
     );
   }
 }

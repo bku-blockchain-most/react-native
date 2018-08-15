@@ -4,9 +4,9 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Text, View, Icon} from 'native-base';
+import {Button, Text, Icon} from 'native-base';
 
-import {styles} from '../../../styles';
+import FeedScreenWrapper from './_wrapper';
 
 class PollingListScreen extends Component {
   static navigationOptions = {
@@ -31,7 +31,7 @@ class PollingListScreen extends Component {
     };
 
     return (
-      <View style={styles.centerBox}>
+      <FeedScreenWrapper>
         <Button
           primary
           onPress={() =>
@@ -41,7 +41,7 @@ class PollingListScreen extends Component {
           }>
           <Text>Go to one polling</Text>
         </Button>
-      </View>
+      </FeedScreenWrapper>
     );
   }
 }

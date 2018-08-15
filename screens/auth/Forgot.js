@@ -5,9 +5,9 @@
 
 import React, {Component} from 'react';
 import {Alert} from 'react-native';
-import {Button, Text, Form, Item, Input, Label, H2, View} from 'native-base';
+import {Button, Text, Form, Item, Input, Label, View} from 'native-base';
 
-import AuthScreenWrapper from './_Wrapper';
+import AuthScreenWrapper from './_wrapper';
 import {authApi} from '../../api';
 import {styles} from '../../styles';
 import {handleError} from '../../utils';

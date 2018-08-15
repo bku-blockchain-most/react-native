@@ -4,8 +4,9 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, Icon} from 'native-base';
-import {styles} from '../../../styles';
+import {Text, Icon} from 'native-base';
+
+import FeedScreenWrapper from './_wrapper';
 
 class NameCardScreen extends Component {
   static navigationOptions = {
@@ -16,9 +17,9 @@ class NameCardScreen extends Component {
 
   render() {
     return (
-      <View style={styles.centerBox}>
+      <FeedScreenWrapper>
         <Text>NameCard screen</Text>
-      </View>
+      </FeedScreenWrapper>
     );
   }
 }

@@ -4,8 +4,9 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, Icon} from 'native-base';
-import {styles} from '../../../styles';
+import {Text, Icon} from 'native-base';
+
+import FeedScreenWrapper from './_wrapper';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
@@ -20,9 +21,9 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View style={styles.centerBox}>
+      <FeedScreenWrapper>
         <Text>Profile screen</Text>
-      </View>
+      </FeedScreenWrapper>
     );
   }
 }

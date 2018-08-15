@@ -4,7 +4,9 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Text, View} from 'native-base';
+import {Button, Text} from 'native-base';
+
+import AppScreenWrapper from './_wrapper';
 
 class PollingDetailScreen extends Component {
   static navigationOptions = ({navigation}) => {
@@ -20,7 +22,7 @@ class PollingDetailScreen extends Component {
     console.log(polling);
 
     return (
-      <View>
+      <AppScreenWrapper>
         <Text>Hello Polling</Text>
         <Text>{polling.name}</Text>
         {polling.options.map(o => (
@@ -31,7 +33,7 @@ class PollingDetailScreen extends Component {
         <Button warning onPress={() => navigation.goBack()}>
           <Text>Go Back</Text>
         </Button>
-      </View>
+      </AppScreenWrapper>
     );
   }
 }
