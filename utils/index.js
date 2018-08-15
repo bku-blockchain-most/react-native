@@ -6,6 +6,7 @@
 import {Alert} from 'react-native';
 
 export const handleError = err => {
+  console.log(err);
   console.log(err.response);
   let message = 'Internal Server Error';
   if (err.response) {

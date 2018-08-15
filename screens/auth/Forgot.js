@@ -78,9 +78,9 @@ class ForgotScreen extends Component {
     const {email} = this.state;
     authApi
       .forgotPassword(email)
-      .then(message => {
-        console.log(message);
-        Alert.alert(message, '', [
+      .then(data => {
+        console.log(data);
+        Alert.alert(data.message, '', [
           {
             text: 'OK',
             onPress: () => {

@@ -32,3 +32,17 @@ react-native link [name]
 
 ## React Native Portrait Device Orientation
 https://medium.com/react-native-training/react-native-portrait-device-orientation-9bcdeeac0b03
+
+
+## Shortcuts
+### Debug JS Remote
++ XCode Simulator: `Cmd + D`
++ Android Emulator: `Cmd + M`
+
+### Reload
++ XCode Simulator: `Cmd + R`
++ Andriod Emulator: `R + R`
+
+
+## Development
+Server NodeJS only work on android with actually API url, therefore change field `apiUrl` in `config/dev.conf.js` to current ip address of your local machine. You can use `ipconfig` on Windows, or `ifconfig` on Linux/OSX to find your local ip address. With debug on XCode Simulator, `localhost` or `127.0.0.1` is accecpted.
