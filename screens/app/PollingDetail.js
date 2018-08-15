@@ -4,17 +4,29 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Text, Content} from 'native-base';
+import {
+  Container,
+  Header,
+  Content,
+  List,
+  ListItem,
+  Text,
+  Icon,
+  Left,
+  Body,
+  Right,
+  Switch,
+  Button,
+} from 'native-base';
+import moment from 'moment';
 
 import AppScreenWrapper from './_wrapper';
+import {styles, color} from '../../styles';
 
 class PollingDetailScreen extends Component {
-  static navigationOptions = ({navigation}) => {
-    const polling = navigation.getParam('polling', {name: 'Polling Default'});
-    return {
-      title: polling.name,
-    };
-  };
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     const {navigation} = this.props;
@@ -23,18 +35,33 @@ class PollingDetailScreen extends Component {
 
     return (
       <AppScreenWrapper>
-        <Content padder>
-          <Text>Hello Polling</Text>
-          <Text>{polling.name}</Text>
-          {polling.options.map(o => (
-            <Text key={o.id}>
-              {o.id}. {o.name}
-            </Text>
-          ))}
-          <Button warning onPress={() => navigation.goBack()}>
-            <Text>Go Back</Text>
-          </Button>
-        </Content>
+        <Text
+          style={{
+            ...styles.fontOpenSans,
+            fontWeight: '700',
+            ...styles.textPrimary,
+          }}>
+          {polling.title || 'Title Polling'}
+        </Text>
+
+        <Text style={{...styles.fontOpenSans}} note>
+          {moment(polling.startDate).calendar()}
+          {' - '}
+          {moment(polling.endDate).calendar()}
+        </Text>
+
+        <Text style={{...styles.fontOpenSans}}>
+          {polling.description || ''}
+        </Text>
+        {polling.options.map(o => (
+          <Text key={o.id}>
+            {o.id}. {o.name}
+          </Text>
+        ))}
+
+        <Button rounded full danger onPress={() => navigation.goBack()}>
+          <Text>Back</Text>
+        </Button>
       </AppScreenWrapper>
     );
   }

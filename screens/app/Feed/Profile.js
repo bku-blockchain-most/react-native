@@ -63,7 +63,7 @@ class ProfileScreen extends Component {
               </Button>
             </Left>
             <Body>
-              <Text>User ID</Text>
+              <Text>ID</Text>
             </Body>
             <Right>
               <Text>{user.id || 'Default user ID'}</Text>

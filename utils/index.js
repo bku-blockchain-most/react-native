@@ -22,3 +22,7 @@ export const getUserProfile = async () => {
   );
   return JSON.parse(user);
 };
+
+export const getAuthToken = async () => {
+  return await AsyncStorage.getItem(config.constants.asyncStorage.authToken);
+};
