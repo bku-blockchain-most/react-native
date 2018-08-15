@@ -10,6 +10,8 @@ export const color = {
 
   white: '#fff',
 
+  dark: '#000',
+
   inactive: '#a9a9a9',
   inactiveLight: '#f3f3f3',
 };

@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Text} from 'native-base';
+import {Button, Text, Content} from 'native-base';
 
 import AppScreenWrapper from './_wrapper';
 
@@ -23,16 +23,18 @@ class PollingDetailScreen extends Component {
 
     return (
       <AppScreenWrapper>
-        <Text>Hello Polling</Text>
-        <Text>{polling.name}</Text>
-        {polling.options.map(o => (
-          <Text key={o.id}>
-            {o.id}. {o.name}
-          </Text>
-        ))}
-        <Button warning onPress={() => navigation.goBack()}>
-          <Text>Go Back</Text>
-        </Button>
+        <Content padder>
+          <Text>Hello Polling</Text>
+          <Text>{polling.name}</Text>
+          {polling.options.map(o => (
+            <Text key={o.id}>
+              {o.id}. {o.name}
+            </Text>
+          ))}
+          <Button warning onPress={() => navigation.goBack()}>
+            <Text>Go Back</Text>
+          </Button>
+        </Content>
       </AppScreenWrapper>
     );
   }
