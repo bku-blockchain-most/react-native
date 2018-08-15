@@ -113,8 +113,8 @@ Browse all here. https://oblador.github.io/react-native-vector-icons/
 
 |                 | MacOS (XCode Simulator) | MacOS (Android Emulator) | MacOS (Genymotion) | Linux/Windows (Android Emulator) | Linux/Windows (Genymotion) |
 |-----------------|:-----------------------:|:------------------------:|:------------------:|:--------------------------------:|:--------------------------:|
-| Debug JS Remote |        `Cmd + D`        |         `Cmd + M`        |                    |            `Ctrl + D`            |         `Ctrl + M`         |
-| Reload          |        `Cmd + R`        |          `R + R`         |                    |            `Ctrl + R`            |           `R + R`          |
+| Debug JS Remote |        `Cmd + D`        |         `Cmd + M`        |                    |            `Ctrl + M`            |                  |
+| Reload          |        `Cmd + R`        |          `R + R`         |                    |            `R + R`            |                     |
 |                 |                         |                          |                    |                                  |                            |
 
 
