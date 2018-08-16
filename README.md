@@ -118,6 +118,35 @@ Browse all here. https://oblador.github.io/react-native-vector-icons/
 |                 |                         |                          |                    |                                  |                            |
 
 
+### Utility Commands
+
+#### Clean build android and ios
+Remove `build` in Android and iOS
+```bash
+npm run clean:android
+npm run clean:ios
+# clean both android and ios
+npm run clean
+
+# or use yarn
+yarn clean:android
+yarn clean:ios
+yarn clean
+```
+
+#### Linting code with Eslint
+```bash
+npm run lint
+yarn lint
+
+### Fix warning with eslint
+npm run lint:fix
+yarn lint:fix
+```
+
+
+
+
 #### React Native Portrait Device Orientation
 https://medium.com/react-native-training/react-native-portrait-device-orientation-9bcdeeac0b03
 

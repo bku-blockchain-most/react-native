@@ -14,9 +14,8 @@
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "clean:ios": "rm -rf ./ios/build/",
-    "clean:android": "rm -rf ./android/**/build/",
+    "clean:android": "rm -rf ./android/build/ ./android/app/build/",
     "clean": "npm run clean:ios && npm run clean:android"
-
   },
   "dependencies": {
     "axios": "^0.18.0",
