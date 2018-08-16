@@ -111,11 +111,10 @@ Browse all here. https://oblador.github.io/react-native-vector-icons/
 #### Shortcuts on OSX
 
 
-|                 | MacOS (XCode Simulator) | MacOS (Android Emulator) | MacOS (Genymotion) | Linux/Windows (Android Emulator) | Linux/Windows (Genymotion) |
-|-----------------|:-----------------------:|:------------------------:|:------------------:|:--------------------------------:|:--------------------------:|
-| Debug JS Remote |        `Cmd + D`        |         `Cmd + M`        |                    |            `Ctrl + M`            |                  |
-| Reload          |        `Cmd + R`        |          `R + R`         |                    |            `R + R`            |                     |
-|                 |                         |                          |                    |                                  |                            |
+|                 | MacOS (XCode) | MacOS (Android) | MacOS (Genymotion) | Linux/Windows (Android) | Linux/Windows (Genymotion) |
+|-----------------|:-------------:|:---------------:|:------------------:|:-----------------------:|:--------------------------:|
+| Debug JS Remote | `Cmd + D`     | `Cmd + M`       |                    | `Ctrl + M`              | `Ctrl + M`                 |
+| Reload          | `Cmd + R`     | `R + R`         |                    | `R + R`                 | `R + R`                    |
 
 
 ### Utility Commands
