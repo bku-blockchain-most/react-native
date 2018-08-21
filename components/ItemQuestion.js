@@ -17,7 +17,9 @@ import {
   Button,
   Icon,
   View,
+  Toast,
 } from 'native-base';
+import randomize from 'randomatic';
 import {styles, color} from '../styles';
 
 class ItemQuestion extends Component {
@@ -25,17 +27,43 @@ class ItemQuestion extends Component {
     super(props);
 
     this.state = {
-      answer: this.props.question,
+      answer: [],
     };
   }
+
+  _checked = o =>
+    this.state.answer.filter(y => y.ordinal === o.ordinal)[0] ? true : false;
+
+  _onCheckMultipleOption = o => {
+    const maxSelected = this.props.question.maxSelected;
+    if (this.state.answer.length === maxSelected) {
+      return Toast.show({
+        text: 'You have only ' + maxSelected + ' selections',
+        buttonText: 'Close',
+      });
+    }
+    let checked = this._checked(o);
+    this.setState({
+      answer: checked
+        ? this.state.answer.filter(ans => ans.ordinal !== o.ordinal)
+        : [...this.state.answer, {ordinal: o.ordinal}],
+    });
+  };
 
   MultipleOptions = () => {
     const {question} = this.props;
     return (
       <List>
-        {question.options.map(o => (
-          <ListItem noBorder>
-            <CheckBox checked={false} color={color.primary} />
+        <ListItem>
+          <Text>Maximum selection: {question.maxSelected}</Text>
+        </ListItem>
+        {(question.options || []).map(o => (
+          <ListItem noBorder key={o.ordinal + randomize('Aa0', 8)}>
+            <CheckBox
+              color={color.primary}
+              checked={this._checked(o)}
+              onPress={() => this._onCheckMultipleOption(o)}
+            />
             <Body>
               <Text>
                 {o.ordinal}. {o.name}
@@ -51,15 +79,21 @@ class ItemQuestion extends Component {
     const {question} = this.props;
     return (
       <List>
-        {question.options.map(o => (
-          <ListItem noBorder>
+        <ListItem>
+          <Text>Select an option</Text>
+        </ListItem>
+        {(question.options || []).map(o => (
+          <ListItem noBorder key={o.ordinal + randomize('Aa0', 8)}>
             <Left>
               <Text>
                 {o.ordinal}. {o.name}
               </Text>
             </Left>
             <Right>
-              <Radio selected={false} />
+              <CheckBox
+                checked={this._checked(o)}
+                onPress={() => this.setState({answer: [{ordinal: o.ordinal}]})}
+              />
             </Right>
           </ListItem>
         ))}
@@ -67,29 +101,69 @@ class ItemQuestion extends Component {
     );
   };
 
+  _onStar = (o, star) => {
+    let checked = this._checked(o);
+    this.setState({
+      answer: checked
+        ? this.state.answer.map(
+            y => (y.ordinal !== o.ordinal ? y : {...y, star}),
+          )
+        : [...this.state.answer, {ordinal: o.ordinal, star}],
+    });
+  };
+
+  _onUnStar = o => {
+    this.setState({
+      answer: this.state.answer.filter(y => y.ordinal !== o.ordinal),
+    });
+  };
+
+  _renderStars = o => {
+    let numStars =
+      (this.state.answer.filter(y => y.ordinal === o.ordinal)[0] || {}).star ||
+      0;
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        {[1, 2, 3, 4, 5].map(i => (
+          <Button
+            transparent
+            warning
+            key={i}
+            onPress={() => this._onStar(o, i)}>
+            <Icon name={numStars >= i ? 'ios-star' : 'ios-star-outline'} />
+          </Button>
+        ))}
+        <Button
+          transparent
+          danger
+          disabled={!this._checked(o)}
+          onPress={() => this._onUnStar(o)}
+          style={{marginLeft: 15}}>
+          <Icon name="trash" />
+        </Button>
+      </View>
+    );
+  };
+
   Rating = () => {
     const {question} = this.props;
     return (
       <List>
-        {question.options.map(o => (
-          <ListItem noBorder style={{flexDirection: 'column'}}>
+        {(question.options || []).map(o => (
+          <ListItem
+            noBorder
+            style={{flexDirection: 'column'}}
+            key={o.ordinal + randomize('Aa0', 8)}>
             <Text style={{flex: 1, alignSelf: 'flex-start'}}>
               {o.ordinal}. {o.name}
             </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              {[1, 2, 3, 4, 5].map(i => (
-                <Button transparent warning key={i}>
-                  <Icon name="ios-star" />
-                  {/* ios-star-outline */}
-                </Button>
-              ))}
-            </View>
+            {this._renderStars(o)}
           </ListItem>
         ))}
       </List>

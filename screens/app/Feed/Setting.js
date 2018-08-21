@@ -4,11 +4,11 @@
  */
 
 import React, {Component} from 'react';
+import {AsyncStorage} from 'react-native';
 import {View, Text, Button, Icon} from 'native-base';
 
 import FeedScreenWrapper from './_wrapper';
 import {appApi} from '../../../api';
-import {handleError} from '../../../utils';
 
 class SettingScreen extends Component {
   static navigationOptions = {
@@ -25,7 +25,12 @@ class SettingScreen extends Component {
     appApi
       .logout()
       .then(() => this.props.navigation.navigate('Auth'))
-      .catch(err => handleError(err));
+      .catch(async err => {
+        console.log(err);
+        /** When user click logout, should be navigate user */
+        await AsyncStorage.clear();
+        this.props.navigation.navigate('Auth');
+      });
   };
 
   render() {
