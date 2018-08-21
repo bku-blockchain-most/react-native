@@ -4,8 +4,8 @@
  */
 
 import React, {Component} from 'react';
-import {Icon} from 'native-base';
-import {TouchableOpacity} from 'react-native';
+import {Icon, List, ListItem} from 'native-base';
+import {TouchableOpacity, RefreshControl} from 'react-native';
 
 import FeedScreenWrapper from './_wrapper';
 import {fetchPollings} from '../../../api/app/polling';
@@ -28,6 +28,7 @@ class PollingListScreen extends Component {
 
     this.state = {
       pollings: [],
+      refreshing: false,
     };
 
     this._fetchPollings();
@@ -36,7 +37,7 @@ class PollingListScreen extends Component {
   _fetchPollings = () => {
     fetchPollings()
       .then(pollings => {
-        this.setState({pollings});
+        this.setState({pollings, refreshing: false});
       })
       .catch(err => handleError(err));
   };
@@ -48,13 +49,24 @@ class PollingListScreen extends Component {
   render() {
     return (
       <FeedScreenWrapper>
-        {this.state.pollings.map(o => (
-          <TouchableOpacity
-            key={o.id}
-            onPress={() => this._onClickPollDetail(o)}>
-            <ItemPolling poll={o} />
-          </TouchableOpacity>
-        ))}
+        <List
+          // TODO: pull to refresh is not working
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => {
+                this.setState({refreshing: true});
+                this._fetchPollings();
+              }}
+            />
+          }
+          dataArray={this.state.pollings}
+          renderRow={o => (
+            <TouchableOpacity onPress={() => this._onClickPollDetail(o)}>
+              <ItemPolling poll={o} />
+            </TouchableOpacity>
+          )}
+        />
       </FeedScreenWrapper>
     );
   }

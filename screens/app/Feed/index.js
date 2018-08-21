@@ -31,6 +31,7 @@ const FeedAppNavigator = createTabNavigator(
       inactiveTintColor: color.inactive,
       style: {
         backgroundColor: color.white,
+        marginTop: 20,
       },
       tabStyle: {
         backgroundColor: color.white,

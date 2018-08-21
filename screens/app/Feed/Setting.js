@@ -4,10 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {AsyncStorage} from 'react-native';
 import {View, Text, Button, Icon} from 'native-base';
 
 import FeedScreenWrapper from './_wrapper';
+import {appApi} from '../../../api';
+import {handleError} from '../../../utils';
 
 class SettingScreen extends Component {
   static navigationOptions = {
@@ -20,9 +21,11 @@ class SettingScreen extends Component {
     ),
   };
 
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+  _onClickSignOut = async () => {
+    appApi
+      .logout()
+      .then(() => this.props.navigation.navigate('Auth'))
+      .catch(err => handleError(err));
   };
 
   render() {
@@ -30,7 +33,7 @@ class SettingScreen extends Component {
       <FeedScreenWrapper>
         <Text style={{marginVertical: 20}}>Setting screen</Text>
         <View style={{width: '90%'}}>
-          <Button full rounded danger onPress={this._signOutAsync}>
+          <Button full rounded danger onPress={this._onClickSignOut}>
             <Text>Sign me out</Text>
           </Button>
         </View>

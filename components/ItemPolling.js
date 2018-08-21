@@ -41,13 +41,16 @@ class ItemPolling extends Component {
         <CardItem>
           <Body>
             <Text style={{...styles.fontOpenSans}}>
-              Event: {poll.eventID || ''} - Owner {poll.ownerID || ''}
+              Event: {poll.eventID || ''}
+            </Text>
+            <Text style={{...styles.fontOpenSans}}>
+              Owner: {poll.ownerID || ''}
             </Text>
           </Body>
         </CardItem>
         <CardItem>
           <Body>
-            <Text style={{...styles.fontOpenSans}}>
+            <Text style={{...styles.fontOpenSans}} numberOfLines={5}>
               {poll.description || ''}
             </Text>
           </Body>
