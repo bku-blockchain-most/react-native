@@ -4,16 +4,19 @@
  */
 
 import {createTabNavigator} from 'react-navigation';
+import {Platform} from 'react-native';
 
 import NameCardScreen from './NameCard';
 import SettingScreen from './Setting';
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
+import VotingListScreen from './VotingList';
 import {color} from '../../../styles';
 
 const FeedAppNavigator = createTabNavigator(
   {
     PollingList: PollingListScreen,
+    VotingList: VotingListScreen,
     Profile: ProfileScreen,
     NameCard: NameCardScreen,
     Setting: SettingScreen,
@@ -31,7 +34,10 @@ const FeedAppNavigator = createTabNavigator(
       inactiveTintColor: color.inactive,
       style: {
         backgroundColor: color.white,
-        marginTop: 20,
+        marginTop: Platform.select({
+          ios: 20,
+          android: 0,
+        }),
       },
       tabStyle: {
         backgroundColor: color.white,

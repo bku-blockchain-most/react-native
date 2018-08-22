@@ -61,3 +61,23 @@ export const votePollings = async (pollID, questions) => {
       return vote;
     });
 };
+
+export const fetchVotings = async () => {
+  const url = urljoin(config.apiUrl, config.routes.vote);
+
+  if (!authToken) {
+    authToken = await getAuthToken();
+  }
+
+  return axios
+    .get(url, {
+      headers: {
+        'x-access-token': authToken,
+      },
+    })
+    .then(res => res.data)
+    .then(vote => {
+      console.log(vote);
+      return vote;
+    });
+};

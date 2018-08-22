@@ -3,6 +3,8 @@
  * @flow
  */
 
+export * from './url';
+
 import {Alert, AsyncStorage} from 'react-native';
 import config from '../config';
 

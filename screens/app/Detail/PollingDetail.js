@@ -5,12 +5,24 @@
 
 import React, {Component} from 'react';
 import {Text, Button, Footer, Content} from 'native-base';
+import {Linking} from 'react-native';
 import moment from 'moment';
 
 import DetailScreenWrapper from './_wrapper';
 import {styles} from '../../../styles';
+import {
+  getEtherscanAddressURL,
+  getEtherscanTransactionURL,
+} from '../../../utils';
 
 class PollingDetailScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false,
+    };
+  }
   render() {
     const {navigation} = this.props;
     const polling = navigation.getParam('polling');
@@ -19,7 +31,10 @@ class PollingDetailScreen extends Component {
     const eth = polling.eth || {};
 
     return (
-      <DetailScreenWrapper titleHeader="Polling" navigation={navigation}>
+      <DetailScreenWrapper
+        titleHeader="Polling"
+        navigation={navigation}
+        isLoadingVisible={this.state.isLoading}>
         <Content padder>
           <Text
             style={{
@@ -45,11 +60,25 @@ class PollingDetailScreen extends Component {
 
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>
             <Text style={{fontWeight: '700'}}>Contract Address: </Text>
-            {eth.contractAddress || ''}
+            <Text
+              style={{color: 'blue'}}
+              onPress={() =>
+                Linking.openURL(
+                  getEtherscanAddressURL(eth.contractAddress || ''),
+                )
+              }>
+              {eth.contractAddress || ''}
+            </Text>
           </Text>
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>
             <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
-            {eth.txHash || ''}
+            <Text
+              style={{color: 'blue'}}
+              onPress={() =>
+                Linking.openURL(getEtherscanTransactionURL(eth.txHash || ''))
+              }>
+              {eth.txHash || ''}
+            </Text>
           </Text>
 
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>

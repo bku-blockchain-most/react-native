@@ -8,12 +8,15 @@ import {Header, Left, Body, Right, Button, Icon, Title} from 'native-base';
 
 import AppScreenWrapper from '../_wrapper';
 
+import Loading from '../../../components/Loading';
+
 class DetailScreenWrapper extends Component {
   render() {
-    const {navigation, titleHeader, hasTabs} = this.props;
+    const {navigation, titleHeader, hasTabs, isLoadingVisible} = this.props;
 
     return (
       <AppScreenWrapper>
+        <Loading isVisible={isLoadingVisible} />
         <Header hasTabs={hasTabs}>
           <Left>
             <Button transparent onPress={() => navigation.goBack()}>

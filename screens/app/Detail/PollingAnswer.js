@@ -20,19 +20,40 @@ class PollingAnswerScreen extends Component {
 
     this.state = {
       answers: [],
+      isLoading: false,
     };
   }
 
   _onClickSubmit = polling => {
     console.log(polling);
     console.log(this.state.answers);
-    appApi
-      .votePollings(polling.id, this.state.answers)
-      .then(vote => {
-        console.log(vote);
-        Alert.alert('Vote successfully');
-      })
-      .catch(err => handleError(err));
+    Alert.alert('Confirmation', 'Do you want to submit your voting?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: async () => {
+          this.setState({isLoading: true});
+          try {
+            const vote = await appApi.votePollings(
+              polling.id,
+              this.state.answers,
+            );
+            console.log(vote);
+            this.setState({isLoading: false});
+            Alert.alert(
+              'Notification',
+              'Your voting is commited to smart contract',
+              [{text: 'OK', onPress: () => this.props.navigation.goBack()}],
+            );
+          } catch (err) {
+            handleError(err);
+          }
+        },
+      },
+    ]);
   };
 
   _isAnsweredQuestion = q =>
@@ -66,7 +87,8 @@ class PollingAnswerScreen extends Component {
       <DetailScreenWrapper
         titleHeader="Make a voting"
         navigation={navigation}
-        hasTabs>
+        hasTabs
+        isLoadingVisible={this.state.isLoading}>
         <Tabs renderTabBar={() => <ScrollableTab />}>
           {polling.questions.map(q => (
             <Tab

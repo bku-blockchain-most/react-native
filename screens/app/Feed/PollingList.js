@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {Icon, List, ListItem} from 'native-base';
+import {Icon, List} from 'native-base';
 import {TouchableOpacity, RefreshControl} from 'react-native';
 
 import FeedScreenWrapper from './_wrapper';
@@ -29,15 +29,17 @@ class PollingListScreen extends Component {
     this.state = {
       pollings: [],
       refreshing: false,
+      isLoading: false,
     };
 
     this._fetchPollings();
   }
 
   _fetchPollings = () => {
+    this.setState({isLoading: true});
     fetchPollings()
       .then(pollings => {
-        this.setState({pollings, refreshing: false});
+        this.setState({pollings, refreshing: false, isLoading: false});
       })
       .catch(err => handleError(err));
   };
@@ -48,7 +50,7 @@ class PollingListScreen extends Component {
 
   render() {
     return (
-      <FeedScreenWrapper>
+      <FeedScreenWrapper isLoadingVisible={this.state.isLoading}>
         <List
           // TODO: pull to refresh is not working
           refreshControl={
