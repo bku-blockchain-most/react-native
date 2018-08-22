@@ -12,7 +12,6 @@ import {
   CheckBox,
   Body,
   Left,
-  Radio,
   Right,
   Button,
   Icon,
@@ -23,31 +22,26 @@ import randomize from 'randomatic';
 import {styles, color} from '../styles';
 
 class ItemQuestion extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      answer: [],
-    };
-  }
-
   _checked = o =>
-    this.state.answer.filter(y => y.ordinal === o.ordinal)[0] ? true : false;
+    this.props.answer.filter(y => y.ordinal === o.ordinal)[0] ? true : false;
+
+  _sendAnswer = answer =>
+    this.props.retreiveAnswer(this.props.question, answer);
 
   _onCheckMultipleOption = o => {
     const maxSelected = this.props.question.maxSelected;
-    if (this.state.answer.length === maxSelected) {
+    if (this.props.answer.length === maxSelected) {
       return Toast.show({
         text: 'You have only ' + maxSelected + ' selections',
         buttonText: 'Close',
       });
     }
     let checked = this._checked(o);
-    this.setState({
-      answer: checked
-        ? this.state.answer.filter(ans => ans.ordinal !== o.ordinal)
-        : [...this.state.answer, {ordinal: o.ordinal}],
-    });
+    const answer = checked
+      ? this.props.answer.filter(ans => ans.ordinal !== o.ordinal)
+      : [...this.props.answer, {ordinal: o.ordinal}];
+
+    this._sendAnswer(answer);
   };
 
   MultipleOptions = () => {
@@ -92,7 +86,10 @@ class ItemQuestion extends Component {
             <Right>
               <CheckBox
                 checked={this._checked(o)}
-                onPress={() => this.setState({answer: [{ordinal: o.ordinal}]})}
+                onPress={() => {
+                  const answer = [{ordinal: o.ordinal}];
+                  this._sendAnswer(answer);
+                }}
               />
             </Right>
           </ListItem>
@@ -103,24 +100,21 @@ class ItemQuestion extends Component {
 
   _onStar = (o, star) => {
     let checked = this._checked(o);
-    this.setState({
-      answer: checked
-        ? this.state.answer.map(
-            y => (y.ordinal !== o.ordinal ? y : {...y, star}),
-          )
-        : [...this.state.answer, {ordinal: o.ordinal, star}],
-    });
+    const answer = checked
+      ? this.props.answer.map(y => (y.ordinal !== o.ordinal ? y : {...y, star}))
+      : [...this.props.answer, {ordinal: o.ordinal, star}];
+
+    this._sendAnswer(answer);
   };
 
   _onUnStar = o => {
-    this.setState({
-      answer: this.state.answer.filter(y => y.ordinal !== o.ordinal),
-    });
+    const answer = this.props.answer.filter(y => y.ordinal !== o.ordinal);
+    this._sendAnswer(answer);
   };
 
   _renderStars = o => {
     let numStars =
-      (this.state.answer.filter(y => y.ordinal === o.ordinal)[0] || {}).star ||
+      (this.props.answer.filter(y => y.ordinal === o.ordinal)[0] || {}).star ||
       0;
     return (
       <View
@@ -173,6 +167,7 @@ class ItemQuestion extends Component {
   render() {
     const {question} = this.props;
     console.log(question);
+    console.log(this.props.answer);
 
     return (
       <Content padder>

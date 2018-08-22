@@ -2,8 +2,9 @@ export default {
   routes: {
     login: '/login',
     forgot: '/forgot',
+    logout: '/logout',
     polling: '/poll',
-    logout: 'logout'
+    vote: '/vote'
   },
   constants: {
     asyncStorage: {

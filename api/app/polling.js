@@ -6,9 +6,10 @@
 import axios from 'axios';
 import urljoin from 'url-join';
 import config from '../../config';
-import {getAuthToken} from '../../utils';
+import {getAuthToken, getUserProfile} from '../../utils';
 
 let authToken = '';
+let user = {};
 
 export const fetchPollings = async () => {
   const url = urljoin(config.apiUrl, config.routes.polling);
@@ -30,8 +31,33 @@ export const fetchPollings = async () => {
     });
 };
 
-export const votePollings = () => {
-  return new Promise(resolve => {
-    resolve('OK');
-  });
+export const votePollings = async (pollID, questions) => {
+  const url = urljoin(config.apiUrl, config.routes.vote);
+
+  if (!authToken) {
+    authToken = await getAuthToken();
+  }
+  if (!user.id) {
+    user = await getUserProfile();
+  }
+
+  return axios
+    .post(
+      url,
+      {
+        userID: user.id,
+        pollID,
+        questions: JSON.stringify(questions),
+      },
+      {
+        headers: {
+          'x-access-token': authToken,
+        },
+      },
+    )
+    .then(res => res.data)
+    .then(vote => {
+      console.log(vote);
+      return vote;
+    });
 };

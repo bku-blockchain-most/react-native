@@ -1,3 +1,3 @@
 export default {
-  API_URL: 'https://server-url.com'
+  apiUrl: 'https://dvapp.herokuapp.com/'
 };
