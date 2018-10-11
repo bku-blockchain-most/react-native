@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+/**
+ * @format
+ * @flow
+ */
+
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 const ScarletScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>
-        Scarlet Screen
-      </Text>
+      <Text style={styles.welcome}>Scarlet Screen</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -29,4 +28,5 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
 });
+
 export default ScarletScreen;

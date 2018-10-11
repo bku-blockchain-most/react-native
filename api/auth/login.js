@@ -17,15 +17,9 @@ export const login = (email, password) => {
       console.log(user);
       console.log(token);
       /** store auth token */
-      await AsyncStorage.setItem(
-        config.constants.asyncStorage.authToken,
-        token,
-      );
+      await AsyncStorage.setItem(config.constants.asyncStorage.authToken, token);
       /** store user profile */
-      await AsyncStorage.setItem(
-        config.constants.asyncStorage.userProfile,
-        JSON.stringify(user),
-      );
+      await AsyncStorage.setItem(config.constants.asyncStorage.userProfile, JSON.stringify(user));
       return user;
     });
 };

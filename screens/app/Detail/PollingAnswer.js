@@ -37,17 +37,12 @@ class PollingAnswerScreen extends Component {
         onPress: async () => {
           this.setState({isLoading: true});
           try {
-            const vote = await appApi.votePollings(
-              polling.id,
-              this.state.answers,
-            );
+            const vote = await appApi.votePollings(polling.id, this.state.answers);
             console.log(vote);
             this.setState({isLoading: false});
-            Alert.alert(
-              'Notification',
-              'Your voting is commited to smart contract',
-              [{text: 'OK', onPress: () => this.props.navigation.goBack()}],
-            );
+            Alert.alert('Notification', 'Your voting is commited to smart contract', [
+              {text: 'OK', onPress: () => this.props.navigation.goBack()},
+            ]);
           } catch (err) {
             handleError(err);
           }
@@ -56,17 +51,14 @@ class PollingAnswerScreen extends Component {
     ]);
   };
 
-  _isAnsweredQuestion = q =>
-    this.state.answers.filter(y => y.ordinal === q.ordinal)[0] ? true : false;
+  _isAnsweredQuestion = q => (this.state.answers.filter(y => y.ordinal === q.ordinal)[0] ? true : false);
 
   _retreiveAnswer = (question, answer) => {
     console.log(question);
     let isAnswered = this._isAnsweredQuestion(question);
     this.setState({
       answers: isAnswered
-        ? this.state.answers.map(
-            y => (y.ordinal !== question.ordinal ? y : {...y, options: answer}),
-          )
+        ? this.state.answers.map(y => (y.ordinal !== question.ordinal ? y : {...y, options: answer}))
         : [
             ...this.state.answers,
             {
@@ -91,18 +83,10 @@ class PollingAnswerScreen extends Component {
         isLoadingVisible={this.state.isLoading}>
         <Tabs renderTabBar={() => <ScrollableTab />}>
           {polling.questions.map(q => (
-            <Tab
-              heading={'Q.' + q.ordinal}
-              key={q.ordinal + randomize('Aa0', 8)}>
+            <Tab heading={'Q.' + q.ordinal} key={q.ordinal + randomize('Aa0', 8)}>
               <ItemQuestion
                 question={q}
-                answer={
-                  (
-                    this.state.answers.filter(
-                      y => y.ordinal === q.ordinal,
-                    )[0] || {}
-                  ).options || []
-                }
+                answer={(this.state.answers.filter(y => y.ordinal === q.ordinal)[0] || {}).options || []}
                 retreiveAnswer={this._retreiveAnswer}
               />
             </Tab>
@@ -114,9 +98,7 @@ class PollingAnswerScreen extends Component {
             full
             style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}}
             onPress={() => this._onClickSubmit(polling)}>
-            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>
-              Submit
-            </Text>
+            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
           </Button>
         </Footer>
       </DetailScreenWrapper>

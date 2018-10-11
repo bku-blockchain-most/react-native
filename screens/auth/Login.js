@@ -68,12 +68,8 @@ class LoginScreen extends Component {
           <Button
             transparent
             style={{marginTop: 10}}
-            onPress={() =>
-              navigation.navigate('Forgot', {email: this.state.email})
-            }>
-            <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>
-              Forgot Password?
-            </Text>
+            onPress={() => navigation.navigate('Forgot', {email: this.state.email})}>
+            <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>Forgot Password?</Text>
           </Button>
         </View>
       </AuthScreenWrapper>

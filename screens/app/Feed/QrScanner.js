@@ -8,6 +8,8 @@ import {StyleSheet, Text, View, Alert, Image} from 'react-native';
 import Button from '../../../components/common/Button';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import axios from 'axios';
+import urlJoin from 'url-join';
+import config from '../../../config';
 
 class QrScanner extends Component {
   static navigationOptions = {
@@ -15,17 +17,14 @@ class QrScanner extends Component {
     headerBackTitle: null,
     tabBarLabel: 'Scanner',
     tabBarIcon: ({tintColor}) => (
-      <Image
-        source={require('../../../components/image/qr3.png')}
-        style={[{height: 40, width: 40}, {tintColor}]}
-      />
+      <Image source={require('../../../assets/images/qr3.png')} style={[{height: 40, width: 40}, {tintColor}]} />
     ),
   };
   state = {entry: '', uid: '', bid: ''};
   GetEntry() {
     axios({
       method: 'post',
-      url: 'https://blockchain-ticket.herokuapp.com/entries/',
+      url: urlJoin(config.apiBlockchainTicket, 'entries'),
       data: {
         uid: this.state.uid,
         bid: this.state.bid,
@@ -60,11 +59,7 @@ class QrScanner extends Component {
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <QRCodeScanner
           onRead={this.onSuccess.bind(this)}
-          topContent={
-            <Text style={styles.centerText}>
-              Scan Booth Qr Code and Click Check-in
-            </Text>
-          }
+          topContent={<Text style={styles.centerText}>Scan Booth Qr Code and Click Check-in</Text>}
           bottomContent={
             <View style={styles.buttonview}>
               <Button

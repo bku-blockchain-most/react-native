@@ -11,5 +11,6 @@ export default {
       authToken: 'AUTH_TOKEN',
       userProfile: 'USER_PROFILE'
     }
-  }
+  },
+  apiBlockchainTicket: 'http://blockchain-ticket.herokuapp.com'
 };

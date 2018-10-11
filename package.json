@@ -57,11 +57,12 @@
   },
   "prettier": {
     "requirePragma": true,
+    "parser": "flow",
     "singleQuote": true,
     "trailingComma": "all",
-    "bracketSpacing": false,
+    "bracketSpacing": true,
     "jsxBracketSameLine": true,
-    "parser": "flow"
+    "printWidth": 120
   },
   "repository": {
     "type": "git",

@@ -4,29 +4,14 @@
  */
 
 import React, {Component} from 'react';
-import {
-  Text,
-  Content,
-  List,
-  ListItem,
-  CheckBox,
-  Body,
-  Left,
-  Right,
-  Button,
-  Icon,
-  View,
-  Toast,
-} from 'native-base';
+import {Text, Content, List, ListItem, CheckBox, Body, Left, Right, Button, Icon, View, Toast} from 'native-base';
 import randomize from 'randomatic';
 import {styles, color} from '../styles';
 
 class ItemQuestion extends Component {
-  _checked = o =>
-    this.props.answer.filter(y => y.ordinal === o.ordinal)[0] ? true : false;
+  _checked = o => (this.props.answer.filter(y => y.ordinal === o.ordinal)[0] ? true : false);
 
-  _sendAnswer = answer =>
-    this.props.retreiveAnswer(this.props.question, answer);
+  _sendAnswer = answer => this.props.retreiveAnswer(this.props.question, answer);
 
   _onCheckMultipleOption = o => {
     const maxSelected = this.props.question.maxSelected;
@@ -53,11 +38,7 @@ class ItemQuestion extends Component {
         </ListItem>
         {(question.options || []).map(o => (
           <ListItem noBorder key={o.ordinal + randomize('Aa0', 8)}>
-            <CheckBox
-              color={color.primary}
-              checked={this._checked(o)}
-              onPress={() => this._onCheckMultipleOption(o)}
-            />
+            <CheckBox color={color.primary} checked={this._checked(o)} onPress={() => this._onCheckMultipleOption(o)} />
             <Body>
               <Text>
                 {o.ordinal}. {o.name}
@@ -113,9 +94,7 @@ class ItemQuestion extends Component {
   };
 
   _renderStars = o => {
-    let numStars =
-      (this.props.answer.filter(y => y.ordinal === o.ordinal)[0] || {}).star ||
-      0;
+    let numStars = (this.props.answer.filter(y => y.ordinal === o.ordinal)[0] || {}).star || 0;
     return (
       <View
         style={{
@@ -125,11 +104,7 @@ class ItemQuestion extends Component {
           justifyContent: 'space-between',
         }}>
         {[1, 2, 3, 4, 5].map(i => (
-          <Button
-            transparent
-            warning
-            key={i}
-            onPress={() => this._onStar(o, i)}>
+          <Button transparent warning key={i} onPress={() => this._onStar(o, i)}>
             <Icon name={numStars >= i ? 'ios-star' : 'ios-star-outline'} />
           </Button>
         ))}
@@ -150,10 +125,7 @@ class ItemQuestion extends Component {
     return (
       <List>
         {(question.options || []).map(o => (
-          <ListItem
-            noBorder
-            style={{flexDirection: 'column'}}
-            key={o.ordinal + randomize('Aa0', 8)}>
+          <ListItem noBorder style={{flexDirection: 'column'}} key={o.ordinal + randomize('Aa0', 8)}>
             <Text style={{flex: 1, alignSelf: 'flex-start'}}>
               {o.ordinal}. {o.name}
             </Text>

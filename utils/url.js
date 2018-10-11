@@ -3,8 +3,6 @@
  * @flow
  */
 
-export const getEtherscanAddressURL = address =>
-  `https://ropsten.etherscan.io/address/${address}`;
+export const getEtherscanAddressURL = address => `https://ropsten.etherscan.io/address/${address}`;
 
-export const getEtherscanTransactionURL = txHash =>
-  `https://ropsten.etherscan.io/tx/${txHash}`;
+export const getEtherscanTransactionURL = txHash => `https://ropsten.etherscan.io/tx/${txHash}`;

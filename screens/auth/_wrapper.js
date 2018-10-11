@@ -4,14 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {
-  ImageBackground,
-  View,
-  Image,
-  StatusBar,
-  Text,
-  Platform,
-} from 'react-native';
+import {ImageBackground, View, Image, StatusBar, Text, Platform} from 'react-native';
 
 import {styles, color} from '../../styles';
 
@@ -21,21 +14,11 @@ class AuthScreenWrapper extends Component {
     return (
       <View style={styles.centerBox}>
         {Platform.select({
-          android: (
-            <StatusBar
-              backgroundColor={color.primary}
-              barStyle="light-content"
-            />
-          ),
-          ios: (
-            <StatusBar
-              backgroundColor={color.primary}
-              barStyle="dark-content"
-            />
-          ),
+          android: <StatusBar hidden={true} />,
+          ios: <StatusBar backgroundColor={color.primary} barStyle="dark-content" />,
         })}
         <ImageBackground
-          source={require('../../assets/images/background.jpg')}
+          source={require('../../assets/images/bg.jpg')}
           style={{width: '100%', height: '100%', ...styles.centerBox}}>
           <Image
             source={require('../../assets/icons/favicon.png')}

@@ -17,15 +17,13 @@ class SplashScreen extends Component {
 
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
-    const authToken = await AsyncStorage.getItem(
-      config.constants.asyncStorage.authToken,
-    );
+    const authToken = await AsyncStorage.getItem(config.constants.asyncStorage.authToken);
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     setTimeout(() => {
       this.props.navigation.navigate(authToken ? 'App' : 'Auth');
-    }, 500);
+    }, 700);
   };
 
   // Render any loading content that you like here

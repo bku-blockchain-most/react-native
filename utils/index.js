@@ -19,9 +19,7 @@ export const handleError = err => {
 };
 
 export const getUserProfile = async () => {
-  const user = await AsyncStorage.getItem(
-    config.constants.asyncStorage.userProfile,
-  );
+  const user = await AsyncStorage.getItem(config.constants.asyncStorage.userProfile);
   return JSON.parse(user);
 };
 

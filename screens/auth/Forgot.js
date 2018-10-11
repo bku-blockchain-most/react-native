@@ -61,13 +61,8 @@ class ForgotScreen extends Component {
         </Form>
 
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button
-            transparent
-            style={{marginTop: 10}}
-            onPress={() => navigation.goBack()}>
-            <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>
-              Back to login
-            </Text>
+          <Button transparent style={{marginTop: 10}} onPress={() => navigation.goBack()}>
+            <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>Back to login</Text>
           </Button>
         </View>
       </AuthScreenWrapper>

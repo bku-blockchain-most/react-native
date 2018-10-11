@@ -18,18 +18,8 @@ class FeedScreenWrapper extends Component {
     return (
       <AppScreenWrapper>
         {Platform.select({
-          android: (
-            <StatusBar
-              backgroundColor={color.primary}
-              barStyle="light-content"
-            />
-          ),
-          ios: (
-            <StatusBar
-              backgroundColor={color.primary}
-              barStyle="dark-content"
-            />
-          ),
+          android: <StatusBar backgroundColor={color.primary} barStyle="light-content" />,
+          ios: <StatusBar backgroundColor={color.primary} barStyle="dark-content" />,
         })}
         <Content padder>
           <Loading isVisible={isLoadingVisible} />

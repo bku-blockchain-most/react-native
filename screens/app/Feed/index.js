@@ -17,12 +17,12 @@ import {color} from '../../../styles';
 
 const FeedAppNavigator = createTabNavigator(
   {
+    EventList: EventListScreen,
     PollingList: PollingListScreen,
     VotingList: VotingListScreen,
     Profile: ProfileScreen,
     NameCard: NameCardScreen,
     Setting: SettingScreen,
-    EventList: EventListScreen,
     // QrScanner: QrScannerScreen,
   },
   {

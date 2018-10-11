@@ -13,13 +13,7 @@ import {handleError, getEtherscanTransactionURL} from '../../../utils';
 
 class VotingListScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="history"
-        type="MaterialCommunityIcons"
-        style={{color: tintColor}}
-      />
-    ),
+    tabBarIcon: ({tintColor}) => <Icon name="history" type="MaterialCommunityIcons" style={{color: tintColor}} />,
   };
 
   constructor(props) {
@@ -66,11 +60,7 @@ class VotingListScreen extends Component {
                 <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
                 <Text
                   style={{color: eth.txHash ? 'blue' : 'gray'}}
-                  onPress={() =>
-                    eth.txHash
-                      ? Linking.openURL(getEtherscanTransactionURL(eth.txHash))
-                      : {}
-                  }>
+                  onPress={() => (eth.txHash ? Linking.openURL(getEtherscanTransactionURL(eth.txHash)) : {})}>
                   {eth.txHash || 'in processing...'}
                 </Text>
               </Text>

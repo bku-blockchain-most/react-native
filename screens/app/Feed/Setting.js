@@ -13,11 +13,7 @@ import {appApi} from '../../../api';
 class SettingScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="format-list-bulleted"
-        type="MaterialCommunityIcons"
-        style={{color: tintColor}}
-      />
+      <Icon name="format-list-bulleted" type="MaterialCommunityIcons" style={{color: tintColor}} />
     ),
   };
 

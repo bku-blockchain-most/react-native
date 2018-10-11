@@ -25,12 +25,7 @@ class Loading extends Component {
             backgroundColor: '#00000050',
             zIndex: 99999,
           }}>
-          <Spinner
-            isVisible={true}
-            type={'9CubeGrid'}
-            size={100}
-            color={color.primary}
-          />
+          <Spinner isVisible={true} type={'9CubeGrid'} size={100} color={color.primary} />
         </View>
       );
     }

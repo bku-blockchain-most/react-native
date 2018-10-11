@@ -14,13 +14,7 @@ import ItemPolling from '../../../components/ItemPolling';
 
 class PollingListScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="poll-box"
-        type="MaterialCommunityIcons"
-        style={{color: tintColor}}
-      />
-    ),
+    tabBarIcon: ({tintColor}) => <Icon name="poll-box" type="MaterialCommunityIcons" style={{color: tintColor}} />,
   };
 
   constructor(props) {

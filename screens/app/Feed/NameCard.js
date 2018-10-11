@@ -10,9 +10,7 @@ import FeedScreenWrapper from './_wrapper';
 
 class NameCardScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (
-      <Icon name="vcard-o" type="FontAwesome" style={{color: tintColor}} />
-    ),
+    tabBarIcon: ({tintColor}) => <Icon name="vcard-o" type="FontAwesome" style={{color: tintColor}} />,
   };
 
   render() {

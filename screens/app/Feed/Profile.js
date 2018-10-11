@@ -4,16 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {
-  Text,
-  Icon,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Button,
-} from 'native-base';
+import {Text, Icon, List, ListItem, Left, Body, Right, Button} from 'native-base';
 
 import FeedScreenWrapper from './_wrapper';
 import {getUserProfile} from '../../../utils';
@@ -21,11 +12,7 @@ import {getUserProfile} from '../../../utils';
 class ProfileScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="account-location"
-        type="MaterialCommunityIcons"
-        style={{color: tintColor}}
-      />
+      <Icon name="account-location" type="MaterialCommunityIcons" style={{color: tintColor}} />
     ),
   };
 
@@ -55,11 +42,7 @@ class ProfileScreen extends Component {
           <ListItem icon>
             <Left>
               <Button danger>
-                <Icon
-                  active
-                  name="security-account"
-                  type="MaterialCommunityIcons"
-                />
+                <Icon active name="security-account" type="MaterialCommunityIcons" />
               </Button>
             </Left>
             <Body>

@@ -9,9 +9,13 @@ import Card from './Card';
 import CardSection from './CardSection';
 import Button from './Button';
 
-const EventDetail = ({eventX, text1, naviga}) => {
-  const {event_name, organizer, _id, starting_date, photo_url} = eventX;
+const EventDetail = ({event, text, navigate}) => {
+  const {event_name, organizer, starting_date, photo_url} = event;
+
   const {headerContentStyle, headerTextStyle, imageStyle} = styles;
+
+  console.log(event);
+
   return (
     <Card>
       <CardSection>
@@ -29,13 +33,13 @@ const EventDetail = ({eventX, text1, naviga}) => {
       <CardSection>
         <Button
           buttonPress={() => {
-            naviga('QrGeneration', {text: text1});
+            navigate('QrGeneration', {text});
           }}>
           Get Ticket
         </Button>
         <Button
           buttonPress={() => {
-            naviga('Village');
+            navigate('Village');
           }}>
           See more
         </Button>

@@ -4,11 +4,13 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, Image, Linking, Alert} from 'react-native';
+import {View, Text, Linking} from 'react-native';
 import Card from '../../../components/common/Card';
 import CardSection from '../../../components/common/CardSection';
 import axios from 'axios';
 import QRCode from 'react-native-qrcode';
+import urlJoin from 'url-join';
+import config from '../../../config';
 
 class QrGeneration extends Component {
   state = {uid: '', events1: '', qrtext: ''};
@@ -19,7 +21,7 @@ class QrGeneration extends Component {
     this.setState({uid: text});
     axios({
       method: 'post',
-      url: 'https://blockchain-ticket.herokuapp.com/tickets/',
+      url: urlJoin(config.apiBlockchainTicket, 'tickets'),
       data: {
         uid: text,
       },
@@ -47,29 +49,20 @@ class QrGeneration extends Component {
       <Card>
         <CardSection>
           <View style={styles.qrStyle}>
-            <QRCode
-              value={this.state.qrtext}
-              size={200}
-              bgColor="black"
-              fgColor="white"
-            />
+            <QRCode value={this.state.qrtext} size={200} bgColor="black" fgColor="white" />
           </View>
         </CardSection>
 
         <CardSection>
           <View style={styles.headerContentStyle}>
             <Text style={styles.headerTextStyle}>UID : {this.state.uid} </Text>
-            <Text style={styles.headerTextStyle}>
-              TID : {this.state.events1.tid}
-            </Text>
+            <Text style={styles.headerTextStyle}>TID : {this.state.events1.tid}</Text>
           </View>
         </CardSection>
 
         <CardSection>
           <View style={styles.LinkContentStyle}>
-            <Text
-              style={styles.LinkTextStyle}
-              onPress={() => Linking.openURL(this.state.events1.etherscan_url)}>
+            <Text style={styles.LinkTextStyle} onPress={() => Linking.openURL(this.state.events1.etherscan_url)}>
               Check your transaction here
             </Text>
           </View>

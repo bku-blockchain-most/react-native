@@ -1,4 +1,9 @@
-import React, { Component } from 'react';
+/**
+ * @format
+ * @flow
+ */
+
+import React from 'react';
 export const Context = React.createContext(
-    'defaultValue' // default value
+  'defaultValue', // default value
 );
