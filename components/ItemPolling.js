@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {Card, CardItem, Text, Left, Body, Icon, Right} from 'native-base';
+import {Card, CardItem, Text, Left, Body, Icon} from 'native-base';
 import moment from 'moment';
 import {color, styles} from '../styles';
 

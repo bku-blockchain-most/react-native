@@ -80,7 +80,7 @@ class LoginScreen extends Component {
     const {email, password} = this.state;
     authApi
       .login(email, password)
-      .then(user => this.props.navigation.navigate('App', {user}))
+      .then(user => this.props.navigation.navigate('App'))
       .catch(err => handleError(err));
   };
 }

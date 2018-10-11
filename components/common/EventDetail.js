@@ -14,8 +14,6 @@ const EventDetail = ({event, text, navigate}) => {
 
   const {headerContentStyle, headerTextStyle, imageStyle} = styles;
 
-  console.log(event);
-
   return (
     <Card>
       <CardSection>

@@ -22,9 +22,7 @@ class ItemQuestion extends Component {
       });
     }
     let checked = this._checked(o);
-    const answer = checked
-      ? this.props.answer.filter(ans => ans.ordinal !== o.ordinal)
-      : [...this.props.answer, {ordinal: o.ordinal}];
+    const answer = checked ? this.props.answer.filter(ans => ans.ordinal !== o.ordinal) : [...this.props.answer, {ordinal: o.ordinal}];
 
     this._sendAnswer(answer);
   };
@@ -108,12 +106,7 @@ class ItemQuestion extends Component {
             <Icon name={numStars >= i ? 'ios-star' : 'ios-star-outline'} />
           </Button>
         ))}
-        <Button
-          transparent
-          danger
-          disabled={!this._checked(o)}
-          onPress={() => this._onUnStar(o)}
-          style={{marginLeft: 15}}>
+        <Button transparent danger disabled={!this._checked(o)} onPress={() => this._onUnStar(o)} style={{marginLeft: 15}}>
           <Icon name="trash" />
         </Button>
       </View>
@@ -153,13 +146,7 @@ class ItemQuestion extends Component {
           {question.ordinal} - {question.title || 'Title of question'}
         </Text>
 
-        {question.type === 'Rating' ? (
-          <this.Rating />
-        ) : question.maxSelected > 1 ? (
-          <this.MultipleOptions />
-        ) : (
-          <this.SingleOption />
-        )}
+        {question.type === 'Rating' ? <this.Rating /> : question.maxSelected > 1 ? <this.MultipleOptions /> : <this.SingleOption />}
       </Content>
     );
   }
