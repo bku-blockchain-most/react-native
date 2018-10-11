@@ -12,7 +12,7 @@ import urlJoin from 'url-join';
 import config from '../../../config';
 import {getUserProfile} from '../../../utils';
 import FeedScreenWrapper from './_wrapper';
-import {OpenSansBoldText} from '../../../components/common/StyledText';
+import {OpenSansText} from '../../../components/common/StyledText';
 import {styles} from '../../../styles';
 
 class EventList extends Component {
@@ -40,7 +40,7 @@ class EventList extends Component {
     return (
       <FeedScreenWrapper>
         <View style={{flex: 1, backgroundColor: 'white'}}>
-          <OpenSansBoldText style={{fontSize: 16, ...styles.textPrimary, padding: 5}}>{this.state.user.email}</OpenSansBoldText>
+          <OpenSansText style={{fontSize: 16, ...styles.textPrimary, padding: 5}}>{this.state.user.email}</OpenSansText>
           <ScrollView>
             {events.map(event => (
               <EventDetail key={event.event_name} event={event} text={user.email} navigate={navigate} />

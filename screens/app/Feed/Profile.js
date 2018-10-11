@@ -7,13 +7,12 @@ import React, {Component} from 'react';
 import {Text, Icon, List, ListItem, Left, Body, Right, Button} from 'native-base';
 
 import FeedScreenWrapper from './_wrapper';
+import {OpenSansText} from '../../../components/common/StyledText';
 import {getUserProfile} from '../../../utils';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (
-      <Icon name="account-location" type="MaterialCommunityIcons" style={{color: tintColor}} />
-    ),
+    tabBarIcon: ({tintColor}) => <Icon name="account-location" type="MaterialCommunityIcons" style={{color: tintColor}} />,
   };
 
   constructor(props) {
@@ -34,11 +33,11 @@ class ProfileScreen extends Component {
     const {user} = this.state;
     return (
       <FeedScreenWrapper>
+        <OpenSansText style={{fontSize: 16, padding: 5}}>My Profile</OpenSansText>
         <List>
           <ListItem itemDivider>
             <Text>Personal</Text>
           </ListItem>
-
           <ListItem icon>
             <Left>
               <Button danger>

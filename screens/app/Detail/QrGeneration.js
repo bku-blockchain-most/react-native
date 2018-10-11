@@ -28,15 +28,7 @@ class QrGeneration extends Component {
     }).then(response =>
       this.setState({
         events1: response.data,
-        qrtext:
-          'User ID : ' +
-          text +
-          '\n' +
-          'Ticket ID : ' +
-          response.data.tid +
-          '\n' +
-          'Link Etherscan : ' +
-          response.data.etherscan_url,
+        qrtext: 'User ID : ' + text + '\n' + 'Ticket ID : ' + response.data.tid + '\n' + 'Link Etherscan : ' + response.data.etherscan_url,
       }),
     );
   }

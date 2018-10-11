@@ -32,6 +32,7 @@ class VotingListScreen extends Component {
     this.setState({isLoading: true});
     fetchVotings()
       .then(votings => {
+        console.log('VotingList votings', votings);
         this.setState({votings, refreshing: false, isLoading: false});
       })
       .catch(err => handleError(err));

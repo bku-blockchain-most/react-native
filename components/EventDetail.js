@@ -12,6 +12,9 @@ import {styles} from '../styles';
 const EventDetail = ({event, text, navigate}) => {
   const {event_name, organizer, starting_date, photo_url} = event;
 
+  console.log('EventDetail event:', event);
+  console.log('EventDetail text:', text);
+
   return (
     <Card>
       <CardItem>
