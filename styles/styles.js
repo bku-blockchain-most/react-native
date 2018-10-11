@@ -39,4 +39,8 @@ export const styles = StyleSheet.create({
   fontOpenSans: {
     fontFamily: fonts.OpenSans,
   },
+
+  fontOpenSansBold: {
+    fontFamily: fonts.OpenSansBold,
+  },
 });

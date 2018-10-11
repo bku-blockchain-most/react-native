@@ -4,21 +4,21 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Alert, Image} from 'react-native';
-import Button from '../../../components/common/Button';
+import {StyleSheet, View, Alert, Image} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import axios from 'axios';
 import urlJoin from 'url-join';
 import config from '../../../config';
+import {Button, Text} from 'native-base';
+import {styles} from '../../../styles';
+import {OpenSansText} from '../../../components/common/StyledText';
 
 class QrScanner extends Component {
   static navigationOptions = {
     title: 'Scanner',
     headerBackTitle: null,
     tabBarLabel: 'Scanner',
-    tabBarIcon: ({tintColor}) => (
-      <Image source={require('../../../assets/images/qr3.png')} style={[{height: 40, width: 40}, {tintColor}]} />
-    ),
+    tabBarIcon: ({tintColor}) => <Image source={require('../../../assets/images/qr3.png')} style={[{height: 40, width: 40}, {tintColor}]} />,
   };
   state = {entry: '', uid: '', bid: ''};
   GetEntry() {
@@ -37,9 +37,9 @@ class QrScanner extends Component {
   }
 
   onButtonPress() {
-    if (this.state.uid == '') {
+    if (this.state.uid === '') {
       Alert.alert('Please scan Booth first');
-    } else if (this.state.bid == '') {
+    } else if (this.state.bid === '') {
       Alert.alert('Please Scan Booth Qr Code before click Check-in');
     } else {
       this.GetEntry();
@@ -55,18 +55,21 @@ class QrScanner extends Component {
   }
 
   render() {
+    let space = '          ';
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <QRCodeScanner
           onRead={this.onSuccess.bind(this)}
-          topContent={<Text style={styles.centerText}>Scan Booth Qr Code and Click Check-in</Text>}
+          topContent={<OpenSansText style={{...customStyles.centerText, ...styles.textPrimary}}>Scan Booth Qr Code and Click Check-in</OpenSansText>}
           bottomContent={
-            <View style={styles.buttonview}>
+            <View style={customStyles.buttonview}>
               <Button
-                buttonPress={() => {
+                rounded
+                danger
+                onPress={() => {
                   this.onButtonPress();
                 }}>
-                Check-in
+                <Text>{space + 'Check-in' + space}</Text>
               </Button>
             </View>
           }
@@ -76,7 +79,7 @@ class QrScanner extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const customStyles = StyleSheet.create({
   centerText: {
     flexDirection: 'row',
     fontSize: 16,
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     backgroundColor: 'white',
     flexDirection: 'row',
-    marginHorizontal: 50,
+    marginHorizontal: 10,
   },
 });
 
