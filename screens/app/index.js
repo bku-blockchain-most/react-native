@@ -9,12 +9,16 @@ import FeedAppNavigator from './Feed';
 
 import PollingDetailScreen from './Detail/PollingDetail';
 import PollingAnswerScreen from './Detail/PollingAnswer';
+import QrGenerationScreen from './Detail/QrGeneration';
+import VillageListScreen from './Detail/VillageList';
 
 const AppNavigator = createStackNavigator(
   {
     FeedApp: FeedAppNavigator,
     PollingDetail: PollingDetailScreen,
     PollingAnswer: PollingAnswerScreen,
+    QrGeneration: QrGenerationScreen,
+    Village: VillageListScreen,
   },
   {
     initialRouteName: 'FeedApp',

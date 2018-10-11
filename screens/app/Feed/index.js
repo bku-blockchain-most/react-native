@@ -11,6 +11,8 @@ import SettingScreen from './Setting';
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
 import VotingListScreen from './VotingList';
+import EventListScreen from './EventList';
+// import QrScannerScreen from './QrScanner';
 import {color} from '../../../styles';
 
 const FeedAppNavigator = createTabNavigator(
@@ -20,9 +22,11 @@ const FeedAppNavigator = createTabNavigator(
     Profile: ProfileScreen,
     NameCard: NameCardScreen,
     Setting: SettingScreen,
+    EventList: EventListScreen,
+    // QrScanner: QrScannerScreen,
   },
   {
-    initialRouteName: 'PollingList',
+    initialRouteName: 'EventList',
     tabBarPosition: 'top',
 
     tabBarOptions: {
