@@ -4,7 +4,8 @@
  */
 
 import React, {Component} from 'react';
-import {ScrollView, View, Image} from 'react-native';
+import {ScrollView, View} from 'react-native';
+import {Icon} from 'native-base';
 import axios from 'axios';
 // import EventDetail from '../../../components/common/EventDetail';
 import EventDetail from '../../../components/EventDetail';
@@ -20,7 +21,7 @@ class EventList extends Component {
     title: 'Event',
     headerBackTitle: null,
     tabBarLabel: 'Event',
-    tabBarIcon: ({tintColor}) => <Image source={require('../../../assets/images/event5.png')} style={[{height: 40, width: 40}, {tintColor}]} />,
+    tabBarIcon: ({tintColor}) => <Icon name="event-available" type="MaterialIcons" style={{color: tintColor}} />,
   };
 
   state = {events: [], user: {}};
