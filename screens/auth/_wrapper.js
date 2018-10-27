@@ -17,9 +17,7 @@ class AuthScreenWrapper extends Component {
           android: <StatusBar hidden={true} />,
           ios: <StatusBar backgroundColor={color.primary} barStyle="dark-content" />,
         })}
-        <ImageBackground
-          source={require('../../assets/images/bg.jpg')}
-          style={{width: '100%', height: '100%', ...styles.centerBox}}>
+        <ImageBackground source={require('../../assets/images/bg.jpg')} style={{width: '100%', height: '100%', ...styles.centerBox}}>
           <Image
             source={require('../../assets/icons/favicon.png')}
             style={{
@@ -35,7 +33,7 @@ class AuthScreenWrapper extends Component {
               paddingTop: 30,
               paddingBottom: 10,
               marginTop: 15,
-              backgroundColor: '#fff',
+              backgroundColor: 'transaprent',
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 30,

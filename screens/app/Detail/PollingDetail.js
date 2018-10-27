@@ -11,6 +11,8 @@ import moment from 'moment';
 import DetailScreenWrapper from './_wrapper';
 import {styles} from '../../../styles';
 import {getEtherscanAddressURL, getEtherscanTransactionURL} from '../../../utils';
+import {RAMUtils} from '../../../utils/RAMUtils';
+import {CacheUtils} from '../../../utils/CacheUtils';
 
 class PollingDetailScreen extends Component {
   constructor(props) {
@@ -26,6 +28,9 @@ class PollingDetailScreen extends Component {
     console.log(polling);
 
     const eth = polling.eth || {};
+
+    const user = RAMUtils.getUser();
+    console.log(user);
 
     return (
       <DetailScreenWrapper titleHeader="Polling" navigation={navigation} isLoadingVisible={this.state.isLoading}>
@@ -50,9 +55,7 @@ class PollingDetailScreen extends Component {
 
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>
             <Text style={{fontWeight: '700'}}>Contract Address: </Text>
-            <Text
-              style={{color: 'blue'}}
-              onPress={() => Linking.openURL(getEtherscanAddressURL(eth.contractAddress || ''))}>
+            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(getEtherscanAddressURL(eth.contractAddress || ''))}>
               {eth.contractAddress || ''}
             </Text>
           </Text>

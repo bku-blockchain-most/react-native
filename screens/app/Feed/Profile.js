@@ -8,29 +8,17 @@ import {Text, Icon, List, ListItem, Left, Body, Right, Button} from 'native-base
 
 import FeedScreenWrapper from './_wrapper';
 import {OpenSansText} from '../../../components/common/StyledText';
-import {getUserProfile} from '../../../utils';
+import {RAMUtils} from '../../../utils/RAMUtils';
 
 class ProfileScreen extends Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => <Icon name="account-location" type="MaterialCommunityIcons" style={{color: tintColor}} />,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: {},
-    };
-
-    getUserProfile()
-      .then(user => {
-        this.setState({user});
-      })
-      .catch(err => console.log(err));
-  }
-
   render() {
-    const {user} = this.state;
+    let user = RAMUtils.getUser();
+    console.log(user);
+
     return (
       <FeedScreenWrapper>
         <OpenSansText style={{fontSize: 16, padding: 5}}>My Profile</OpenSansText>

@@ -40,9 +40,7 @@ class PollingAnswerScreen extends Component {
             const vote = await appApi.votePollings(polling.id, this.state.answers);
             console.log(vote);
             this.setState({isLoading: false});
-            Alert.alert('Notification', 'Your voting is commited to smart contract', [
-              {text: 'OK', onPress: () => this.props.navigation.goBack()},
-            ]);
+            Alert.alert('Notification', 'Your voting is commited to smart contract', [{text: 'OK', onPress: () => this.props.navigation.goBack()}]);
           } catch (err) {
             handleError(err);
           }
@@ -76,14 +74,10 @@ class PollingAnswerScreen extends Component {
     console.log(polling);
 
     return (
-      <DetailScreenWrapper
-        titleHeader="Make a voting"
-        navigation={navigation}
-        hasTabs
-        isLoadingVisible={this.state.isLoading}>
+      <DetailScreenWrapper titleHeader="Make a voting" navigation={navigation} hasTabs isLoadingVisible={this.state.isLoading}>
         <Tabs renderTabBar={() => <ScrollableTab />}>
           {polling.questions.map(q => (
-            <Tab heading={'Q.' + q.ordinal} key={q.ordinal + randomize('Aa0', 8)}>
+            <Tab heading={'Q.' + q.ordinal} key={q.ordinal}>
               <ItemQuestion
                 question={q}
                 answer={(this.state.answers.filter(y => y.ordinal === q.ordinal)[0] || {}).options || []}
@@ -94,10 +88,7 @@ class PollingAnswerScreen extends Component {
         </Tabs>
 
         <Footer>
-          <Button
-            full
-            style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}}
-            onPress={() => this._onClickSubmit(polling)}>
+          <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => this._onClickSubmit(polling)}>
             <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
           </Button>
         </Footer>

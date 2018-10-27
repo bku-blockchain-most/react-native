@@ -4,10 +4,12 @@
  */
 
 import React, {Component} from 'react';
-import {AsyncStorage, StatusBar, View, Image} from 'react-native';
+import {StatusBar, View, Image} from 'react-native';
 
 import {styles, color} from '../styles';
 import config from '../config';
+import {RAMUtils} from '../utils/RAMUtils';
+import {CacheUtils} from '../utils/CacheUtils';
 
 class SplashScreen extends Component {
   constructor(props) {
@@ -17,7 +19,11 @@ class SplashScreen extends Component {
 
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
-    const authToken = await AsyncStorage.getItem(config.constants.asyncStorage.authToken);
+    const authToken = await CacheUtils.getAuthToken();
+    const user = await CacheUtils.getUser();
+
+    RAMUtils.updateUser(user);
+    RAMUtils.setAuthToken(authToken);
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.

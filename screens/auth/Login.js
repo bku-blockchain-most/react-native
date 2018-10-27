@@ -11,6 +11,8 @@ import AuthScreenWrapper from './_wrapper';
 import {authApi} from '../../api';
 import {styles} from '../../styles';
 import {handleError} from '../../utils';
+import {RAMUtils} from '../../utils/RAMUtils';
+import {CacheUtils} from '../../utils/CacheUtils';
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -53,22 +55,14 @@ class LoginScreen extends Component {
               onChangeText={value => this.setState({password: value})}
             />
           </Item>
-          <Button
-            success
-            full
-            rounded
-            style={{marginTop: 40, marginLeft: 15, ...styles.bgPrimary}}
-            onPress={this._onClickLogin}>
+          <Button success full rounded style={{marginTop: 40, marginLeft: 15, ...styles.bgPrimary}} onPress={this._onClickLogin}>
             <Text uppercase style={{...styles.fontOpenSans}}>
               Login
             </Text>
           </Button>
         </Form>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button
-            transparent
-            style={{marginTop: 10}}
-            onPress={() => navigation.navigate('Forgot', {email: this.state.email})}>
+          <Button transparent style={{marginTop: 10}} onPress={() => navigation.navigate('Forgot', {email: this.state.email})}>
             <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>Forgot Password?</Text>
           </Button>
         </View>
@@ -80,7 +74,15 @@ class LoginScreen extends Component {
     const {email, password} = this.state;
     authApi
       .login(email, password)
-      .then(user => this.props.navigation.navigate('App'))
+      .then(async ({user, token}) => {
+        RAMUtils.updateUser(user);
+        RAMUtils.setAuthToken(token);
+
+        await CacheUtils.setUser(user);
+        await CacheUtils.setAuthToken(token);
+
+        this.props.navigation.navigate('App');
+      })
       .catch(err => handleError(err));
   };
 }

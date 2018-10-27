@@ -19,7 +19,7 @@ const FeedAppNavigator = createTabNavigator(
   {
     EventList: EventListScreen,
     PollingList: PollingListScreen,
-    VotingList: VotingListScreen,
+    // VotingList: VotingListScreen,
     Profile: ProfileScreen,
     NameCard: NameCardScreen,
     Setting: SettingScreen,
