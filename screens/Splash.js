@@ -26,8 +26,9 @@ class SplashScreen extends Component {
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     setTimeout(() => {
-      this.props.navigation.navigate(authToken ? 'App' : 'Auth');
-    }, 600);
+      const connected = authToken && user && user.id && user.username && user.email;
+      this.props.navigation.navigate(connected ? 'App' : 'Auth');
+    }, 500);
   };
 
   // Render any loading content that you like here

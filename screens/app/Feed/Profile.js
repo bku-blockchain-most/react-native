@@ -6,12 +6,12 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View, TextInput, Dimensions} from 'react-native';
 
-import {Avatar, Icon as IconEle} from 'react-native-elements';
 import QRCode from 'react-native-qrcode';
-import {Button, Tab, Tabs, Icon, Text} from 'native-base';
+import {Button, Tab, Tabs, Icon, Text, Thumbnail} from 'native-base';
 import FeedScreenWrapper from './_wrapper';
 import {RAMUtils} from '../../../utils';
 import {authApi} from '../../../api';
+import {color} from '../../../styles';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -23,19 +23,25 @@ export default class ProfileScreen extends React.Component {
 
     this.state = {
       user: RAMUtils.getUser(),
+      loading: false,
     };
   }
 
   render() {
     const {user} = this.state;
 
+    const avatar =
+      user.photoUrl && user.photoUrl.length > 0
+        ? user.photoUrl
+        : 'https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1';
+
     return (
-      <FeedScreenWrapper>
+      <FeedScreenWrapper loading={this.state.loading}>
         <ScrollView automaticallyAdjustContentInsets={true} style={styles.container}>
           <View style={styles.avatarSection}>
-            <Avatar source={{uri: user.avatar}} xlarge rounded />
-            <View style={{margin: 20}}>
-              <IconEle size={40} name="camera" type="feather" onPress={() => {}} />
+            <Thumbnail source={{uri: avatar}} style={{width: 150, height: 150}} />
+            <View style={{marginTop: 15, marginBottom: 10}}>
+              <Icon name="camera" type="FontAwesome" style={{fontSize: 40, color: color.primary}} />
             </View>
           </View>
 
@@ -58,7 +64,7 @@ export default class ProfileScreen extends React.Component {
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
-                  <Text style={styles.label}> tel </Text>
+                  <Text style={styles.label}> Tel </Text>
                   <TextInput style={styles.text} defaultValue={user.tel} editable={true} maxLength={45} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
@@ -107,11 +113,9 @@ export default class ProfileScreen extends React.Component {
             </Tab>
           </Tabs>
 
-          <View style={{width: '90%'}}>
-            <Button full rounded danger onPress={this._onClickSignOut}>
-              <Text>Sign me out</Text>
-            </Button>
-          </View>
+          <Button full rounded danger onPress={this._onClickSignOut}>
+            <Text>Sign me out</Text>
+          </Button>
         </ScrollView>
       </FeedScreenWrapper>
     );
@@ -131,6 +135,7 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   avatarSection: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: 280,

@@ -14,21 +14,17 @@ import Loading from '../../../components/Loading';
 
 class FeedScreenWrapper extends Component {
   /**
-   * props: isLoadingVisible
+   * props:
+   * loading: !boolean
    */
   render() {
-    const {isLoadingVisible} = this.props;
-
     return (
-      <AppScreenWrapper>
+      <AppScreenWrapper loading={this.props.loading}>
         {Platform.select({
           android: <StatusBar backgroundColor={color.primary} barStyle="light-content" />,
           ios: <StatusBar backgroundColor={color.primary} barStyle="dark-content" />,
         })}
-        <Content padder>
-          <Loading isVisible={isLoadingVisible} />
-          {this.props.children}
-        </Content>
+        <Content padder>{this.props.children}</Content>
       </AppScreenWrapper>
     );
   }

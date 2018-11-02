@@ -13,7 +13,7 @@ export const CacheUtils = {
   },
 
   setUser: async (user) => {
-    return await AsyncStorage.setItem(config.constants.currentUser, user);
+    return await AsyncStorage.setItem(config.constants.currentUser, JSON.stringify(user));
   },
 
   clearUser: async () => {

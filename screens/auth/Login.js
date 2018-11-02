@@ -84,7 +84,10 @@ class LoginScreen extends Component {
         this.setState({loading: false});
         this.props.navigation.navigate('App');
       })
-      .catch(err => handleError(err));
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
   };
 }
 

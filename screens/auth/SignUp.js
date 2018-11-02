@@ -115,7 +115,9 @@ class SignUpScreen extends Component {
       .signup(username, email, tel, password)
       .then(() => {
         console.log('Sign Up successfully');
+
         this.setState({loading: false});
+
         Alert.alert('Success', 'Create account successfully', [
           {
             text: 'OK',
@@ -125,7 +127,10 @@ class SignUpScreen extends Component {
           },
         ]);
       })
-      .catch(err => handleError(err));
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
   };
 }
 

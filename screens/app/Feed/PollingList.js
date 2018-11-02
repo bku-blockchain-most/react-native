@@ -23,18 +23,18 @@ class PollingListScreen extends Component {
     this.state = {
       pollings: [],
       refreshing: false,
-      isLoading: false,
+      loading: false,
     };
 
     this._fetchPollings();
   }
 
   _fetchPollings = () => {
-    this.setState({isLoading: true});
+    this.setState({loading: true});
     appApi
       .fetchPollings()
       .then(pollings => {
-        this.setState({pollings, refreshing: false, isLoading: false});
+        this.setState({pollings, refreshing: false, loading: false});
       })
       .catch(err => handleError(err));
   };
@@ -45,7 +45,7 @@ class PollingListScreen extends Component {
 
   render() {
     return (
-      <FeedScreenWrapper isLoadingVisible={this.state.isLoading}>
+      <FeedScreenWrapper loading={this.state.loading}>
         <List
           // TODO: pull to refresh is not working
           refreshControl={
