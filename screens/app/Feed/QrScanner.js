@@ -1,12 +1,9 @@
-/**
- * @format
- * @flow
- */
 
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Alert, Image} from 'react-native';
 import Button from '../../../components/common/Button';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import {Icon} from 'native-base'
 import axios from 'axios';
 
 class QrScanner extends Component {
@@ -15,9 +12,10 @@ class QrScanner extends Component {
     headerBackTitle: null,
     tabBarLabel: 'Scanner',
     tabBarIcon: ({tintColor}) => (
-      <Image
-        source={require('../../../components/image/qr3.png')}
-        style={[{height: 40, width: 40}, {tintColor}]}
+      <Icon
+        name="qrcode-scan"
+        type="MaterialCommunityIcons"
+        style={{color: tintColor}}
       />
     ),
   };

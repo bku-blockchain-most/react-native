@@ -11,12 +11,12 @@ import AppScreen from './app';
 
 const RootNavigator = createSwitchNavigator(
   {
-    Splash: SplashScreen,
-    Auth: AuthScreen,
+    //Splash: SplashScreen,
+    //Auth: AuthScreen,
     App: AppScreen,
   },
   {
-    initialRouteName: 'Splash',
+    //initialRouteName: 'Splash',
   },
 );
 
