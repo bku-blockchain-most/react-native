@@ -13,8 +13,12 @@ import {color} from '../../../styles';
 import Loading from '../../../components/Loading';
 
 class FeedScreenWrapper extends Component {
+  /**
+   * props: isLoadingVisible
+   */
   render() {
     const {isLoadingVisible} = this.props;
+
     return (
       <AppScreenWrapper>
         {Platform.select({

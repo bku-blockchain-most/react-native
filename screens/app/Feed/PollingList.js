@@ -8,7 +8,7 @@ import {Icon, List} from 'native-base';
 import {TouchableOpacity, RefreshControl} from 'react-native';
 
 import FeedScreenWrapper from './_wrapper';
-import {fetchPollings} from '../../../api/app/polling';
+import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
 import ItemPolling from '../../../components/ItemPolling';
 
@@ -31,7 +31,8 @@ class PollingListScreen extends Component {
 
   _fetchPollings = () => {
     this.setState({isLoading: true});
-    fetchPollings()
+    appApi
+      .fetchPollings()
       .then(pollings => {
         this.setState({pollings, refreshing: false, isLoading: false});
       })

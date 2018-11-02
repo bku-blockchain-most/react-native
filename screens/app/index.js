@@ -14,7 +14,10 @@ import VillageListScreen from './Detail/VillageList';
 
 const AppNavigator = createStackNavigator(
   {
+    // Tab Bar Navigator
     FeedApp: FeedAppNavigator,
+
+    // Full Screen
     PollingDetail: PollingDetailScreen,
     PollingAnswer: PollingAnswerScreen,
     QrGeneration: QrGenerationScreen,

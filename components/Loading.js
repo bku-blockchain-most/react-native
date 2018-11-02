@@ -5,12 +5,15 @@
 
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import Spinner from 'react-native-spinkit';
-import {color} from '../styles';
+import {Spinner} from 'native-base';
 
 class Loading extends Component {
+  /**
+   * props:
+   * visible: !boolean
+   */
   render() {
-    if (this.props.isVisible) {
+    if (this.props.visible) {
       return (
         <View
           style={{
@@ -25,7 +28,7 @@ class Loading extends Component {
             backgroundColor: '#00000050',
             zIndex: 99999,
           }}>
-          <Spinner isVisible={true} type={'9CubeGrid'} size={100} color={color.primary} />
+          <Spinner color="red" />
         </View>
       );
     }

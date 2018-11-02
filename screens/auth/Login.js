@@ -4,83 +4,84 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Text, Form, Item, Input, Label, View} from 'native-base';
+import {StyleSheet} from 'react-native';
+import {Button, Text, Form, Item, Input, View, Toast, Icon} from 'native-base';
 
 import AuthScreenWrapper from './_wrapper';
 
 import {authApi} from '../../api';
-import {styles} from '../../styles';
+import {styles, color} from '../../styles';
 import {handleError} from '../../utils';
-import {RAMUtils} from '../../utils/RAMUtils';
-import {CacheUtils} from '../../utils/CacheUtils';
 
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: '',
+      username: '',
       password: '',
+      loading: false,
     };
-    console.log(this.state.email);
   }
 
   render() {
     const {navigation} = this.props;
 
     return (
-      <AuthScreenWrapper title="Login">
-        <Form
-          style={{
-            ...styles.fullWidth,
-            paddingLeft: 10,
-            paddingRight: 25,
-            marginTop: 10,
-          }}>
-          <Item floatingLabel>
-            <Label style={{...styles.fontOpenSans}}>Email</Label>
+      <AuthScreenWrapper title="LOGIN" loading={this.state.loading}>
+        <Form style={{...styles.fullWidth}}>
+          <Item regular style={{...xstyles.input}}>
+            <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.accent}} />
             <Input
+              placeholder="Username"
               style={{...styles.fontOpenSans}}
-              autoCapitalize="none"
-              value={this.state.email}
-              onChangeText={value => this.setState({email: value})}
+              value={this.state.username}
+              onChangeText={value => {
+                this.setState({username: value});
+              }}
             />
           </Item>
-          <Item floatingLabel>
-            <Label style={{...styles.fontOpenSans}}>Password</Label>
-            <Input
-              style={{...styles.fontOpenSans}}
-              secureTextEntry
-              defaultValue={this.state.password}
-              onChangeText={value => this.setState({password: value})}
-            />
+          <Item regular style={{...xstyles.input}}>
+            <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.accent}} />
+            <Input placeholder="Password" style={{...styles.fontOpenSans}} secureTextEntry value={this.state.password} onChangeText={value => this.setState({password: value})} />
           </Item>
-          <Button success full rounded style={{marginTop: 40, marginLeft: 15, ...styles.bgPrimary}} onPress={this._onClickLogin}>
-            <Text uppercase style={{...styles.fontOpenSans}}>
-              Login
-            </Text>
-          </Button>
         </Form>
+        <Button full rounded style={{marginTop: 20, backgroundColor: color.accent}} onPress={this._onClickLogin}>
+          <Text uppercase style={{...styles.fontOpenSans, fontWeight: 'bold', fontSize: 20}}>
+            Login
+          </Text>
+        </Button>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button transparent style={{marginTop: 10}} onPress={() => navigation.navigate('Forgot', {email: this.state.email})}>
-            <Text style={{...styles.textPrimary, ...styles.fontOpenSans}}>Forgot Password?</Text>
+          <Button transparent style={{marginTop: 5, color: 'white'}} onPress={() => navigation.navigate('Forgot')}>
+            <Text style={{color: 'white', ...styles.fontOpenSans}}>Forgot Password?</Text>
           </Button>
         </View>
+        <View style={{width: '100%', height: 1, backgroundColor: 'white', marginTop: 8, marginBottom: 3}} />
+        <Button full rounded bordered danger style={{marginTop: 10, backgroundColor: 'white'}} onPress={() => navigation.navigate('SignUp')}>
+          <Text style={{...styles.fontOpenSans, color: color.primaryDark}}>Sign Up</Text>
+        </Button>
       </AuthScreenWrapper>
     );
   }
 
   _onClickLogin = () => {
-    const {email, password} = this.state;
+    const {username, password} = this.state;
+
+    if (username.length === 0 || password.length === 0) {
+      return Toast.show({
+        text: "Username and password can't be empty",
+        buttonText: 'OK',
+        duration: 3000,
+      });
+    }
+
+    this.setState({loading: true});
+
     authApi
-      .login(email, password)
-      .then(async ({user, token}) => {
-        RAMUtils.updateUser(user);
-        RAMUtils.setAuthToken(token);
-
-        await CacheUtils.setUser(user);
-        await CacheUtils.setAuthToken(token);
-
+      .login(username, password)
+      .then(() => {
+        console.log('Login successfully');
+        this.setState({loading: false});
         this.props.navigation.navigate('App');
       })
       .catch(err => handleError(err));
@@ -88,3 +89,10 @@ class LoginScreen extends Component {
 }
 
 export default LoginScreen;
+
+const xstyles = StyleSheet.create({
+  input: {
+    backgroundColor: 'white',
+    marginVertical: 8,
+  },
+});

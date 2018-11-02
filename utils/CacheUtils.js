@@ -8,28 +8,28 @@ import config from '../config';
 export const CacheUtils = {
 
   getUser: async () => {
-    const user = await AsyncStorage.getItem(config.constants.asyncStorage.userProfile);
+    const user = await AsyncStorage.getItem(config.constants.currentUser);
     return JSON.parse(user);
   },
 
   setUser: async (user) => {
-    return await AsyncStorage.setItem(config.constants.asyncStorage.userProfile, user);
+    return await AsyncStorage.setItem(config.constants.currentUser, user);
   },
 
   clearUser: async () => {
-    return await AsyncStorage.setItem(config.constants.asyncStorage.userProfile, null);
+    return await AsyncStorage.setItem(config.constants.currentUser, null);
   },
 
   getAuthToken: async () => {
-    return await AsyncStorage.getItem(config.constants.asyncStorage.authToken);
+    return await AsyncStorage.getItem(config.constants.authToken);
   },
 
   setAuthToken: async token => {
-    return await AsyncStorage.setItem(config.constants.asyncStorage.authToken, token);
+    return await AsyncStorage.setItem(config.constants.authToken, token);
   },
 
   clearAuthToken: async () => {
-    return await AsyncStorage.setItem(config.constants.asyncStorage.authToken, null);
+    return await AsyncStorage.setItem(config.constants.authToken, null);
   },
 
   clearAll: async () => {

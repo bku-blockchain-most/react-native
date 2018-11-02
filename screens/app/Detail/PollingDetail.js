@@ -10,9 +10,7 @@ import moment from 'moment';
 
 import DetailScreenWrapper from './_wrapper';
 import {styles} from '../../../styles';
-import {getEtherscanAddressURL, getEtherscanTransactionURL} from '../../../utils';
-import {RAMUtils} from '../../../utils/RAMUtils';
-import {CacheUtils} from '../../../utils/CacheUtils';
+import {RAMUtils, UrlUtils} from '../../../utils';
 
 class PollingDetailScreen extends Component {
   constructor(props) {
@@ -22,8 +20,12 @@ class PollingDetailScreen extends Component {
       isLoading: false,
     };
   }
+
   render() {
     const {navigation} = this.props;
+
+    console.log('PollingDetailScreen');
+
     const polling = navigation.getParam('polling');
     console.log(polling);
 
@@ -55,13 +57,13 @@ class PollingDetailScreen extends Component {
 
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>
             <Text style={{fontWeight: '700'}}>Contract Address: </Text>
-            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(getEtherscanAddressURL(eth.contractAddress || ''))}>
+            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanAddressURL(eth.contractAddress || ''))}>
               {eth.contractAddress || ''}
             </Text>
           </Text>
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>
             <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
-            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(getEtherscanTransactionURL(eth.txHash || ''))}>
+            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(eth.txHash || ''))}>
               {eth.txHash || ''}
             </Text>
           </Text>
@@ -73,10 +75,7 @@ class PollingDetailScreen extends Component {
         </Content>
 
         <Footer>
-          <Button
-            full
-            style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}}
-            onPress={() => navigation.navigate('PollingAnswer', {polling})}>
+          <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => navigation.navigate('PollingAnswer', {polling})}>
             <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Start Voting</Text>
           </Button>
         </Footer>

@@ -7,9 +7,7 @@ import React, {Component} from 'react';
 import {StatusBar, View, Image} from 'react-native';
 
 import {styles, color} from '../styles';
-import config from '../config';
-import {RAMUtils} from '../utils/RAMUtils';
-import {CacheUtils} from '../utils/CacheUtils';
+import {RAMUtils, CacheUtils} from '../utils';
 
 class SplashScreen extends Component {
   constructor(props) {
@@ -29,7 +27,7 @@ class SplashScreen extends Component {
     // screen will be unmounted and thrown away.
     setTimeout(() => {
       this.props.navigation.navigate(authToken ? 'App' : 'Auth');
-    }, 700);
+    }, 600);
   };
 
   // Render any loading content that you like here
@@ -37,10 +35,10 @@ class SplashScreen extends Component {
     const faviconSize = 160;
 
     return (
-      <View style={{...styles.centerBox, ...styles.bgPrimaryLight}}>
+      <View style={{...styles.centerBox, ...styles.bgPrimaryDark}}>
         <StatusBar backgroundColor={color.primary} barStyle="light-content" />
         <Image
-          source={require('../assets/icons/favicon-transparent.png')}
+          source={require('../assets/icons/logo_white.png')}
           style={{
             height: faviconSize,
             width: faviconSize,

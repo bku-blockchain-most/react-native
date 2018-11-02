@@ -25,9 +25,16 @@ export const RAMUtils = {
 
 let user = {
   id: '',
+  username: '',
   email: '',
-  role: '',
-  eth: ''
+  tel: '',
+  photoUrl: '',
+  displayName: {
+    firstName: '',
+    lastName: ''
+  },
+  company: '',
+  position: ''
 };
 
 let authToken = '';

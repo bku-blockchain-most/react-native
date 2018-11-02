@@ -7,14 +7,13 @@ import React, {Component} from 'react';
 import {ScrollView, View} from 'react-native';
 import {Icon} from 'native-base';
 import axios from 'axios';
-// import EventDetail from '../../../components/common/EventDetail';
 import EventDetail from '../../../components/EventDetail';
 import urlJoin from 'url-join';
 import config from '../../../config';
-import {getUserProfile} from '../../../utils';
 import FeedScreenWrapper from './_wrapper';
 import {OpenSansText} from '../../../components/common/StyledText';
 import {styles} from '../../../styles';
+import {RAMUtils} from '../../../utils';
 
 class EventList extends Component {
   static navigationOptions = {
@@ -24,16 +23,17 @@ class EventList extends Component {
     tabBarIcon: ({tintColor}) => <Icon name="event-available" type="MaterialIcons" style={{color: tintColor}} />,
   };
 
-  state = {events: [], user: {}};
+  state = {events: []};
 
   componentWillMount() {
     axios.get(urlJoin(config.apiBlockchainTicket, 'events')).then(response => this.setState({events: response.data}));
-    getUserProfile().then(user => this.setState({user}));
   }
 
   render() {
     const {navigate} = this.props.navigation;
-    const {events, user} = this.state;
+    const {events} = this.state;
+
+    const user = RAMUtils.getUser();
 
     console.log('EventList: events', events);
     console.log('EventList: user', user);
@@ -44,7 +44,7 @@ class EventList extends Component {
           <OpenSansText style={{fontSize: 16, ...styles.textPrimary, padding: 5}}>{this.state.user.email}</OpenSansText>
           <ScrollView>
             {events.map(event => (
-              <EventDetail key={event.event_name} event={event} text={user.email} navigate={navigate} />
+              <EventDetail key={event.event_name} event={event} text={user.username} navigate={navigate} />
             ))}
           </ScrollView>
         </View>

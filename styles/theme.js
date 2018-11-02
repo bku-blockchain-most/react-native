@@ -4,14 +4,12 @@
  */
 
 export const color = {
-  primary: '#f31348',
-  primaryLight: '#f74c74',
-  primaryDark: '#ca0030',
-
+  primary: '#fc0014',
+  primaryLight: '#ff4b59',
+  primaryDark: '#e70000',
+  accent: '#ff8500',
   white: '#fff',
-
   dark: '#000',
-
   inactive: '#a9a9a9',
   inactiveLight: '#f3f3f3',
 };

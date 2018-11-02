@@ -1,6 +1,6 @@
 {
-  "name": "dvapp",
-  "version": "0.0.1",
+  "name": "most",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -8,6 +8,7 @@
     "restart": "react-native start --reset-cache",
     "link": "react-native link",
     "android": "react-native run-android",
+    "android:fix": "react-native run-android stacktrace",
     "ios": "react-native run-ios",
     "ios:X": "react-native run-ios --simulator \"iPhone X\"",
     "test": "jest",
@@ -21,7 +22,6 @@
     "axios": "^0.18.0",
     "moment": "^2.22.2",
     "native-base": "^2.7.2",
-    "randomatic": "^3.1.0",
     "react": "16.4.1",
     "react-native": "0.56.0",
     "react-native-camera": "^1.3.0",
@@ -29,7 +29,6 @@
     "react-native-elements": "^0.19.1",
     "react-native-qrcode": "^0.2.7",
     "react-native-qrcode-scanner": "^1.1.0",
-    "react-native-spinkit": "^1.1.1",
     "react-navigation": "^2.11.2",
     "url-join": "^4.0.0"
   },
@@ -63,29 +62,6 @@
     "trailingComma": "all",
     "bracketSpacing": true,
     "jsxBracketSameLine": true,
-    "printWidth": 150
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:decentralized-voting/react-native.git"
-  },
-  "author": {
-    "email": "huynhsamha@gmail.com",
-    "name": "Sam",
-    "url": "https://huynhsamha.github.io"
-  },
-  "contributors": [
-    "huynhsamha"
-  ],
-  "keywords": [
-    "decentralized-voting",
-    "dapp",
-    "dvapp",
-    "react-native",
-    "react-native-cli",
-    "mobile",
-    "hyper-app",
-    "ios",
-    "android"
-  ]
+    "printWidth": 180
+  }
 }

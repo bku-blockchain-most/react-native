@@ -3,10 +3,13 @@
  * @flow
  */
 
-export * from './url';
+import * as UrlUtils from './UrlUtils';
+export {UrlUtils};
 
-import {Alert, AsyncStorage} from 'react-native';
-import config from '../config';
+export * from './CacheUtils';
+export * from './RAMUtils';
+
+import {Alert} from 'react-native';
 
 export const handleError = err => {
   console.log(err);
@@ -16,13 +19,4 @@ export const handleError = err => {
     message = err.response.data.message;
   }
   Alert.alert(message);
-};
-
-export const getUserProfile = async () => {
-  const user = await AsyncStorage.getItem(config.constants.asyncStorage.userProfile);
-  return JSON.parse(user);
-};
-
-export const getAuthToken = async () => {
-  return await AsyncStorage.getItem(config.constants.asyncStorage.authToken);
 };

@@ -16,7 +16,7 @@ class NameCardScreen extends Component {
   render() {
     return (
       <FeedScreenWrapper>
-        <Text>NameCard screen</Text>
+        <Text>Contacts</Text>
       </FeedScreenWrapper>
     );
   }

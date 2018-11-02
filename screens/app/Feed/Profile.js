@@ -10,6 +10,8 @@ import {Avatar, Icon as IconEle} from 'react-native-elements';
 import QRCode from 'react-native-qrcode';
 import {Button, Tab, Tabs, Icon, Text} from 'native-base';
 import FeedScreenWrapper from './_wrapper';
+import {RAMUtils} from '../../../utils';
+import {authApi} from '../../../api';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -18,23 +20,20 @@ export default class ProfileScreen extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      first_name: 'Harry',
-      last_name: 'Potter',
-      phone: '0123456789',
-      email: 'abc_cse@hcmut.edu.vn',
-      company: 'IBL',
-      position: 'Intership',
-      avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
+      user: RAMUtils.getUser(),
     };
   }
 
   render() {
+    const {user} = this.state;
+
     return (
       <FeedScreenWrapper>
         <ScrollView automaticallyAdjustContentInsets={true} style={styles.container}>
           <View style={styles.avatarSection}>
-            <Avatar source={{uri: this.state.avatar}} xlarge rounded />
+            <Avatar source={{uri: user.avatar}} xlarge rounded />
             <View style={{margin: 20}}>
               <IconEle size={40} name="camera" type="feather" onPress={() => {}} />
             </View>
@@ -45,44 +44,32 @@ export default class ProfileScreen extends React.Component {
               <View style={styles.infoSection}>
                 <View style={styles.infoContent}>
                   <Text style={{...styles.label}}> First Name </Text>
-                  <TextInput
-                    style={styles.text}
-                    defaultValue={this.state.first_name}
-                    editable={true}
-                    maxLength={40}
-                    underlineColorAndroid="transparent"
-                  />
+                  <TextInput style={styles.text} defaultValue={user.displayName.firstName} editable={true} maxLength={40} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
                   <Text style={styles.label}> Last Name </Text>
-                  <TextInput style={styles.text} defaultValue="Potter" editable={true} maxLength={40} underlineColorAndroid="transparent" />
+                  <TextInput style={styles.text} defaultValue={user.displayName.lastName} editable={true} maxLength={40} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
                   <Text style={styles.label}> Email </Text>
-                  <TextInput
-                    style={styles.text}
-                    defaultValue="abc_cse@hcmut.edu.vn"
-                    editable={true}
-                    maxLength={40}
-                    underlineColorAndroid="transparent"
-                  />
+                  <TextInput style={styles.text} defaultValue={user.email} editable={true} maxLength={40} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
-                  <Text style={styles.label}> Phone </Text>
-                  <TextInput style={styles.text} defaultValue="0123456789" editable={true} maxLength={45} underlineColorAndroid="transparent" />
+                  <Text style={styles.label}> tel </Text>
+                  <TextInput style={styles.text} defaultValue={user.tel} editable={true} maxLength={45} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
                   <Text style={styles.label}> Company </Text>
-                  <TextInput style={styles.text} defaultValue="IBL" editable={true} maxLength={40} underlineColorAndroid="transparent" />
+                  <TextInput style={styles.text} defaultValue={user.company} editable={true} maxLength={40} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
                   <Text style={styles.label}> Position </Text>
-                  <TextInput style={styles.text} defaultValue="Intership" editable={true} maxLength={40} underlineColorAndroid="transparent" />
+                  <TextInput style={styles.text} defaultValue={user.position} editable={true} maxLength={40} underlineColorAndroid="transparent" />
                 </View>
 
                 <View style={styles.passChangeSection}>
@@ -92,36 +79,17 @@ export default class ProfileScreen extends React.Component {
 
                   <View style={styles.infoContent}>
                     <Text style={styles.label}> Old Password </Text>
-                    <TextInput
-                      style={styles.text}
-                      defaultValue="Intership"
-                      editable={true}
-                      maxLength={40}
-                      underlineColorAndroid="transparent"
-                      secureTextEntry
-                    />
+                    <TextInput style={styles.text} defaultValue="Intership" editable={true} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
                   </View>
                   <View style={styles.line} />
                   <View style={styles.infoContent}>
                     <Text style={styles.label}> New Password </Text>
-                    <TextInput
-                      style={{...styles.text, width: '20%'}}
-                      editable={true}
-                      maxLength={40}
-                      underlineColorAndroid="transparent"
-                      secureTextEntry
-                    />
+                    <TextInput style={{...styles.text, width: '20%'}} editable={true} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
                   </View>
                   <View style={styles.line} />
                   <View style={styles.infoContent}>
                     <Text style={styles.label}> Confirm Password </Text>
-                    <TextInput
-                      style={{...styles.text, width: '20%'}}
-                      editable={true}
-                      maxLength={40}
-                      underlineColorAndroid="transparent"
-                      secureTextEntry
-                    />
+                    <TextInput style={{...styles.text, width: '20%'}} editable={true} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
                   </View>
                 </View>
                 <View style={styles.saveButton}>
@@ -133,26 +101,31 @@ export default class ProfileScreen extends React.Component {
             </Tab>
             <Tab heading="QR CODE">
               <View style={styles.qrcodeSection}>
-                <QRCode
-                  value={JSON.stringify({
-                    last_name: this.state.last_name,
-                    first_name: this.state.first_name,
-                    phone: this.state.phone,
-                    email: this.state.email,
-                    company: this.state.company,
-                    position: this.state.position,
-                  })}
-                  size={Dimensions.get('screen').width * 0.88}
-                  fgColor="white"
-                />
+                <QRCode value={JSON.stringify(user)} size={Dimensions.get('screen').width * 0.88} fgColor="white" />
                 <Text style={{color: 'royalblue', fontSize: 19, fontStyle: 'italic', marginTop: 10}}> Scan this QR code to add contact</Text>
               </View>
             </Tab>
           </Tabs>
+
+          <View style={{width: '90%'}}>
+            <Button full rounded danger onPress={this._onClickSignOut}>
+              <Text>Sign me out</Text>
+            </Button>
+          </View>
         </ScrollView>
       </FeedScreenWrapper>
     );
   }
+
+  _onClickSignOut = async () => {
+    authApi
+      .logout()
+      .then(() => this.props.navigation.navigate('Auth'))
+      .catch(err => {
+        console.log(err);
+        this.props.navigation.navigate('Auth');
+      });
+  };
 }
 
 const styles = StyleSheet.create({

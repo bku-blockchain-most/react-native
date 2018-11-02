@@ -4722,7 +4722,7 @@ raf@^3.1.0:
   dependencies:
     performance-now "^2.1.0"
 
-randomatic@^3.0.0, randomatic@^3.1.0:
+randomatic@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-3.1.0.tgz#36f2ca708e9e567f5ed2ec01949026d50aa10116"
   dependencies:
@@ -4851,12 +4851,6 @@ react-native-safe-area-view@^0.8.0:
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.8.0.tgz#22d78cb8e8658d04a10cd53c1546e0bc86cb7aea"
   dependencies:
     hoist-non-react-statics "^2.3.1"
-
-react-native-spinkit@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-spinkit/-/react-native-spinkit-1.1.1.tgz#3ae512f3978bc750b7c02639911e1710750d8539"
-  dependencies:
-    prop-types "^15.5.8"
 
 react-native-tab-view@^0.0.77:
   version "0.0.77"
