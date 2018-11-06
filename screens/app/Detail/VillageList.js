@@ -4,13 +4,15 @@
  */
 
 import React, {Component} from 'react';
-import {ScrollView, Text, View, Image} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import axios from 'axios';
 import Button from '../../../components/common/Button';
 import VillageDetail from '../../../components/common/VillageDetail';
 import CheckBox from 'react-native-checkbox';
 import Card from '../../../components/common/Card';
 import CardSection from '../../../components/common/CardSection';
+import urlJoin from 'url-join';
+import config from '../../../config';
 
 class VillageList extends Component {
   static navigationOptions = {
@@ -20,12 +22,10 @@ class VillageList extends Component {
   state = {vils: [], checked: [], activeSections: []};
 
   componentWillMount() {
-    axios
-      .get('http://blockchain-ticket.herokuapp.com/villages')
-      .then(response => this.setState({vils: response.data}));
+    axios.get(urlJoin(config.apiBlockchainTicket, 'villages')).then(response => this.setState({vils: response.data}));
 
     for (let x in this.state.vils) {
-      checked[x] = false;
+      this.state.checked[x] = false;
     }
   }
 
@@ -44,8 +44,8 @@ class VillageList extends Component {
                   label=""
                   checked={this.state.checked[this.props.key]}
                   checkboxStyle={{height: 30, width: 30}}
-                  checkedImage={require('../../../components/image/heart_checked3.png')}
-                  uncheckedImage={require('../../../components/image/heart_unchecked.png')}
+                  checkedImage={require('../../../assets/images/heart_checked3.png')}
+                  uncheckedImage={require('../../../assets/images/heart_unchecked.png')}
                   onChange={checked =>
                     this.setState({
                       checked: !this.state.checked[this.props.key],
@@ -58,17 +58,6 @@ class VillageList extends Component {
         </Card>
 
         <VillageDetail key={vil.village_name} villageX={vil} text1={props} />
-
-        {/* <View style={styles.container}>
-                    <CheckBox key={vil.village_name}
-                        label=''
-                        checked={this.state.checked[this.props.key]}
-                        checkboxStyle={{heigh:30,width:30}}
-                        checkedImage={require('./image/heart_checked3.png')}
-                        uncheckedImage={require('./image/heart_unchecked.png')}
-                        onChange={(checked) => this.setState({checked: !this.state.checked[this.props.key]})}
-                    />
-                </View> */}
       </View>
     ));
   }
@@ -116,4 +105,5 @@ const styles = {
     marginRight: 5,
   },
 };
+
 export default VillageList;

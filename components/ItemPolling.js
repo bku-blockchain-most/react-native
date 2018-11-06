@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {Card, CardItem, Text, Left, Body, Icon, Right} from 'native-base';
+import {Card, CardItem, Text, Left, Body, Icon} from 'native-base';
 import moment from 'moment';
 import {color, styles} from '../styles';
 
@@ -15,12 +15,7 @@ class ItemPolling extends Component {
       <Card style={{flex: 0}}>
         <CardItem>
           <Left>
-            <Icon
-              type="MaterialIcons"
-              name="event-note"
-              active
-              style={{color: color.primary}}
-            />
+            <Icon type="MaterialIcons" name="event-note" active style={{color: color.primary}} />
             <Body>
               <Text
                 style={{
@@ -40,12 +35,8 @@ class ItemPolling extends Component {
         </CardItem>
         <CardItem>
           <Body>
-            <Text style={{...styles.fontOpenSans}}>
-              Event: {poll.eventID || ''}
-            </Text>
-            <Text style={{...styles.fontOpenSans}}>
-              Owner: {poll.ownerID || ''}
-            </Text>
+            <Text style={{...styles.fontOpenSans}}>Event: {poll.eventID || ''}</Text>
+            <Text style={{...styles.fontOpenSans}}>Owner: {poll.ownerID || ''}</Text>
           </Body>
         </CardItem>
         <CardItem>

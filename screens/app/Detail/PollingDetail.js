@@ -10,10 +10,7 @@ import moment from 'moment';
 
 import DetailScreenWrapper from './_wrapper';
 import {styles} from '../../../styles';
-import {
-  getEtherscanAddressURL,
-  getEtherscanTransactionURL,
-} from '../../../utils';
+import {RAMUtils, UrlUtils} from '../../../utils';
 
 class PollingDetailScreen extends Component {
   constructor(props) {
@@ -23,18 +20,22 @@ class PollingDetailScreen extends Component {
       isLoading: false,
     };
   }
+
   render() {
     const {navigation} = this.props;
+
+    console.log('PollingDetailScreen');
+
     const polling = navigation.getParam('polling');
     console.log(polling);
 
     const eth = polling.eth || {};
 
+    const user = RAMUtils.getUser();
+    console.log(user);
+
     return (
-      <DetailScreenWrapper
-        titleHeader="Polling"
-        navigation={navigation}
-        isLoadingVisible={this.state.isLoading}>
+      <DetailScreenWrapper titleHeader="Polling" navigation={navigation} isLoadingVisible={this.state.isLoading}>
         <Content padder>
           <Text
             style={{
@@ -51,32 +52,18 @@ class PollingDetailScreen extends Component {
             {moment(polling.endDate).calendar()}
           </Text>
 
-          <Text style={{...styles.fontOpenSans, marginTop: 25}}>
-            Event: {polling.eventID || ''}
-          </Text>
-          <Text style={{...styles.fontOpenSans}}>
-            Owner: {polling.ownerID || ''}
-          </Text>
+          <Text style={{...styles.fontOpenSans, marginTop: 25}}>Event: {polling.eventID || ''}</Text>
+          <Text style={{...styles.fontOpenSans}}>Owner: {polling.ownerID || ''}</Text>
 
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>
             <Text style={{fontWeight: '700'}}>Contract Address: </Text>
-            <Text
-              style={{color: 'blue'}}
-              onPress={() =>
-                Linking.openURL(
-                  getEtherscanAddressURL(eth.contractAddress || ''),
-                )
-              }>
+            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanAddressURL(eth.contractAddress || ''))}>
               {eth.contractAddress || ''}
             </Text>
           </Text>
           <Text style={{...styles.fontOpenSans, marginTop: 20}}>
             <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
-            <Text
-              style={{color: 'blue'}}
-              onPress={() =>
-                Linking.openURL(getEtherscanTransactionURL(eth.txHash || ''))
-              }>
+            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(eth.txHash || ''))}>
               {eth.txHash || ''}
             </Text>
           </Text>
@@ -88,13 +75,8 @@ class PollingDetailScreen extends Component {
         </Content>
 
         <Footer>
-          <Button
-            full
-            style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}}
-            onPress={() => navigation.navigate('PollingAnswer', {polling})}>
-            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>
-              Start Voting
-            </Text>
+          <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => navigation.navigate('PollingAnswer', {polling})}>
+            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Start Voting</Text>
           </Button>
         </Footer>
       </DetailScreenWrapper>

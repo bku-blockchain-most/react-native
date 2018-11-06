@@ -3,10 +3,13 @@
 buildscript {
     repositories {
         google()
+
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
+
+        google()
         jcenter()
     }
     dependencies {
@@ -19,8 +22,7 @@ buildscript {
 
 allprojects {
     repositories {
-				// Add jitpack repository (added by react-native-spinkit)
-				maven { url "https://jitpack.io" }
+        maven { url "https://jitpack.io" }
         mavenLocal()
         google()
         maven {
@@ -36,7 +38,7 @@ allprojects {
 }
 
 ext {
-    buildToolsVersion = "26.0.3"
+    buildToolsVersion = "27.0.3"
     minSdkVersion = 16
     compileSdkVersion = 26
     targetSdkVersion = 26
@@ -44,11 +46,20 @@ ext {
 }
 
 subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                && !details.requested.name.contains('multidex') ) {
+                details.useVersion "26.1.0"
+            }
+        }
+    }
+
     afterEvaluate {project ->
         if (project.hasProperty("android")) {
             android {
                 compileSdkVersion 26
-                buildToolsVersion '26.0.3'
+                buildToolsVersion '27.0.3'
             }
         }
     }

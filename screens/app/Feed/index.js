@@ -7,10 +7,8 @@ import {createTabNavigator,createStackNavigator} from 'react-navigation';
 import {Platform} from 'react-native';
 
 import NameCardScreen from './NameCard';
-import SettingScreen from './Setting';
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
-import VotingListScreen from './VotingList';
 import EventListScreen from './EventList';
 import QrScannerScreen from './QrScanner';
 
@@ -19,6 +17,7 @@ import Contact from './Contact'
 import CreatingContact from './CreatingContact'
 import Log from './Log'
 import QRCodeScanerContact from './QRCodeScanerContact'
+
 
 import {color} from '../../../styles';
 
@@ -35,13 +34,12 @@ const ContactStack = createStackNavigator({
 
 const FeedAppNavigator = createTabNavigator(
   {
-    //PollingList: PollingListScreen,
-    //VotingList: VotingListScreen,
+    EventList: EventListScreen,
+    PollingList: PollingListScreen,
     Profile: ProfileScreen,
     Contacts: ContactStack,
-    //Setting: SettingScreen,
-    //EventList: EventListScreen,
-    //QrScanner: QrScannerScreen,
+//     NameCard: NameCardScreen,
+    QrScanner: QrScannerScreen,
   },
   {
     //initialRouteName: 'EventList',

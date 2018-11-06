@@ -11,6 +11,7 @@ import Contact from './Contact'
 
 class NameCardScreen extends Component {
   static navigationOptions = {
+
     tabBarIcon: ({tintColor}) => (
       <Icon
         name="account-location"
@@ -22,7 +23,10 @@ class NameCardScreen extends Component {
 
   render() {
     return (
-       <Text>NameCard</Text> 
+      <FeedScreenWrapper>
+        <Text>Contacts</Text>
+      </FeedScreenWrapper>
+
     );
   }
 }

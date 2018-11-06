@@ -4,13 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Button, Tab, Tabs, ScrollableTab, Footer} from 'native-base';
+import {Text, Button, List, ListItem, Footer, CheckBox, Body, Toast} from 'native-base';
 import {Alert} from 'react-native';
-import randomize from 'randomatic';
 
 import DetailScreenWrapper from './_wrapper';
-import ItemQuestion from '../../../components/ItemQuestion';
-import {styles} from '../../../styles';
+import {styles, color} from '../../../styles';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
 
@@ -18,15 +16,23 @@ class PollingAnswerScreen extends Component {
   constructor(props) {
     super(props);
 
+    const {navigation} = this.props;
+    this.polling = navigation.getParam('polling') || {};
+
     this.state = {
-      answers: [],
+      candidates: this.polling.candidates || [],
       isLoading: false,
     };
   }
 
-  _onClickSubmit = polling => {
-    console.log(polling);
-    console.log(this.state.answers);
+  _onClickSubmit = () => {
+    const ballots = this.state.candidates.filter(_ => _.checked).map(_ => ({id: _.id}));
+    if (ballots.length === 0) {
+      return Toast.show({
+        text: 'You should choose at least a candidate',
+        buttonText: 'Close',
+      });
+    }
     Alert.alert('Confirmation', 'Do you want to submit your voting?', [
       {
         text: 'Cancel',
@@ -37,17 +43,12 @@ class PollingAnswerScreen extends Component {
         onPress: async () => {
           this.setState({isLoading: true});
           try {
-            const vote = await appApi.votePollings(
-              polling.id,
-              this.state.answers,
-            );
+            const vote = await appApi.votePollings(this.polling.id, ballots);
             console.log(vote);
+
             this.setState({isLoading: false});
-            Alert.alert(
-              'Notification',
-              'Your voting is commited to smart contract',
-              [{text: 'OK', onPress: () => this.props.navigation.goBack()}],
-            );
+
+            Alert.alert('Notification', 'Your voting is commited to smart contract', [{text: 'OK', onPress: () => this.props.navigation.goBack()}]);
           } catch (err) {
             handleError(err);
           }
@@ -56,67 +57,38 @@ class PollingAnswerScreen extends Component {
     ]);
   };
 
-  _isAnsweredQuestion = q =>
-    this.state.answers.filter(y => y.ordinal === q.ordinal)[0] ? true : false;
-
-  _retreiveAnswer = (question, answer) => {
-    console.log(question);
-    let isAnswered = this._isAnsweredQuestion(question);
-    this.setState({
-      answers: isAnswered
-        ? this.state.answers.map(
-            y => (y.ordinal !== question.ordinal ? y : {...y, options: answer}),
-          )
-        : [
-            ...this.state.answers,
-            {
-              ordinal: question.ordinal,
-              type: question.type,
-              options: answer,
-            },
-          ],
-    });
-  };
-
   render() {
     const {navigation} = this.props;
-    const polling = navigation.getParam('polling');
-    console.log(polling);
+    const {candidates} = this.state;
+
+    console.log('Polling Answer');
+    console.log(candidates);
 
     return (
-      <DetailScreenWrapper
-        titleHeader="Make a voting"
-        navigation={navigation}
-        hasTabs
-        isLoadingVisible={this.state.isLoading}>
-        <Tabs renderTabBar={() => <ScrollableTab />}>
-          {polling.questions.map(q => (
-            <Tab
-              heading={'Q.' + q.ordinal}
-              key={q.ordinal + randomize('Aa0', 8)}>
-              <ItemQuestion
-                question={q}
-                answer={
-                  (
-                    this.state.answers.filter(
-                      y => y.ordinal === q.ordinal,
-                    )[0] || {}
-                  ).options || []
-                }
-                retreiveAnswer={this._retreiveAnswer}
+      <DetailScreenWrapper titleHeader="Make a voting" navigation={navigation} hasTabs isLoadingVisible={this.state.isLoading}>
+        <List>
+          {candidates.map(o => (
+            <ListItem noBorder key={o.id}>
+              <CheckBox
+                color={color.primary}
+                checked={o.checked || false}
+                onPress={() => {
+                  o.checked = true;
+                  this.setState({
+                    candidates: this.state.candidates.map(_ => (_.id === o.id ? o : _)),
+                  });
+                }}
               />
-            </Tab>
+              <Body>
+                <Text>{o.name}</Text>
+              </Body>
+            </ListItem>
           ))}
-        </Tabs>
+        </List>
 
         <Footer>
-          <Button
-            full
-            style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}}
-            onPress={() => this._onClickSubmit(polling)}>
-            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>
-              Submit
-            </Text>
+          <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => this._onClickSubmit()}>
+            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
           </Button>
         </Footer>
       </DetailScreenWrapper>
