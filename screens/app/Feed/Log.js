@@ -4,23 +4,13 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Icon, List, ListItem, Left, Body, Right, Content, Button, Container, Header, Item, Input, Card, CardItem} from 'native-base';
+import {Text, Icon, Content, Header, List, Item, Input, Card, CardItem, Body} from 'native-base';
 
-import _ from 'lodash';
+import moment from 'moment';
 
-import {FlatList} from 'react-native';
-
-// form of logs
-const data = [
-  {
-    time: '23/09/2018',
-    note: 'Gap trao doi ve blockchain o an giang',
-  },
-  {
-    time: '2/10/2018',
-    note: 'Gap tai seminar Blockchain tai BKU',
-  },
-];
+import AppScreenWrapper from '../_wrapper';
+import {appApi} from '../../../api';
+import {handleError} from '../../../utils';
 
 class Log extends Component {
   static navigationOptions = {
@@ -31,72 +21,69 @@ class Log extends Component {
     super(props);
 
     this.state = {
-      data: {
-        original: [],
-        filter: [],
-      },
+      loading: false,
+      original: [], // { time, note, partner: { ... } }
+      filter: [],
     };
   }
 
   componentWillMount() {
-    this.getData();
+    this.fetchContacts();
   }
 
-  getData = () => {
-    // TODO
-    // get data logs of user from database, form of data is above
-    // var data = ...
+  fetchContacts = () => {
+    this.setState({loading: true});
+    appApi
+      .fetchRecords()
+      .then(records => {
+        console.log(records);
+        this.setState({
+          loading: false,
+          original: records,
+          filter: records,
+        });
+      })
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
+  };
+
+  onSearchInputChanged = text => {
+    const pattern = new RegExp(text, 'i');
     this.setState({
-      data: {
-        original: data,
-        filter: data,
-      },
+      filter: this.state.original.filter(o => o.time.search(pattern) !== -1 || o.note.search(pattern) !== -1),
     });
   };
 
-  onSearchInputChanged = event => {
-    const pattern = new RegExp(event.nativeEvent.text, 'i');
-    const logs = _.filter(this.state.data.original, log => {
-      const filterResult = {
-        time: log.time.search(pattern),
-        note: log.note.search(pattern),
-      };
-      return filterResult.note !== -1 || filterResult.time !== -1 ? log : undefined;
-    });
-    this.setState({
-      data: {
-        original: this.state.data.original,
-        filter: logs,
-      },
-    });
-  };
-
-  renderItem = ({item}) => (
-    <ListItem>
+  renderItem = item => {
+    return (
       <Card>
         <CardItem header bordered>
-          <Text>{item.time}</Text>
+          <Text>{moment(item.time).calendar()}</Text>
         </CardItem>
         <CardItem bordered>
-          <Text>{item.note}</Text>
+          <Body>
+            <Text>{item.note}</Text>
+          </Body>
         </CardItem>
       </Card>
-    </ListItem>
-  );
+    );
+  };
 
   render() {
     return (
-      <Container>
+      <AppScreenWrapper loading={this.state.loading}>
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" onChange={this.onSearchInputChanged} />
+            <Input placeholder="Search" onChangeText={text => this.onSearchInputChanged(text)} />
           </Item>
         </Header>
-        <Content>
-          <FlatList data={this.state.data.filter} renderItem={this.renderItem} enableEmptySections />
+        <Content padder>
+          <List dataArray={this.state.filter} renderRow={item => this.renderItem(item)} enableEmptySections />
         </Content>
-      </Container>
+      </AppScreenWrapper>
     );
   }
 }

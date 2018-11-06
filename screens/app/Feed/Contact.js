@@ -4,14 +4,10 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Icon, ListItem, Left, Right, Content, Container, Header, Item, Input} from 'native-base';
-
-import _ from 'lodash';
-
-import {FlatList} from 'react-native';
+import {Text, Icon, ListItem, List, Left, Right, Content, Body, Thumbnail, Header, Item, Input} from 'native-base';
 
 import AppScreenWrapper from '../_wrapper';
-import {RAMUtils, handleError} from '../../../utils';
+import {handleError} from '../../../utils';
 import {appApi} from '../../../api';
 
 class ContactScreen extends Component {
@@ -27,8 +23,6 @@ class ContactScreen extends Component {
       original: [],
       filter: [],
     };
-
-    this.user = RAMUtils.getUser();
   }
 
   componentWillMount() {
@@ -40,6 +34,7 @@ class ContactScreen extends Component {
     appApi
       .fetchContacts()
       .then(contacts => {
+        console.log(contacts);
         this.setState({
           loading: false,
           original: contacts,
@@ -52,8 +47,7 @@ class ContactScreen extends Component {
       });
   };
 
-  onSearchInputChanged = event => {
-    const text = event.nativeEvent.text;
+  onSearchInputChanged = text => {
     const pattern = new RegExp(text, 'i');
     this.setState({
       filter: this.state.original.filter(
@@ -66,18 +60,23 @@ class ContactScreen extends Component {
     });
   };
 
-  renderItem = ({item}) => {
-    const {displayName} = item;
+  renderItem = item => {
+    const {displayName, photoUrl, tel} = item.uid || {};
     const {firstName, lastName} = displayName || {};
     return (
       <ListItem
+        avatar
         onPress={() => {
           this.props.navigation.navigate('Log');
         }}>
         <Left>
-          <Text>{firstName + lastName}</Text>
+          <Thumbnail source={{uri: photoUrl}} small />
         </Left>
-        <Right>
+        <Body>
+          <Text>{firstName + ' ' + lastName}</Text>
+          <Text>{tel}</Text>
+        </Body>
+        <Right style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
           <Icon name="arrow-forward" />
         </Right>
       </ListItem>
@@ -87,24 +86,22 @@ class ContactScreen extends Component {
   render() {
     return (
       <AppScreenWrapper loading={this.state.loading}>
-        <Container>
-          <Header searchBar rounded>
-            <Item>
-              <Icon name="ios-search" />
-              <Input placeholder="Search" onChange={this.onSearchInputChanged} />
-              <Icon
-                name="qrcode-scan"
-                type="MaterialCommunityIcons"
-                onPress={() => {
-                  this.props.navigation.navigate('QRCodeScanerContact');
-                }}
-              />
-            </Item>
-          </Header>
-          <Content>
-            <FlatList data={this.state.filter} renderItem={this.renderItem} enableEmptySections />
-          </Content>
-        </Container>
+        <Header searchBar rounded>
+          <Item>
+            <Icon name="ios-search" />
+            <Input placeholder="Search" onChangeText={text => this.onSearchInputChanged(text)} />
+            <Icon
+              name="qrcode-scan"
+              type="MaterialCommunityIcons"
+              onPress={() => {
+                this.props.navigation.navigate('QRCodeScanerContact');
+              }}
+            />
+          </Item>
+        </Header>
+        <Content>
+          <List dataArray={this.state.filter} renderRow={item => this.renderItem(item)} enableEmptySections />
+        </Content>
       </AppScreenWrapper>
     );
   }

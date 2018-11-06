@@ -8,8 +8,8 @@ import {Platform} from 'react-native';
 
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
-import EventListScreen from './EventList';
-import QrScannerScreen from './QrScanner';
+// import EventListScreen from './EventList';
+// import QrScannerScreen from './QrScanner';
 
 //tan add
 import Contact from './Contact';
@@ -34,11 +34,11 @@ const ContactStack = createStackNavigator(
 
 const FeedAppNavigator = createTabNavigator(
   {
-    EventList: EventListScreen,
+    // EventList: EventListScreen,
     PollingList: PollingListScreen,
     Profile: ProfileScreen,
     Contacts: ContactStack,
-    QrScanner: QrScannerScreen,
+    // QrScanner: QrScannerScreen,
   },
   {
     initialRouteName: 'Profile',
