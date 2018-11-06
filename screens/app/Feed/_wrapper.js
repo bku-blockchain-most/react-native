@@ -10,8 +10,6 @@ import {StatusBar, Platform} from 'react-native';
 import AppScreenWrapper from '../_wrapper';
 import {color} from '../../../styles';
 
-import Loading from '../../../components/Loading';
-
 class FeedScreenWrapper extends Component {
   /**
    * props:

@@ -3,34 +3,34 @@
  * @flow
  */
 
-import {createTabNavigator,createStackNavigator} from 'react-navigation';
+import {createTabNavigator, createStackNavigator} from 'react-navigation';
 import {Platform} from 'react-native';
 
-import NameCardScreen from './NameCard';
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
 import EventListScreen from './EventList';
 import QrScannerScreen from './QrScanner';
 
 //tan add
-import Contact from './Contact'
-import CreatingContact from './CreatingContact'
-import Log from './Log'
-import QRCodeScanerContact from './QRCodeScanerContact'
-
+import Contact from './Contact';
+import CreatingContact from './CreatingContact';
+import Log from './Log';
+import QRCodeScanerContact from './QRCodeScanerContact';
 
 import {color} from '../../../styles';
 
-const ContactStack = createStackNavigator({
+const ContactStack = createStackNavigator(
+  {
     Contact: {screen: Contact},
     CreatingContact: {screen: CreatingContact},
     Log: {screen: Log},
     QRCodeScanerContact: {screen: QRCodeScanerContact},
-},{
-  headerMode : 'none',
-  header: null,
-})
-
+  },
+  {
+    headerMode: 'none',
+    header: null,
+  },
+);
 
 const FeedAppNavigator = createTabNavigator(
   {
@@ -38,11 +38,10 @@ const FeedAppNavigator = createTabNavigator(
     PollingList: PollingListScreen,
     Profile: ProfileScreen,
     Contacts: ContactStack,
-//     NameCard: NameCardScreen,
     QrScanner: QrScannerScreen,
   },
   {
-    //initialRouteName: 'EventList',
+    // initialRouteName: 'EventList',
     tabBarPosition: 'bottom',
 
     tabBarOptions: {
@@ -68,6 +67,5 @@ const FeedAppNavigator = createTabNavigator(
     },
   },
 );
-
 
 export default FeedAppNavigator;

@@ -2,8 +2,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Alert, Image} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { Button, Text } from 'native-base';
-import axios from 'axios';
+import { Button, Text, Icon } from 'native-base';
 
 class QrScannerScannerContacts extends Component {
   static navigationOptions = {
@@ -16,14 +15,14 @@ class QrScannerScannerContacts extends Component {
       />
     ),
   };
-  
+
   constructor(props){
     super(props);
   }
- 
+
 
   onButtonPress = () => {
-    this.props.navigation.navigate('CreatingContact')
+    this.props.navigation.navigate('CreatingContact');
   }
 
   onSuccess(e) {
@@ -37,7 +36,7 @@ class QrScannerScannerContacts extends Component {
         major: info.major,
         company: info.company,
         time: new Date().toLocaleString(),
-    })
+    });
   }
 
   render() {
@@ -52,7 +51,7 @@ class QrScannerScannerContacts extends Component {
           }
           bottomContent={
             <View style={styles.buttonview}>
-               <Button bordered success onPress = {() => this.onButtonPress()}>
+                <Button bordered success onPress = {() => this.onButtonPress()}>
                   <Text>          Skip         </Text>
                 </Button>
             </View>

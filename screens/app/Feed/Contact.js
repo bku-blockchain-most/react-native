@@ -4,60 +4,39 @@
  */
 
 import React, {Component} from 'react';
-import {
-  Text,
-  Icon,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Content,
-  Button,
-  Container,
-  Header,
-  Item,
-  Input,
-} from 'native-base';
+import {Text, Icon, List, ListItem, Left, Body, Right, Content, Button, Container, Header, Item, Input} from 'native-base';
 
 import _ from 'lodash';
 
 import {FlatList} from 'react-native';
 
-
 // form of data load from database
 const data = [
   {
-    uid: "1",
-    name: "Nguyen Van A"
+    uid: '1',
+    name: 'Nguyen Van A',
   },
   {
-    uid: "1",
-    name: "Nguyen Van B"
+    uid: '1',
+    name: 'Nguyen Van B',
   },
   {
-    uid: "1",
-    name: "Nguyen Van C"
+    uid: '1',
+    name: 'Nguyen Van C',
   },
   {
-    uid: "1",
-    name: "Nguyen Van D"
+    uid: '1',
+    name: 'Nguyen Van D',
   },
   {
-    uid: "1",
-    name: "Nguyen Van E"
+    uid: '1',
+    name: 'Nguyen Van E',
   },
-]
+];
 
 class ContactScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="contacts"
-        type="MaterialIcons"
-        style={{color: tintColor}}
-      />
-    ),
+    tabBarIcon: ({tintColor}) => <Icon name="contacts" type="MaterialIcons" style={{color: tintColor}} />,
   };
 
   constructor(props) {
@@ -67,28 +46,27 @@ class ContactScreen extends Component {
       data: {
         original: [],
         filter: [],
-      }
+      },
     };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.getData();
   }
 
-  
   getData = () => {
     // TODO
     // get data from database, form of data is above
     // var data = ...
     this.setState({
       data: {
-        original: data, 
-        filter: data
-      }
-    })
-  }
+        original: data,
+        filter: data,
+      },
+    });
+  };
 
-  onSearchInputChanged = (event) => {
+  onSearchInputChanged = event => {
     const pattern = new RegExp(event.nativeEvent.text, 'i');
     const contacts = _.filter(this.state.data.original, contact => {
       const filterResult = {
@@ -104,15 +82,18 @@ class ContactScreen extends Component {
     });
   };
 
-  renderItem = ({ item }) => (
-      <ListItem onPress = {() => {this.props.navigation.navigate('Log')}}>
-        <Left>  
-          <Text>{item.name}</Text>
-        </Left>
-        <Right>
-          <Icon name="arrow-forward" />
-        </Right>
-      </ListItem>    
+  renderItem = ({item}) => (
+    <ListItem
+      onPress={() => {
+        this.props.navigation.navigate('Log');
+      }}>
+      <Left>
+        <Text>{item.name}</Text>
+      </Left>
+      <Right>
+        <Icon name="arrow-forward" />
+      </Right>
+    </ListItem>
   );
 
   render() {
@@ -121,20 +102,18 @@ class ContactScreen extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" onChange ={this.onSearchInputChanged}/>
+            <Input placeholder="Search" onChange={this.onSearchInputChanged} />
             <Icon
-                name="qrcode-scan"
-                type="MaterialCommunityIcons"
-                onPress = {() => {this.props.navigation.navigate("QRCodeScanerContact")}}
+              name="qrcode-scan"
+              type="MaterialCommunityIcons"
+              onPress={() => {
+                this.props.navigation.navigate('QRCodeScanerContact');
+              }}
             />
           </Item>
         </Header>
         <Content>
-          <FlatList
-            data={this.state.data.filter}
-            renderItem={this.renderItem}
-            enableEmptySections
-          />
+          <FlatList data={this.state.data.filter} renderItem={this.renderItem} enableEmptySections />
         </Content>
       </Container>
     );

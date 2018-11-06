@@ -4,50 +4,27 @@
  */
 
 import React, {Component} from 'react';
-import {
-  Text,
-  Icon,
-  List,
-  ListItem,
-  Left,
-  Body,
-  Right,
-  Content,
-  Button,
-  Container,
-  Header,
-  Item,
-  Input,
-  Card,
-  CardItem
-} from 'native-base';
+import {Text, Icon, List, ListItem, Left, Body, Right, Content, Button, Container, Header, Item, Input, Card, CardItem} from 'native-base';
 
 import _ from 'lodash';
 
 import {FlatList} from 'react-native';
 
-
 // form of logs
 const data = [
   {
-    time: "23/09/2018",
-    note: "Gap trao doi ve blockchain o an giang"
+    time: '23/09/2018',
+    note: 'Gap trao doi ve blockchain o an giang',
   },
   {
-    time: "2/10/2018",
-    note: "Gap tai seminar Blockchain tai BKU"
+    time: '2/10/2018',
+    note: 'Gap tai seminar Blockchain tai BKU',
   },
-]
+];
 
 class Log extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="contacts"
-        type="MaterialIcons"
-        style={{color: tintColor}}
-      />
-    ),
+    tabBarIcon: ({tintColor}) => <Icon name="contacts" type="MaterialIcons" style={{color: tintColor}} />,
   };
 
   constructor(props) {
@@ -57,11 +34,11 @@ class Log extends Component {
       data: {
         original: [],
         filter: [],
-      }
+      },
     };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.getData();
   }
 
@@ -71,20 +48,20 @@ class Log extends Component {
     // var data = ...
     this.setState({
       data: {
-        original: data, 
-        filter: data
-      }
-    })
-  }
+        original: data,
+        filter: data,
+      },
+    });
+  };
 
-  onSearchInputChanged = (event) => {
+  onSearchInputChanged = event => {
     const pattern = new RegExp(event.nativeEvent.text, 'i');
     const logs = _.filter(this.state.data.original, log => {
       const filterResult = {
         time: log.time.search(pattern),
         note: log.note.search(pattern),
       };
-      return filterResult.note !== -1 || filterResult.time !== -1   ? log : undefined;
+      return filterResult.note !== -1 || filterResult.time !== -1 ? log : undefined;
     });
     this.setState({
       data: {
@@ -94,19 +71,17 @@ class Log extends Component {
     });
   };
 
-  renderItem = ({ item }) => (
-      <ListItem>
-        <Card>
-            <CardItem header bordered>
-              <Text>{item.time}</Text>
-            </CardItem>
-            <CardItem bordered>
-                <Text>
-                  {item.note}
-                </Text>
-            </CardItem>
-        </Card>
-      </ListItem>    
+  renderItem = ({item}) => (
+    <ListItem>
+      <Card>
+        <CardItem header bordered>
+          <Text>{item.time}</Text>
+        </CardItem>
+        <CardItem bordered>
+          <Text>{item.note}</Text>
+        </CardItem>
+      </Card>
+    </ListItem>
   );
 
   render() {
@@ -115,15 +90,11 @@ class Log extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" onChange = {this.onSearchInputChanged}/>
+            <Input placeholder="Search" onChange={this.onSearchInputChanged} />
           </Item>
         </Header>
         <Content>
-          <FlatList
-            data={this.state.data.filter}
-            renderItem={this.renderItem}
-            enableEmptySections
-          />
+          <FlatList data={this.state.data.filter} renderItem={this.renderItem} enableEmptySections />
         </Content>
       </Container>
     );
