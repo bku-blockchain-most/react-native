@@ -4,35 +4,15 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Icon, List, ListItem, Left, Body, Right, Content, Button, Container, Header, Item, Input} from 'native-base';
+import {Text, Icon, ListItem, Left, Right, Content, Container, Header, Item, Input} from 'native-base';
 
 import _ from 'lodash';
 
 import {FlatList} from 'react-native';
 
-// form of data load from database
-const data = [
-  {
-    uid: '1',
-    name: 'Nguyen Van A',
-  },
-  {
-    uid: '1',
-    name: 'Nguyen Van B',
-  },
-  {
-    uid: '1',
-    name: 'Nguyen Van C',
-  },
-  {
-    uid: '1',
-    name: 'Nguyen Van D',
-  },
-  {
-    uid: '1',
-    name: 'Nguyen Van E',
-  },
-];
+import AppScreenWrapper from '../_wrapper';
+import {RAMUtils, handleError} from '../../../utils';
+import {appApi} from '../../../api';
 
 class ContactScreen extends Component {
   static navigationOptions = {
@@ -43,79 +23,89 @@ class ContactScreen extends Component {
     super(props);
 
     this.state = {
-      data: {
-        original: [],
-        filter: [],
-      },
+      loading: false,
+      original: [],
+      filter: [],
     };
+
+    this.user = RAMUtils.getUser();
   }
 
   componentWillMount() {
-    this.getData();
+    this.fetchContacts();
   }
 
-  getData = () => {
-    // TODO
-    // get data from database, form of data is above
-    // var data = ...
-    this.setState({
-      data: {
-        original: data,
-        filter: data,
-      },
-    });
+  fetchContacts = () => {
+    this.setState({loading: true});
+    appApi
+      .fetchContacts()
+      .then(contacts => {
+        this.setState({
+          loading: false,
+          original: contacts,
+          filter: contacts,
+        });
+      })
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
   };
 
   onSearchInputChanged = event => {
-    const pattern = new RegExp(event.nativeEvent.text, 'i');
-    const contacts = _.filter(this.state.data.original, contact => {
-      const filterResult = {
-        name: contact.name.search(pattern),
-      };
-      return filterResult.name !== -1 ? contact : undefined;
-    });
+    const text = event.nativeEvent.text;
+    const pattern = new RegExp(text, 'i');
     this.setState({
-      data: {
-        original: this.state.data.original,
-        filter: contacts,
-      },
+      filter: this.state.original.filter(
+        o =>
+          o.uid.displayName.firstName.search(pattern) !== -1 ||
+          o.uid.displayName.lastName.search(pattern) !== -1 ||
+          o.uid.username.search(pattern) !== -1 ||
+          o.uid.email.search(pattern) !== -1,
+      ),
     });
   };
 
-  renderItem = ({item}) => (
-    <ListItem
-      onPress={() => {
-        this.props.navigation.navigate('Log');
-      }}>
-      <Left>
-        <Text>{item.name}</Text>
-      </Left>
-      <Right>
-        <Icon name="arrow-forward" />
-      </Right>
-    </ListItem>
-  );
+  renderItem = ({item}) => {
+    const {displayName} = item;
+    const {firstName, lastName} = displayName || {};
+    return (
+      <ListItem
+        onPress={() => {
+          this.props.navigation.navigate('Log');
+        }}>
+        <Left>
+          <Text>{firstName + lastName}</Text>
+        </Left>
+        <Right>
+          <Icon name="arrow-forward" />
+        </Right>
+      </ListItem>
+    );
+  };
 
   render() {
     return (
-      <Container>
-        <Header searchBar rounded>
-          <Item>
-            <Icon name="ios-search" />
-            <Input placeholder="Search" onChange={this.onSearchInputChanged} />
-            <Icon
-              name="qrcode-scan"
-              type="MaterialCommunityIcons"
-              onPress={() => {
-                this.props.navigation.navigate('QRCodeScanerContact');
-              }}
-            />
-          </Item>
-        </Header>
-        <Content>
-          <FlatList data={this.state.data.filter} renderItem={this.renderItem} enableEmptySections />
-        </Content>
-      </Container>
+      <AppScreenWrapper loading={this.state.loading}>
+        <Container>
+          <Header searchBar rounded>
+            <Item>
+              <Icon name="ios-search" />
+              <Input placeholder="Search" onChange={this.onSearchInputChanged} />
+              <Icon
+                name="qrcode-scan"
+                type="MaterialCommunityIcons"
+                onPress={() => {
+                  this.props.navigation.navigate('QRCodeScanerContact');
+                }}
+              />
+            </Item>
+          </Header>
+          <Content>
+            <FlatList data={this.state.filter} renderItem={this.renderItem} enableEmptySections />
+          </Content>
+        </Container>
+      </AppScreenWrapper>
     );
   }
 }

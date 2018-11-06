@@ -41,7 +41,7 @@ const FeedAppNavigator = createTabNavigator(
     QrScanner: QrScannerScreen,
   },
   {
-    // initialRouteName: 'EventList',
+    initialRouteName: 'Profile',
     tabBarPosition: 'bottom',
 
     tabBarOptions: {

@@ -23,6 +23,9 @@ class SplashScreen extends Component {
     RAMUtils.updateUser(user);
     RAMUtils.setAuthToken(authToken);
 
+    console.log(RAMUtils.getAuthToken());
+    console.log(RAMUtils.getUser());
+
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     setTimeout(() => {
