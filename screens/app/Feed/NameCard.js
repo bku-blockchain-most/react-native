@@ -4,13 +4,21 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Icon} from 'native-base';
+import {Container, Header, Content, Footer, FooterTab, Button, Icon, Text} from 'native-base';
+import Profile from './Profile';
+import Contact from './Contact'
 
-import FeedScreenWrapper from './_wrapper';
 
 class NameCardScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => <Icon name="vcard-o" type="FontAwesome" style={{color: tintColor}} />,
+
+    tabBarIcon: ({tintColor}) => (
+      <Icon
+        name="account-location"
+        type="MaterialCommunityIcons"
+        style={{color: tintColor}}
+      />
+    ),
   };
 
   render() {
@@ -18,6 +26,7 @@ class NameCardScreen extends Component {
       <FeedScreenWrapper>
         <Text>Contacts</Text>
       </FeedScreenWrapper>
+
     );
   }
 }

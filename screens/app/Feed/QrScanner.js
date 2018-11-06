@@ -1,11 +1,8 @@
-/**
- * @format
- * @flow
- */
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Alert, Image} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import {Icon} from 'native-base'
 import axios from 'axios';
 import urlJoin from 'url-join';
 import config from '../../../config';
@@ -18,7 +15,14 @@ class QrScanner extends Component {
     title: 'Scanner',
     headerBackTitle: null,
     tabBarLabel: 'Scanner',
-    tabBarIcon: ({tintColor}) => <Image source={require('../../../assets/images/qr3.png')} style={[{height: 40, width: 40}, {tintColor}]} />,
+
+    tabBarIcon: ({tintColor}) => (
+      <Icon
+        name="qrcode-scan"
+        type="MaterialCommunityIcons"
+        style={{color: tintColor}}
+      />
+    ),
   };
   state = {entry: '', uid: '', bid: ''};
   GetEntry() {

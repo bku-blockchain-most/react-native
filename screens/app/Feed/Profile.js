@@ -7,15 +7,29 @@ import React from 'react';
 import {ScrollView, StyleSheet, View, TextInput, Dimensions} from 'react-native';
 
 import QRCode from 'react-native-qrcode';
+
+
+import FeedScreenWrapper from './_wrapper';
+
 import {Button, Tab, Tabs, Icon, Text, Thumbnail} from 'native-base';
 import FeedScreenWrapper from './_wrapper';
 import {RAMUtils} from '../../../utils';
 import {authApi} from '../../../api';
 import {color} from '../../../styles';
 
+
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => <Icon name="account-location" type="MaterialCommunityIcons" style={{color: tintColor}} />,
+
+    tabBarIcon: ({tintColor}) => (
+      <Icon
+        name="account-location"
+        type="MaterialCommunityIcons"
+        style={{color: tintColor}}
+      />
+    ),
+    title: "Profile"
+
   };
 
   constructor(props) {
@@ -25,6 +39,7 @@ export default class ProfileScreen extends React.Component {
       user: RAMUtils.getUser(),
       loading: false,
     };
+
   }
 
   render() {
@@ -36,6 +51,7 @@ export default class ProfileScreen extends React.Component {
         : 'https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1';
 
     return (
+
       <FeedScreenWrapper loading={this.state.loading}>
         <ScrollView automaticallyAdjustContentInsets={true} style={styles.container}>
           <View style={styles.avatarSection}>
@@ -44,6 +60,7 @@ export default class ProfileScreen extends React.Component {
               <Icon name="camera" type="FontAwesome" style={{fontSize: 40, color: color.primary}} />
             </View>
           </View>
+
 
           <Tabs>
             <Tab heading="INFO">
