@@ -34,10 +34,11 @@ export const fetchRecords = async () => {
     });
 };
 
-export const addContact = async (username, ballots) => {
-  const url = urljoin(config.apiUrl, '/user/contact');
+export const addContact = async uid => {
+  const url = urljoin(config.apiUrl, '/user/contacts');
+  const contacts = [{uid}];
   return axios
-    .post(url, {}, {headers: {authorization: RAMUtils.getAuthToken()}})
+    .post(url, {contacts}, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(data => {
       console.log(data);

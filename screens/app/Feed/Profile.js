@@ -110,7 +110,14 @@ export default class ProfileScreen extends React.Component {
             </Tab>
             <Tab heading="QR CODE">
               <View style={styles.qrcodeSection}>
-                <QRCode value={JSON.stringify(user)} size={Dimensions.get('screen').width * 0.88} fgColor="white" />
+                <QRCode
+                  value={JSON.stringify({
+                    id: user.id,
+                    fullname: user.displayName.firstName + user.displayName.lastName,
+                  })}
+                  size={Dimensions.get('screen').width * 0.88}
+                  fgColor="white"
+                />
                 <Text style={{color: 'royalblue', fontSize: 19, fontStyle: 'italic', marginTop: 10}}> Scan this QR code to add contact</Text>
               </View>
             </Tab>

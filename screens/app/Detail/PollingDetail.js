@@ -17,7 +17,7 @@ class PollingDetailScreen extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
+      loading: false,
     };
   }
 
@@ -35,7 +35,7 @@ class PollingDetailScreen extends Component {
     console.log(user);
 
     return (
-      <DetailScreenWrapper titleHeader="Polling" navigation={navigation} isLoadingVisible={this.state.isLoading}>
+      <DetailScreenWrapper titleHeader="Polling" navigation={navigation} loading={this.state.isLoading}>
         <Content padder>
           <Text
             style={{
@@ -75,9 +75,22 @@ class PollingDetailScreen extends Component {
         </Content>
 
         <Footer>
-          <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => navigation.navigate('PollingAnswer', {polling})}>
-            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Start Voting</Text>
-          </Button>
+          {moment(polling.endDate).isSameOrBefore(moment()) ? (
+            // past
+            <Button full style={{...styles.fullWidth, height: '100%'}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: false})}>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>View result</Text>
+            </Button>
+          ) : moment(polling.startDate).isSameOrAfter(moment()) ? (
+            // future
+            <Button full style={{...styles.fullWidth, height: '100%'}} disabled>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>In the future</Text>
+            </Button>
+          ) : (
+            // current
+            <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: true})}>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Start Voting</Text>
+            </Button>
+          )}
         </Footer>
       </DetailScreenWrapper>
     );

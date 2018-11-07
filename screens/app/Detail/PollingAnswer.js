@@ -4,13 +4,13 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Button, List, ListItem, Footer, CheckBox, Body, Toast} from 'native-base';
-import {Alert} from 'react-native';
+import {Text, Button, List, ListItem, Content, Footer, CheckBox, Body, Toast} from 'native-base';
+import {Alert, Linking} from 'react-native';
 
 import DetailScreenWrapper from './_wrapper';
 import {styles, color} from '../../../styles';
 import {appApi} from '../../../api';
-import {handleError} from '../../../utils';
+import {handleError, UrlUtils} from '../../../utils';
 
 class PollingAnswerScreen extends Component {
   constructor(props) {
@@ -18,11 +18,16 @@ class PollingAnswerScreen extends Component {
 
     const {navigation} = this.props;
     this.polling = navigation.getParam('polling') || {};
+    this.voting = navigation.getParam('voting') || false;
 
     this.state = {
       candidates: this.polling.candidates || [],
-      isLoading: false,
+      loading: false,
+      eth: null,
     };
+
+    console.log(this.polling);
+    console.log(this.voting);
   }
 
   _onClickSubmit = () => {
@@ -33,6 +38,7 @@ class PollingAnswerScreen extends Component {
         buttonText: 'Close',
       });
     }
+    console.log(ballots);
     Alert.alert('Confirmation', 'Do you want to submit your voting?', [
       {
         text: 'Cancel',
@@ -41,15 +47,14 @@ class PollingAnswerScreen extends Component {
       {
         text: 'OK',
         onPress: async () => {
-          this.setState({isLoading: true});
+          this.setState({loading: true});
           try {
             const vote = await appApi.votePollings(this.polling.id, ballots);
             console.log(vote);
-
-            this.setState({isLoading: false});
-
-            Alert.alert('Notification', 'Your voting is commited to smart contract', [{text: 'OK', onPress: () => this.props.navigation.goBack()}]);
+            this.setState({loading: false, eth: vote.eth});
+            Alert.alert('Notification', 'Your voting is commited to smart contract', [{text: 'OK', onPress: () => {}}]);
           } catch (err) {
+            this.setState({loading: false});
             handleError(err);
           }
         },
@@ -65,31 +70,51 @@ class PollingAnswerScreen extends Component {
     console.log(candidates);
 
     return (
-      <DetailScreenWrapper titleHeader="Make a voting" navigation={navigation} hasTabs isLoadingVisible={this.state.isLoading}>
-        <List>
-          {candidates.map(o => (
-            <ListItem noBorder key={o.id}>
-              <CheckBox
-                color={color.primary}
-                checked={o.checked || false}
-                onPress={() => {
-                  o.checked = true;
-                  this.setState({
-                    candidates: this.state.candidates.map(_ => (_.id === o.id ? o : _)),
-                  });
-                }}
-              />
-              <Body>
-                <Text>{o.name}</Text>
-              </Body>
-            </ListItem>
-          ))}
-        </List>
+      <DetailScreenWrapper titleHeader="Make a voting" navigation={navigation} hasTabs loading={this.state.loading}>
+        <Content>
+          {this.state.eth && (
+            <Text style={{...styles.fontOpenSans, padding: 20}}>
+              <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
+              <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(this.state.eth.txHash || ''))}>
+                {this.state.eth.txHash || ''}
+              </Text>
+            </Text>
+          )}
+          <List>
+            {candidates.map((o, idx) => (
+              <ListItem noBorder key={o.id}>
+                {this.voting ? (
+                  <CheckBox
+                    color={color.primary}
+                    checked={o.checked || false}
+                    onPress={() => {
+                      o.checked = !(o.checked || false);
+                      this.setState({
+                        candidates: this.state.candidates.map(_ => (_.id === o.id ? o : _)),
+                      });
+                    }}
+                  />
+                ) : (
+                  <Text>{idx}</Text>
+                )}
+                <Body>
+                  <Text>{o.name}</Text>
+                </Body>
+              </ListItem>
+            ))}
+          </List>
+        </Content>
 
         <Footer>
-          <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => this._onClickSubmit()}>
-            <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
-          </Button>
+          {this.voting && this.state.eth == null ? (
+            <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => this._onClickSubmit()}>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
+            </Button>
+          ) : (
+            <Button full style={{...styles.fullWidth, height: '100%'}} disabled>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
+            </Button>
+          )}
         </Footer>
       </DetailScreenWrapper>
     );

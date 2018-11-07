@@ -48,7 +48,9 @@ class QrScannerScannerContacts extends Component {
             <Title>Scan Contact</Title>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.props.navigation.navigate('CreatingContact')}>
+            <Button transparent
+              // onPress={() => this.props.navigation.navigate('CreatingContact')}
+            >
               <Icon name="add" type="MaterialIcons" color={color.white} />
             </Button>
           </Right>
@@ -63,7 +65,9 @@ class QrScannerScannerContacts extends Component {
             }
             bottomContent={
               <View style={styles.buttonview}>
-                <Button bordered danger onPress={() => this.onButtonPress()}>
+                <Button bordered danger
+                  // onPress={() => this.onButtonPress()}
+                >
                   <Text>    Search Contacts    </Text>
                 </Button>
               </View>

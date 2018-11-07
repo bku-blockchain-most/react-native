@@ -8,7 +8,6 @@ import {List, Header, Body, Title, Left, Right, Item, Input, Button, Icon, Text,
 
 import AppScreenWrapper from '../_wrapper';
 import {color} from '../../../styles';
-import {appApi} from '../../../api';
 
 class CreatingContact extends Component {
   static navigationOptions = {

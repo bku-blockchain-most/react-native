@@ -10,6 +10,8 @@ import FeedScreenWrapper from './_wrapper';
 
 import {Button, Icon, Text, Thumbnail, Toast} from 'native-base';
 import {color} from '../../../styles';
+import {appApi} from '../../../api';
+import {handleError} from '../../../utils';
 
 export default class ProfileContactScreen extends React.Component {
   static navigationOptions = {
@@ -34,26 +36,37 @@ export default class ProfileContactScreen extends React.Component {
   }
 
   formUserProfile = () => ({
-    username: '',
-    email: '',
-    tel: '',
-    displayName: {
-      firstName: '',
-      lastName: '',
-    },
-    company: '',
-    position: '',
+    id: '',
+    fullname: '',
+    // username: '',
+    // email: '',
+    // tel: '',
+    // displayName: {
+    //   firstName: '',
+    //   lastName: '',
+    // },
+    // company: '',
+    // position: '',
   });
 
   onAddContact = () => {
     this.setState({loading: true});
-    Toast.show({
-      text: 'Successfully',
-      buttonText: 'Ok',
-      buttonTextStyle: {color: '#008000'},
-      buttonStyle: {backgroundColor: '#5cb85c'},
-    });
-    // this.props.navigation.navigate('Contact');
+    appApi
+      .addContact(this.partner.id)
+      .then(() => {
+        this.setState({loading: false});
+        Toast.show({
+          text: 'Successfully',
+          buttonText: 'Ok',
+          buttonTextStyle: {color: '#008000'},
+          buttonStyle: {backgroundColor: '#5cb85c'},
+        });
+        this.props.navigation.navigate('Contact');
+      })
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
   };
 
   render() {
@@ -76,15 +89,10 @@ export default class ProfileContactScreen extends React.Component {
 
           <View style={styles.infoSection}>
             <View style={styles.infoContent}>
-              <Text style={{...styles.label}}> First Name </Text>
-              <Text style={styles.text} defaultValue={user.displayName.firstName} maxLength={40} underlineColorAndroid="transparent" />
+              <Text style={{...styles.label}}> Full Name </Text>
+              <Text style={styles.text} defaultValue={user.fullname} maxLength={40} underlineColorAndroid="transparent" />
             </View>
-            <View style={styles.line} />
-            <View style={styles.infoContent}>
-              <Text style={styles.label}> Last Name </Text>
-              <Text style={styles.text} defaultValue={user.displayName.lastName} maxLength={40} underlineColorAndroid="transparent" />
-            </View>
-            <View style={styles.line} />
+            {/* <View style={styles.line} />
             <View style={styles.infoContent}>
               <Text style={styles.label}> Email </Text>
               <Text style={styles.text} defaultValue={user.email} maxLength={40} underlineColorAndroid="transparent" />
@@ -103,7 +111,7 @@ export default class ProfileContactScreen extends React.Component {
             <View style={styles.infoContent}>
               <Text style={styles.label}> Position </Text>
               <Text style={styles.text} defaultValue={user.position} maxLength={40} underlineColorAndroid="transparent" />
-            </View>
+            </View> */}
 
             <View style={styles.saveButton}>
               <Button rounded danger style={{paddingHorizontal: 20}} onPress={() => this.onAddContact()}>

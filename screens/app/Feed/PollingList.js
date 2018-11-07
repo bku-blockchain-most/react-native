@@ -4,10 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {Icon, List} from 'native-base';
-import {TouchableOpacity, RefreshControl} from 'react-native';
+import {Icon, List, ListItem, Body} from 'native-base';
+import {RefreshControl} from 'react-native';
 
-import FeedScreenWrapper from './_wrapper';
+// import FeedScreenWrapper from './_wrapper';
+import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
 import ItemPolling from '../../../components/ItemPolling';
@@ -45,7 +46,7 @@ class PollingListScreen extends Component {
 
   render() {
     return (
-      <FeedScreenWrapper loading={this.state.loading}>
+      <AppScreenWrapper loading={this.state.loading}>
         <List
           // TODO: pull to refresh is not working
           refreshControl={
@@ -59,12 +60,14 @@ class PollingListScreen extends Component {
           }
           dataArray={this.state.pollings}
           renderRow={o => (
-            <TouchableOpacity onPress={() => this._onClickPollDetail(o)}>
-              <ItemPolling poll={o} />
-            </TouchableOpacity>
+            <ListItem onPress={() => this._onClickPollDetail(o)}>
+              <Body>
+                <ItemPolling poll={o} />
+              </Body>
+            </ListItem>
           )}
         />
-      </FeedScreenWrapper>
+      </AppScreenWrapper>
     );
   }
 }
