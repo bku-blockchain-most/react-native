@@ -11,25 +11,46 @@ import moment from 'moment';
 import DetailScreenWrapper from './_wrapper';
 import {styles} from '../../../styles';
 import {RAMUtils, UrlUtils} from '../../../utils';
+import {appApi} from '../../../api';
 
 class PollingDetailScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: false,
-    };
-  }
-
-  render() {
     const {navigation} = this.props;
 
     console.log('PollingDetailScreen');
 
-    const polling = navigation.getParam('polling');
-    console.log(polling);
+    this.polling = navigation.getParam('polling');
+    this.eth = this.polling.eth || {};
+    console.log(this.polling, this.eth);
 
-    const eth = polling.eth || {};
+    this.state = {
+      loading: false,
+      voting: null,
+    };
+
+    this.getVoting();
+  }
+
+  getVoting = () => {
+    this.setState({loading: true});
+    appApi
+      .getVoting(this.polling.id)
+      .then(voting => {
+        this.setState({loading: false});
+        this.setState({voting});
+      })
+      .catch(err => {
+        this.setState({loading: false});
+        console.log(err);
+      });
+  };
+
+  render() {
+    const {navigation} = this.props;
+    const polling = this.polling;
+    const eth = this.eth;
 
     const user = RAMUtils.getUser();
     console.log(user);
@@ -37,6 +58,14 @@ class PollingDetailScreen extends Component {
     return (
       <DetailScreenWrapper titleHeader="Polling" navigation={navigation} loading={this.state.isLoading}>
         <Content padder>
+          {this.state.voting && (
+            <Text style={{...styles.fontOpenSans, marginBottom: 10, marginTop: 5}}>
+              <Text style={{fontWeight: '700'}}>You had voted. Your Transaction Hash: </Text>
+              <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(this.state.voting.eth.txHash || ''))}>
+                {this.state.voting.eth.txHash || ''}
+              </Text>
+            </Text>
+          )}
           <Text
             style={{
               ...styles.fontOpenSans,
@@ -77,7 +106,7 @@ class PollingDetailScreen extends Component {
         <Footer>
           {moment(polling.endDate).isSameOrBefore(moment()) ? (
             // past
-            <Button full style={{...styles.fullWidth, height: '100%'}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: false})}>
+            <Button full style={{...styles.fullWidth, height: '100%'}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: this.state.voting, avai: false})}>
               <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>View result</Text>
             </Button>
           ) : moment(polling.startDate).isSameOrAfter(moment()) ? (
@@ -85,10 +114,18 @@ class PollingDetailScreen extends Component {
             <Button full style={{...styles.fullWidth, height: '100%'}} disabled>
               <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>In the future</Text>
             </Button>
-          ) : (
-            // current
-            <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: true})}>
+          ) : this.state.voting == null ? (
+            // current, not vote
+            <Button
+              full
+              style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}}
+              onPress={() => navigation.navigate('PollingAnswer', {polling, voting: this.state.voting, avai: true})}>
               <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Start Voting</Text>
+            </Button>
+          ) : (
+            // current, vote
+            <Button full style={{...styles.fullWidth, height: '100%'}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: this.state.voting, avai: true})}>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>View result</Text>
             </Button>
           )}
         </Footer>

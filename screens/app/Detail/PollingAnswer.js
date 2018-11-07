@@ -18,15 +18,17 @@ class PollingAnswerScreen extends Component {
 
     const {navigation} = this.props;
     this.polling = navigation.getParam('polling') || {};
-    this.voting = navigation.getParam('voting') || false;
+    this.avai = navigation.getParam('avai') || false;
+    this.voting = navigation.getParam('voting') || null;
 
     this.state = {
       candidates: this.polling.candidates || [],
       loading: false,
-      eth: null,
+      voting: this.voting,
     };
 
     console.log(this.polling);
+    console.log(this.avai);
     console.log(this.voting);
   }
 
@@ -51,7 +53,7 @@ class PollingAnswerScreen extends Component {
           try {
             const vote = await appApi.votePollings(this.polling.id, ballots);
             console.log(vote);
-            this.setState({loading: false, eth: vote.eth});
+            this.setState({loading: false, voting: vote});
             Alert.alert('Notification', 'Your voting is commited to smart contract', [{text: 'OK', onPress: () => {}}]);
           } catch (err) {
             this.setState({loading: false});
@@ -72,18 +74,18 @@ class PollingAnswerScreen extends Component {
     return (
       <DetailScreenWrapper titleHeader="Make a voting" navigation={navigation} hasTabs loading={this.state.loading}>
         <Content>
-          {this.state.eth && (
+          {this.state.voting && (
             <Text style={{...styles.fontOpenSans, padding: 20}}>
               <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
-              <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(this.state.eth.txHash || ''))}>
-                {this.state.eth.txHash || ''}
+              <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(this.state.voting.eth.txHash || ''))}>
+                {this.state.voting.eth.txHash || ''}
               </Text>
             </Text>
           )}
           <List>
             {candidates.map((o, idx) => (
               <ListItem noBorder key={o.id}>
-                {this.voting ? (
+                {this.avai ? (
                   <CheckBox
                     color={color.primary}
                     checked={o.checked || false}
@@ -106,7 +108,7 @@ class PollingAnswerScreen extends Component {
         </Content>
 
         <Footer>
-          {this.voting && this.state.eth == null ? (
+          {this.avai && this.state.voting == null ? (
             <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => this._onClickSubmit()}>
               <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
             </Button>

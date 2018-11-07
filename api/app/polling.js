@@ -29,3 +29,17 @@ export const votePollings = async (pollID, ballots) => {
       return vote;
     });
 };
+
+/**
+ * /vote/:pollID/userID
+ */
+export const getVoting = async pollID => {
+  const url = urljoin(config.apiUrl, '/vote', pollID, RAMUtils.getUser().id);
+  return axios
+    .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
+    .then(res => res.data)
+    .then(vote => {
+      console.log(vote);
+      return vote;
+    });
+};
