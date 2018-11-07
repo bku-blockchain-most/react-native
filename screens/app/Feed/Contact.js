@@ -9,6 +9,7 @@ import {Text, Icon, ListItem, List, Left, Right, Content, Body, Thumbnail, Heade
 import AppScreenWrapper from '../_wrapper';
 import {handleError} from '../../../utils';
 import {appApi} from '../../../api';
+import {color} from '../../../styles';
 
 class ContactScreen extends Component {
   static navigationOptions = {
@@ -89,7 +90,7 @@ class ContactScreen extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" onChangeText={text => this.onSearchInputChanged(text)} />
+            <Input placeholder="Search" placeholderTextColor={color.inactive} onChangeText={text => this.onSearchInputChanged(text)} />
             <Icon
               name="qrcode-scan"
               type="MaterialCommunityIcons"

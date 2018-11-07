@@ -1,23 +1,28 @@
 
-import React, {Component} from 'react';
-import {StyleSheet, View, Alert, Image} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { Button, Text, Icon } from 'native-base';
+import { Button, Text, Icon, Content, Header, Left, Right, Body, Title } from 'native-base';
+
+import AppScreenWrapper from '../_wrapper';
+import { color } from '../../../styles';
 
 class QrScannerScannerContacts extends Component {
   static navigationOptions = {
     tabBarLabel: 'Scanner',
-    tabBarIcon: ({tintColor}) => (
+    tabBarIcon: ({ tintColor }) => (
       <Icon
         name="qrcode-scan"
         type="MaterialCommunityIcons"
-        style={{color: tintColor}}
+        style={{ color: tintColor }}
       />
     ),
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
+
+    this.state = { loading: false };
   }
 
 
@@ -26,38 +31,55 @@ class QrScannerScannerContacts extends Component {
   }
 
   onSuccess(e) {
-      var info = JSON.parse(e.data);
+    var info = JSON.parse(e.data);
 
-      this.props.navigation.navigate('CreatingContact',{
-        uidUser: info.uid,
-        name: info.name,
-        phone:info.phone,
-        email: info.email,
-        major: info.major,
-        company: info.company,
-        time: new Date().toLocaleString(),
+    this.props.navigation.navigate('CreatingContact', {
+      uidUser: info.uid,
+      name: info.name,
+      phone: info.phone,
+      email: info.email,
+      major: info.major,
+      company: info.company,
+      time: new Date().toLocaleString(),
     });
   }
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
-        <QRCodeScanner
-          onRead={this.onSuccess.bind(this)}
-          topContent={
-            <Text style={styles.centerText}>
-              Scan QRCode to add new contact ...
+      <AppScreenWrapper loading={this.state.loading}>
+        <Header>
+          <Left>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name="arrow-back" />
+            </Button>
+          </Left>
+          <Body>
+            <Title>New Contact</Title>
+          </Body>
+          <Right>
+            <Button transparent onPress={() => this.props.navigation.navigate('CreatingContact')}>
+              <Icon name="add" type="MaterialIcons" color={color.white} />
+            </Button>
+          </Right>
+        </Header>
+        <Content>
+          <QRCodeScanner
+            onRead={this.onSuccess.bind(this)}
+            topContent={
+              <Text style={styles.centerText}>
+                Scan QRCode to add new contact ...
             </Text>
-          }
-          bottomContent={
-            <View style={styles.buttonview}>
-                <Button bordered success onPress = {() => this.onButtonPress()}>
-                  <Text>          Skip         </Text>
+            }
+            bottomContent={
+              <View style={styles.buttonview}>
+                <Button bordered danger onPress={() => this.onButtonPress()}>
+                  <Text>    Manual Add Contact    </Text>
                 </Button>
-            </View>
-          }
-        />
-      </View>
+              </View>
+            }
+          />
+        </Content>
+      </AppScreenWrapper>
     );
   }
 }
@@ -66,7 +88,7 @@ const styles = StyleSheet.create({
   centerText: {
     flexDirection: 'row',
     fontSize: 16,
-    padding: 25,
+    padding: 20,
     color: '#777',
   },
   textBold: {
@@ -81,7 +103,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     backgroundColor: 'white',
     flexDirection: 'row',
-    marginHorizontal: 50,
+    marginTop: 10
   },
 });
 

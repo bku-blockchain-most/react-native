@@ -4,13 +4,14 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Icon, Content, Header, List, Item, Input, Card, CardItem, Body} from 'native-base';
+import {Text, Icon, Content, Header, List, Button, Item, Input, Card, CardItem, Body, Left} from 'native-base';
 
 import moment from 'moment';
 
 import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
+import {color} from '../../../styles';
 
 class Log extends Component {
   static navigationOptions = {
@@ -76,8 +77,11 @@ class Log extends Component {
       <AppScreenWrapper loading={this.state.loading}>
         <Header searchBar rounded>
           <Item>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name="arrow-back" />
+            </Button>
             <Icon name="ios-search" />
-            <Input placeholder="Search" onChangeText={text => this.onSearchInputChanged(text)} />
+            <Input placeholder="Search" placeholderTextColor={color.inactive} onChangeText={text => this.onSearchInputChanged(text)} />
           </Item>
         </Header>
         <Content padder>
