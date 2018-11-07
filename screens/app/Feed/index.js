@@ -15,6 +15,7 @@ import PollingListScreen from './PollingList';
 import Contact from './Contact';
 import CreatingContact from './CreatingContact';
 import Log from './Log';
+import ProfileContactScreen from './ProfileContact';
 import QRCodeScanerContact from './QRCodeScanerContact';
 
 import {color} from '../../../styles';
@@ -25,6 +26,7 @@ const ContactStack = createStackNavigator(
     CreatingContact: {screen: CreatingContact},
     Log: {screen: Log},
     QRCodeScanerContact: {screen: QRCodeScanerContact},
+    ProfileContact: {screen: ProfileContactScreen},
   },
   {
     headerMode: 'none',

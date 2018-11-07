@@ -37,7 +37,6 @@ class Log extends Component {
     appApi
       .fetchRecords()
       .then(records => {
-        console.log(records);
         this.setState({
           loading: false,
           original: records,

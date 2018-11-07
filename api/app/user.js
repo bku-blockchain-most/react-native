@@ -33,3 +33,25 @@ export const fetchRecords = async () => {
       return data.records;
     });
 };
+
+export const addContact = async (username, ballots) => {
+  const url = urljoin(config.apiUrl, '/user/contact');
+  return axios
+    .post(url, {}, {headers: {authorization: RAMUtils.getAuthToken()}})
+    .then(res => res.data)
+    .then(data => {
+      console.log(data);
+      return data;
+    });
+};
+
+export const addRecord = async (username, ballots) => {
+  const url = urljoin(config.apiUrl, '/user/record');
+  return axios
+    .post(url, {}, {headers: {authorization: RAMUtils.getAuthToken()}})
+    .then(res => res.data)
+    .then(data => {
+      console.log(data);
+      return data;
+    });
+};

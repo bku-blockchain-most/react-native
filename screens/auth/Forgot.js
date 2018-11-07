@@ -32,6 +32,7 @@ class ForgotScreen extends Component {
             <Icon active type="MaterialCommunityIcons" name="email" style={{color: color.accent}} />
             <Input
               placeholder="Email"
+              placeholderTextColor={color.inactive}
               style={{...styles.fontOpenSans}}
               value={this.state.username}
               onChangeText={value => {

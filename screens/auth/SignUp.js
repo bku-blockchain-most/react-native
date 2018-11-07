@@ -37,6 +37,7 @@ class SignUpScreen extends Component {
             <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.accent}} />
             <Input
               placeholder="Username"
+              placeholderTextColor={color.inactive}
               style={{...styles.fontOpenSans}}
               value={this.state.username}
               onChangeText={value => {
@@ -48,6 +49,7 @@ class SignUpScreen extends Component {
             <Icon active type="MaterialCommunityIcons" name="email" style={{color: color.accent}} />
             <Input
               placeholder="Email"
+              placeholderTextColor={color.inactive}
               style={{...styles.fontOpenSans}}
               value={this.state.email}
               onChangeText={value => {
@@ -59,6 +61,7 @@ class SignUpScreen extends Component {
             <Icon active type="MaterialCommunityIcons" name="phone-in-talk" style={{color: color.accent}} />
             <Input
               placeholder="Tel"
+              placeholderTextColor={color.inactive}
               style={{...styles.fontOpenSans}}
               value={this.state.tel}
               onChangeText={value => {
@@ -68,12 +71,20 @@ class SignUpScreen extends Component {
           </Item>
           <Item regular style={{...xstyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.accent}} />
-            <Input placeholder="Password" style={{...styles.fontOpenSans}} secureTextEntry value={this.state.password} onChangeText={value => this.setState({password: value})} />
+            <Input
+              placeholder="Password"
+              placeholderTextColor={color.inactive}
+              style={{...styles.fontOpenSans}}
+              secureTextEntry
+              value={this.state.password}
+              onChangeText={value => this.setState({password: value})}
+            />
           </Item>
           <Item regular style={{...xstyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="key-plus" style={{color: color.accent}} />
             <Input
               placeholder="Confirm Password"
+              placeholderTextColor={color.inactive}
               style={{...styles.fontOpenSans}}
               secureTextEntry
               value={this.state.confirmPassword}

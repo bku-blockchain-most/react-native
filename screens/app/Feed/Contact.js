@@ -35,7 +35,6 @@ class ContactScreen extends Component {
     appApi
       .fetchContacts()
       .then(contacts => {
-        console.log(contacts);
         this.setState({
           loading: false,
           original: contacts,

@@ -34,6 +34,7 @@ class LoginScreen extends Component {
             <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.accent}} />
             <Input
               placeholder="Username"
+              placeholderTextColor={color.inactive}
               style={{...styles.fontOpenSans}}
               value={this.state.username}
               onChangeText={value => {
@@ -43,7 +44,14 @@ class LoginScreen extends Component {
           </Item>
           <Item regular style={{...xstyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.accent}} />
-            <Input placeholder="Password" style={{...styles.fontOpenSans}} secureTextEntry value={this.state.password} onChangeText={value => this.setState({password: value})} />
+            <Input
+              placeholder="Password"
+              placeholderTextColor={color.inactive}
+              style={{...styles.fontOpenSans}}
+              secureTextEntry
+              value={this.state.password}
+              onChangeText={value => this.setState({password: value})}
+            />
           </Item>
         </Form>
         <Button full rounded style={{marginTop: 20, backgroundColor: color.accent}} onPress={this._onClickLogin}>

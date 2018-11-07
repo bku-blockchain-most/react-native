@@ -31,17 +31,8 @@ class QrScannerScannerContacts extends Component {
   }
 
   onSuccess(e) {
-    var info = JSON.parse(e.data);
-
-    this.props.navigation.navigate('CreatingContact', {
-      uidUser: info.uid,
-      name: info.name,
-      phone: info.phone,
-      email: info.email,
-      major: info.major,
-      company: info.company,
-      time: new Date().toLocaleString(),
-    });
+    const partnerJSONString = e.data;
+    this.props.navigation.navigate('ProfileContact', {partnerJSONString});
   }
 
   render() {
@@ -54,7 +45,7 @@ class QrScannerScannerContacts extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>New Contact</Title>
+            <Title>Scan Contact</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => this.props.navigation.navigate('CreatingContact')}>
@@ -73,7 +64,7 @@ class QrScannerScannerContacts extends Component {
             bottomContent={
               <View style={styles.buttonview}>
                 <Button bordered danger onPress={() => this.onButtonPress()}>
-                  <Text>    Manual Add Contact    </Text>
+                  <Text>    Search Contacts    </Text>
                 </Button>
               </View>
             }
