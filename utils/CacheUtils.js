@@ -9,7 +9,7 @@ export const CacheUtils = {
 
   getUser: async () => {
     const user = await AsyncStorage.getItem(config.constants.currentUser);
-    return JSON.parse(user);
+    return JSON.parse(user || {});
   },
 
   setUser: async (user) => {
@@ -17,7 +17,7 @@ export const CacheUtils = {
   },
 
   clearUser: async () => {
-    return await AsyncStorage.setItem(config.constants.currentUser, null);
+    return await AsyncStorage.removeItem(config.constants.currentUser);
   },
 
   getAuthToken: async () => {
@@ -29,13 +29,12 @@ export const CacheUtils = {
   },
 
   clearAuthToken: async () => {
-    return await AsyncStorage.setItem(config.constants.authToken, null);
+    return await AsyncStorage.removeItem(config.constants.authToken);
   },
 
   clearAll: async () => {
     await CacheUtils.clearUser();
-    await CacheUtils.clearAuthToken();
-    return;
+    return await CacheUtils.clearAuthToken();
   }
 
 };

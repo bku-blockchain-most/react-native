@@ -41,10 +41,8 @@ export default class ProfileContactScreen extends React.Component {
     // username: '',
     // email: '',
     // tel: '',
-    // displayName: {
-    //   firstName: '',
-    //   lastName: '',
-    // },
+    // firstName: '',
+    // lastName: '',
     // company: '',
     // position: '',
   });

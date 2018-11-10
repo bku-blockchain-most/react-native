@@ -34,10 +34,8 @@ class CreatingContact extends Component {
     username: '',
     email: '',
     tel: '',
-    displayName: {
-      firstName: '',
-      lastName: '',
-    },
+    firstName: '',
+    lastName: '',
     company: '',
     position: '',
   });
@@ -85,20 +83,12 @@ class CreatingContact extends Component {
 
           <Item>
             <Text style={{width: 80, marginLeft: 5}}>First name</Text>
-            <Input
-              placeholder="Enter first name"
-              value={partner.displayName.firstName}
-              onChangeText={val => this.setState({partner: {...partner, displayName: {...partner.displayName, firstName: val}}})}
-            />
+            <Input placeholder="Enter first name" value={partner.firstName} onChangeText={val => this.setState({partner: {...partner, firstName: val}})} />
           </Item>
 
           <Item>
             <Text style={{width: 80, marginLeft: 5}}>Last name</Text>
-            <Input
-              placeholder="Enter last name"
-              value={partner.displayName.lastName}
-              onChangeText={val => this.setState({partner: {...partner, displayName: {...partner.displayName, lastName: val}}})}
-            />
+            <Input placeholder="Enter last name" value={partner.lastName} onChangeText={val => this.setState({partner: {...partner, lastName: val}})} />
           </Item>
 
           <Item>

@@ -51,18 +51,13 @@ class ContactScreen extends Component {
     const pattern = new RegExp(text, 'i');
     this.setState({
       filter: this.state.original.filter(
-        o =>
-          o.uid.displayName.firstName.search(pattern) !== -1 ||
-          o.uid.displayName.lastName.search(pattern) !== -1 ||
-          o.uid.username.search(pattern) !== -1 ||
-          o.uid.email.search(pattern) !== -1,
+        o => o.firstName.search(pattern) !== -1 || o.lastName.search(pattern) !== -1 || o.username.search(pattern) !== -1 || o.email.search(pattern) !== -1,
       ),
     });
   };
 
   renderItem = item => {
-    const {displayName, photoUrl, tel} = item.uid || {};
-    const {firstName, lastName} = displayName || {};
+    const {firstName, lastName, photoUrl, tel} = item || {};
     return (
       <ListItem
         avatar

@@ -13,7 +13,7 @@ export const login = (username, password) => {
   return axios
     .post(url, {username, password})
     .then(res => res.data)
-    .then(async ({user, token}) => {
+    .then(async ({user, token, tokenExpire, tokenIssuedAt}) => {
       console.log('User', user);
       console.log('Token', token);
 
@@ -40,11 +40,21 @@ export const signup = (username, email, tel, password) => {
     });
 };
 
+export const changePassword = ({oldPassword, newPassword}) => {
+  const url = urljoin(config.apiUrl, '/reset');
+  return axios
+    .post(url, {oldPassword, newPassword})
+    .then(res => res.data)
+    .then(async ({message}) => {
+      console.log(message);
+      return message;
+    });
+};
+
 export const logout = async () => {
   const url = urljoin(config.apiUrl, '/logout');
   return axios.get(url, {headers: {authorization: RAMUtils.getAuthToken()}}).then(async () => {
     await CacheUtils.clearAll();
     RAMUtils.clearAll();
-    return;
   });
 };

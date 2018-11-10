@@ -53,12 +53,12 @@ export default class ProfileScreen extends React.Component {
               <View style={styles.infoSection}>
                 <View style={styles.infoContent}>
                   <Text style={{...styles.label}}> First Name </Text>
-                  <TextInput style={styles.text} defaultValue={user.displayName.firstName} editable={true} maxLength={40} underlineColorAndroid="transparent" />
+                  <TextInput style={styles.text} defaultValue={user.firstName} editable={true} maxLength={40} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
                   <Text style={styles.label}> Last Name </Text>
-                  <TextInput style={styles.text} defaultValue={user.displayName.lastName} editable={true} maxLength={40} underlineColorAndroid="transparent" />
+                  <TextInput style={styles.text} defaultValue={user.lastName} editable={true} maxLength={40} underlineColorAndroid="transparent" />
                 </View>
                 <View style={styles.line} />
                 <View style={styles.infoContent}>
@@ -113,7 +113,7 @@ export default class ProfileScreen extends React.Component {
                 <QRCode
                   value={JSON.stringify({
                     id: user.id,
-                    fullname: user.displayName.firstName + user.displayName.lastName,
+                    fullname: user.firstName + user.lastName,
                   })}
                   size={Dimensions.get('screen').width * 0.88}
                   fgColor="white"

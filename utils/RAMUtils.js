@@ -29,10 +29,8 @@ let user = {
   email: '',
   tel: '',
   photoUrl: '',
-  displayName: {
-    firstName: '',
-    lastName: ''
-  },
+  firstName: '',
+  lastName: '',
   company: '',
   position: ''
 };
