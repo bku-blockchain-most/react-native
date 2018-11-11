@@ -3,8 +3,10 @@
  * @flow
  */
 
+import React from 'react';
 import {createTabNavigator, createStackNavigator} from 'react-navigation';
 import {Platform} from 'react-native';
+import {Icon} from 'native-base';
 
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
@@ -31,6 +33,7 @@ const ContactStack = createStackNavigator(
   {
     headerMode: 'none',
     header: null,
+    tabBarIcon: ({tintColor}) => <Icon name="poll-box" type="MaterialCommunityIcons" style={{color: tintColor}} />,
   },
 );
 
