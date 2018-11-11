@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import {Text, Button, Footer, Content} from 'native-base';
-import {Linking} from 'react-native';
+import {Linking, RefreshControl} from 'react-native';
 import moment from 'moment';
 
 import DetailScreenWrapper from './_wrapper';
@@ -28,24 +28,31 @@ class PollingDetailScreen extends Component {
     this.state = {
       loading: false,
       voting: null,
+      refreshing: false,
     };
-
-    this.getVoting();
   }
 
   getVoting = () => {
+    // In the future, not retrieve voting
+    if (moment(this.polling.startDate).isSameOrAfter(moment())) {
+      this.setState({refreshing: false});
+      return;
+    }
     this.setState({loading: true});
     appApi
       .getVoting(this.polling.id)
       .then(voting => {
-        this.setState({loading: false});
-        this.setState({voting});
+        this.setState({loading: false, refreshing: false, voting});
       })
       .catch(err => {
-        this.setState({loading: false});
+        this.setState({loading: false, refreshing: false});
         console.log(err);
       });
   };
+
+  componentWillMount() {
+    this.getVoting();
+  }
 
   render() {
     const {navigation} = this.props;
@@ -56,8 +63,19 @@ class PollingDetailScreen extends Component {
     console.log(user);
 
     return (
-      <DetailScreenWrapper titleHeader="Polling" navigation={navigation} loading={this.state.isLoading}>
-        <Content padder>
+      <DetailScreenWrapper titleHeader="Polling" navigation={navigation} loading={this.state.loading}>
+        <Content
+          padder
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => {
+                this.setState({refreshing: true});
+                this.getVoting();
+              }}
+              colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']}
+            />
+          }>
           {this.state.voting && (
             <Text style={{...styles.fontOpenSans, marginBottom: 10, marginTop: 5}}>
               <Text style={{fontWeight: '700'}}>You had voted. Your Transaction Hash: </Text>
@@ -107,12 +125,12 @@ class PollingDetailScreen extends Component {
           {moment(polling.endDate).isSameOrBefore(moment()) ? (
             // past
             <Button full style={{...styles.fullWidth, height: '100%'}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: this.state.voting, avai: false})}>
-              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>View result</Text>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>View your vote</Text>
             </Button>
           ) : moment(polling.startDate).isSameOrAfter(moment()) ? (
             // future
             <Button full style={{...styles.fullWidth, height: '100%'}} disabled>
-              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>In the future</Text>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>In Coming Soon</Text>
             </Button>
           ) : this.state.voting == null ? (
             // current, not vote
@@ -123,9 +141,9 @@ class PollingDetailScreen extends Component {
               <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Start Voting</Text>
             </Button>
           ) : (
-            // current, vote
+            // current, voted
             <Button full style={{...styles.fullWidth, height: '100%'}} onPress={() => navigation.navigate('PollingAnswer', {polling, voting: this.state.voting, avai: true})}>
-              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>View result</Text>
+              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>View your vote</Text>
             </Button>
           )}
         </Footer>

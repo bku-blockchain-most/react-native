@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {Icon, List, ListItem, Body, Segment, Button, Text, View} from 'native-base';
+import {Icon, List, ListItem, Body, Segment, Button, Text} from 'native-base';
 import {RefreshControl} from 'react-native';
 
 import AppScreenWrapper from '../_wrapper';
@@ -122,6 +122,7 @@ class PollingListScreen extends Component {
                 this.setState({refreshing: true});
                 this.handleRefresh(rangeTime);
               }}
+              colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']}
             />
           }
           dataArray={this.state.pollings}

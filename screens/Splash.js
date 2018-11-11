@@ -28,9 +28,9 @@ class SplashScreen extends Component {
 
     let connected = authToken && user && user.id && user.username && user.email;
 
-    console.log(moment(tokenExpire).isValid());
-    console.log(moment(tokenExpire).isBefore(moment()));
-    console.log(moment(tokenExpire).isAfter(moment()));
+    // console.log(moment(tokenExpire).isValid());
+    // console.log(moment(tokenExpire).isBefore(moment()));
+    // console.log(moment(tokenExpire).isAfter(moment()));
 
     if (!moment(tokenExpire).isValid() || moment(tokenExpire).isBefore(moment())) {
       connected = false;

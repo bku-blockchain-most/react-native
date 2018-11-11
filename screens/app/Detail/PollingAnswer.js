@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import {Text, Button, List, ListItem, Content, Footer, CheckBox, Body, Toast} from 'native-base';
-import {Alert, Linking} from 'react-native';
+import {Alert, Linking, RefreshControl} from 'react-native';
 
 import DetailScreenWrapper from './_wrapper';
 import {styles, color} from '../../../styles';
@@ -17,20 +17,47 @@ class PollingAnswerScreen extends Component {
     super(props);
 
     const {navigation} = this.props;
+
     this.polling = navigation.getParam('polling') || {};
     this.avai = navigation.getParam('avai') || false;
     this.voting = navigation.getParam('voting') || null;
 
-    this.state = {
-      candidates: this.polling.candidates || [],
-      loading: false,
-      voting: this.voting,
-    };
+    this.candidates = this.polling.candidates || [];
 
     console.log(this.polling);
     console.log(this.avai);
     console.log(this.voting);
+
+    if (this.voting !== null) {
+      const {ballots} = this.voting;
+      this.candidates = this.candidates.map(o => {
+        if (ballots.find(x => x.id === o.id)) {
+          o.checked = true;
+        }
+        return o;
+      });
+    }
+
+    this.state = {
+      candidates: this.candidates,
+      loading: false,
+      voting: this.voting,
+      refreshing: false,
+    };
   }
+
+  getVoting = () => {
+    this.setState({loading: true});
+    appApi
+      .getVoting(this.polling.id)
+      .then(voting => {
+        this.setState({loading: false, refreshing: false, voting});
+      })
+      .catch(err => {
+        this.setState({loading: false, refreshing: false});
+        console.log(err);
+      });
+  };
 
   _onClickSubmit = () => {
     const ballots = this.state.candidates.filter(_ => _.checked).map(_ => ({id: _.id}));
@@ -73,7 +100,17 @@ class PollingAnswerScreen extends Component {
 
     return (
       <DetailScreenWrapper titleHeader="Make a voting" navigation={navigation} hasTabs loading={this.state.loading}>
-        <Content>
+        <Content
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => {
+                this.setState({refreshing: true});
+                this.getVoting();
+              }}
+              colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']}
+            />
+          }>
           {this.state.voting && (
             <Text style={{...styles.fontOpenSans, padding: 20}}>
               <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
@@ -83,22 +120,19 @@ class PollingAnswerScreen extends Component {
             </Text>
           )}
           <List>
-            {candidates.map((o, idx) => (
+            {candidates.map(o => (
               <ListItem noBorder key={o.id}>
-                {this.avai ? (
-                  <CheckBox
-                    color={color.primary}
-                    checked={o.checked || false}
-                    onPress={() => {
-                      o.checked = !(o.checked || false);
-                      this.setState({
-                        candidates: this.state.candidates.map(_ => (_.id === o.id ? o : _)),
-                      });
-                    }}
-                  />
-                ) : (
-                  <Text>{idx}</Text>
-                )}
+                <CheckBox
+                  color={this.state.voting !== null || !this.avai ? color.inactive : color.primary}
+                  checked={o.checked || false}
+                  onPress={() => {
+                    o.checked = !(o.checked || false);
+                    this.setState({
+                      candidates: this.state.candidates.map(_ => (_.id === o.id ? o : _)),
+                    });
+                  }}
+                  disabled={this.state.voting !== null || !this.avai}
+                />
                 <Body>
                   <Text>{o.name}</Text>
                 </Body>

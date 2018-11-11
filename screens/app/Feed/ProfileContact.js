@@ -9,7 +9,6 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import FeedScreenWrapper from './_wrapper';
 
 import {Button, Icon, Text, Thumbnail, Toast} from 'native-base';
-import {color} from '../../../styles';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
 
@@ -27,10 +26,12 @@ export default class ProfileContactScreen extends React.Component {
     };
 
     const partnerJSONString = this.props.navigation.getParam('partnerJSONString');
+    // console.log(partnerJSONString);
     let partner = this.formUserProfile();
     if (partnerJSONString) {
       partner = JSON.parse(partnerJSONString) || this.formUserProfile();
     }
+    // console.log(partner);
 
     this.partner = partner;
   }
@@ -38,6 +39,7 @@ export default class ProfileContactScreen extends React.Component {
   formUserProfile = () => ({
     id: '',
     fullname: '',
+    photoUrl: '',
     // username: '',
     // email: '',
     // tel: '',
@@ -80,15 +82,12 @@ export default class ProfileContactScreen extends React.Component {
         <ScrollView automaticallyAdjustContentInsets={true} style={styles.container}>
           <View style={styles.avatarSection}>
             <Thumbnail source={{uri: avatar}} style={{width: 150, height: 150}} />
-            <View style={{marginTop: 15, marginBottom: 10}}>
-              <Icon name="camera" type="FontAwesome" style={{fontSize: 40, color: color.primary}} />
-            </View>
           </View>
 
           <View style={styles.infoSection}>
             <View style={styles.infoContent}>
-              <Text style={{...styles.label}}> Full Name </Text>
-              <Text style={styles.text} defaultValue={user.fullname} maxLength={40} underlineColorAndroid="transparent" />
+              <Text style={{...styles.label}}>Full Name</Text>
+              <Text style={styles.text}>{user.fullname}</Text>
             </View>
             {/* <View style={styles.line} />
             <View style={styles.infoContent}>
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
-    marginTop: 12,
+    marginTop: 25,
   },
   qrcodeSection: {
     flexDirection: 'column',

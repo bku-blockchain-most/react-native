@@ -32,6 +32,7 @@ class QrScannerScannerContacts extends Component {
 
   onSuccess(e) {
     const partnerJSONString = e.data;
+    // console.log(partnerJSONString);
     this.props.navigation.navigate('ProfileContact', {partnerJSONString});
   }
 

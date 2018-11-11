@@ -88,7 +88,7 @@ export default class ProfileScreen extends React.Component {
 
                   <View style={styles.infoContent}>
                     <Text style={styles.label}> Old Password </Text>
-                    <TextInput style={styles.text} defaultValue="Intership" editable={true} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
+                    <TextInput style={styles.text} defaultValue="" editable={true} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
                   </View>
                   <View style={styles.line} />
                   <View style={styles.infoContent}>
@@ -114,6 +114,7 @@ export default class ProfileScreen extends React.Component {
                   value={JSON.stringify({
                     id: user.id,
                     fullname: user.firstName + user.lastName,
+                    photoUrl: user.photoUrl,
                   })}
                   size={Dimensions.get('screen').width * 0.88}
                   fgColor="white"
