@@ -6,6 +6,7 @@
   "scripts": {
     "start": "react-native start",
     "restart": "react-native start --reset-cache",
+    "killport": "sudo kill $(sudo lsof -t -i:8081)",
     "link": "react-native link",
     "android": "react-native run-android",
     "android:fix": "react-native run-android stacktrace",

@@ -9,7 +9,7 @@ export const CacheUtils = {
 
   getUser: async () => {
     const user = await AsyncStorage.getItem(config.constants.currentUser);
-    return JSON.parse(user || {});
+    return JSON.parse(user);
   },
 
   setUser: async (user) => {
@@ -32,9 +32,22 @@ export const CacheUtils = {
     return await AsyncStorage.removeItem(config.constants.authToken);
   },
 
+  getTokenExpire: async () => {
+    return parseInt(await AsyncStorage.getItem(config.constants.tokenExpire), 10);
+  },
+
+  setTokenExpire: async (tokenExpire) => {
+    return await AsyncStorage.setItem(config.constants.tokenExpire, tokenExpire);
+  },
+
+  clearTokenExpire: async () => {
+    return await AsyncStorage.removeItem(config.constants.tokenExpire);
+  },
+
   clearAll: async () => {
-    await CacheUtils.clearUser();
-    return await CacheUtils.clearAuthToken();
-  }
+    await CacheUtils.clearAuthToken();
+    await CacheUtils.clearTokenExpire();
+    return await CacheUtils.clearUser();
+  },
 
 };

@@ -41,7 +41,7 @@ class ItemPolling extends Component {
         </CardItem>
         <CardItem>
           <Body>
-            <Text style={{...styles.fontOpenSans}} numberOfLines={5}>
+            <Text style={{...styles.fontOpenSans}} numberOfLines={2}>
               {poll.description || ''}
             </Text>
           </Body>

@@ -47,7 +47,7 @@ const FeedAppNavigator = createTabNavigator(
     tabBarPosition: 'bottom',
 
     tabBarOptions: {
-      showLabel: true,
+      showLabel: false,
       showIcon: true,
       activeTintColor: color.primary,
       activeBackgroundColor: color.inactiveLight,

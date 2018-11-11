@@ -19,6 +19,28 @@ export const fetchPollings = async () => {
     });
 };
 
+export const fetchPollingsInPast = async () => {
+  const url = urljoin(config.apiUrl, '/poll/past');
+  return axios
+    .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
+    .then(res => res.data)
+    .then(pollings => {
+      console.log(pollings);
+      return pollings;
+    });
+};
+
+export const fetchPollingsInComing = async () => {
+  const url = urljoin(config.apiUrl, '/poll/future');
+  return axios
+    .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
+    .then(res => res.data)
+    .then(pollings => {
+      console.log(pollings);
+      return pollings;
+    });
+};
+
 export const votePollings = async (pollID, ballots) => {
   const url = urljoin(config.apiUrl, '/vote');
   return axios
