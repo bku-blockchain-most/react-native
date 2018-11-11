@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
-import {handleError} from '../../../utils';
+import {handleError, testMatch} from '../../../utils';
 import {color} from '../../../styles';
 
 class Log extends Component {
@@ -52,7 +52,7 @@ class Log extends Component {
   onSearchInputChanged = text => {
     const pattern = new RegExp(text, 'i');
     this.setState({
-      filter: this.state.original.filter(o => o.time.search(pattern) !== -1 || o.note.search(pattern) !== -1),
+      filter: this.state.original.filter(o => testMatch(pattern, o, ['time', 'note'])),
     });
   };
 

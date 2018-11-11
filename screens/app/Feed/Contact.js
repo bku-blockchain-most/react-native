@@ -7,7 +7,7 @@ import React, {Component} from 'react';
 import {Text, Icon, ListItem, List, Left, Right, Content, Body, Thumbnail, Header, Item, Input} from 'native-base';
 
 import AppScreenWrapper from '../_wrapper';
-import {handleError} from '../../../utils';
+import {handleError, testMatch} from '../../../utils';
 import {appApi} from '../../../api';
 import {color} from '../../../styles';
 
@@ -50,9 +50,7 @@ class ContactScreen extends Component {
   onSearchInputChanged = text => {
     const pattern = new RegExp(text, 'i');
     this.setState({
-      filter: this.state.original.filter(
-        o => o.firstName.search(pattern) !== -1 || o.lastName.search(pattern) !== -1 || o.username.search(pattern) !== -1 || o.email.search(pattern) !== -1,
-      ),
+      filter: this.state.original.filter(o => testMatch(pattern, o, ['firstName', 'lastName', 'username', 'email'])),
     });
   };
 

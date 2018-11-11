@@ -20,3 +20,12 @@ export const handleError = err => {
   }
   Alert.alert(message);
 };
+
+export const testMatch = (pattern, object, fields) => {
+  for (let i of fields) {
+    if (object[i] && object[i].search(pattern) !== -1) {
+      return true;
+    }
+  }
+  return false;
+};

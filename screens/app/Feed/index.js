@@ -33,7 +33,6 @@ const ContactStack = createStackNavigator(
   {
     headerMode: 'none',
     header: null,
-    tabBarIcon: ({tintColor}) => <Icon name="poll-box" type="MaterialCommunityIcons" style={{color: tintColor}} />,
   },
 );
 
@@ -48,6 +47,15 @@ const FeedAppNavigator = createTabNavigator(
   {
     initialRouteName: 'Profile',
     tabBarPosition: 'bottom',
+
+    navigationOptions: ({navigation}) => ({
+      tabBarIcon: ({tintColor}) => {
+        const {routeName} = navigation.state;
+        if (routeName === 'Contacts') {
+          return <Icon name="contact-mail" type="MaterialCommunityIcons" style={{color: tintColor}} />;
+        }
+      },
+    }),
 
     tabBarOptions: {
       showLabel: false,
