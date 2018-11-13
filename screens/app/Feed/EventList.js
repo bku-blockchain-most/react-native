@@ -7,7 +7,7 @@ import React, {Component} from 'react';
 import {ScrollView, View} from 'react-native';
 import {Icon} from 'native-base';
 import axios from 'axios';
-import EventDetail from '../../../components/EventDetail';
+import EventDetail from '../../../components/common/EventDetail';
 import urlJoin from 'url-join';
 import config from '../../../config';
 import FeedScreenWrapper from './_wrapper';
@@ -28,7 +28,11 @@ class EventList extends Component {
 
   componentWillMount() {
     this.setState({loading: true});
-    axios.get(urlJoin(config.apiBlockchainTicket, 'events')).then(response => this.setState({loading: false, events: response.data}));
+    // axios.get(urlJoin(config.apiBlockchainTicket, 'events')).then(response => this.setState({loading: false, events: response.data}));
+    this.setState({
+      uid:RAMUtils.getId()
+    });
+    axios.get('http://blockchain-ticket.herokuapp.com/events').then(response => this.setState({loading:false, events: response.data }));
   }
 
   render() {
@@ -45,7 +49,7 @@ class EventList extends Component {
         <View style={{flex: 1, backgroundColor: 'white'}}>
           <ScrollView>
             {events.map(event => (
-              <EventDetail key={event.event_name} event={event} text={user.username} navigate={navigate} />
+              <EventDetail key={event.event_name} eventX={event} text1={user.username} naviga={navigate} />
             ))}
           </ScrollView>
         </View>
