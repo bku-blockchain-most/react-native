@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
 import {View,processColor} from 'react-native';
-import BarChart from '../common/BarChart';
+import {
+    VictoryChart,
+    VictoryBar,
+    VictoryLabel,
+    VictoryAxis,
+    VictoryGroup,
+    VictoryCandlestick,
+    VictoryLine,
+    VictoryScatter,
+    VictoryArea,
+    VictoryStack,
+    VictoryTooltip
+  } from 'victory-native';
 import {
     dataNTC,
     countTicket
 } from '../create';
 import _ from 'lodash';
-
-import {Header} from 'react-native-elements';
+import victoryLabel from 'victory-native/lib/components/victory-label';
+import victoryAxis from 'victory-native/lib/components/victory-axis';
 
 const data=dataNTC();
-const values=data.map(item=>{
-    return Math.round(item.TT/item.TD*1000)/10;
+const values=data.map((values, index)=>{
+    return {x:index+1,y:Math.round(values.TT/values.TD*1000)/10};
 });
 const label=data.map(item=>item.name);
 const dataSets= [{
@@ -30,11 +42,17 @@ export default class OrganiserDistribution extends Component {
     }
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                <Header 
-                    centerComponent={{text:"BD",style:{fontSize:18,color:'red'}}}
-                />
-                <BarChart dataset = {dataSets} label={label} />
+            <View style={{flex:1}}>
+                <VictoryChart domain={{ x: [0, 5], y:[0,100] }}>
+                   
+                        <VictoryBar
+                            data={values}
+                            categories={{ x: label }}
+                            labels={(d)=>d.y}
+                            style={{labels: {fill :"green"}}}
+                        />
+                        
+                </VictoryChart>
             </View>
         );
     }

@@ -59,12 +59,12 @@ export default class Organiser extends Component {
                     <ViewPagerAndroid
                         style={styles.viewPager}
                         initialPage={0}>
-                        <View style={styles.pageStyle} key="1">
+                        {<View style={styles.pageStyle} key="1">
                             <OrganiserBarChart />
-                        </View>
-                        {/* <View style={styles.pageStyle} key="2">
-                            <OrganiserDistribution />
-                        </View> */}
+                        </View>}
+                        <View style={styles.pageStyle} key="2">
+                            <OrganiserDistribution/>
+                        </View> 
                     </ViewPagerAndroid>
                 </View>
             </View>

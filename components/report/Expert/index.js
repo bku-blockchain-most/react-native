@@ -8,7 +8,7 @@ import ExpertBarChart from './ExpertBarChart';
 
 export default class Expert extends Component {
     static navigationOptions = {
-        title: 'Chuyên gia',
+        title: 'Chuyên gia và nhà đầu tư',
     };
     constructor(props) {
         super(props);
@@ -26,7 +26,7 @@ export default class Expert extends Component {
     render() {
         const buttons = ['Số liệu', 'Biểu đồ']
         const { selectedIndex } = this.state;
-        const category = ['All'].concat(database.categoryInfo);
+        const category = [].concat(database.categoryInfo);
         const { boothName, boothInfo, categoryInfo } = database;
         const data = boothName.map((item, index) => {
             return {

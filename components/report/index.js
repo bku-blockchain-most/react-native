@@ -18,7 +18,6 @@ export default class Report extends Component{
   };
     render(){
       const {navigate}=this.props.navigation;
-      console.log('LOG:',navigate);
         return <List nav={navigate}/>;
     }
 }
