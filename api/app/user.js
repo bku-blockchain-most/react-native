@@ -21,10 +21,10 @@ export const fetchContacts = async () => {
     });
 };
 
-export const fetchRecords = async () => {
+export const fetchRecords = async (partnerID) => {
   console.log('GET /record');
   console.log(RAMUtils.getAuthToken());
-  const url = urljoin(config.apiUrl, '/record');
+  const url = urljoin(config.apiUrl, '/record/'+ partnerID);
   return axios
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
@@ -34,7 +34,7 @@ export const fetchRecords = async () => {
     });
 };
 
-export const addContact = async ({partnerID}) => {
+export const addContact = async (partnerID) => {
   const url = urljoin(config.apiUrl, '/contact');
   return axios
     .post(url, {partnerID}, {headers: {authorization: RAMUtils.getAuthToken()}})
@@ -45,7 +45,7 @@ export const addContact = async ({partnerID}) => {
     });
 };
 
-export const addRecord = async ({partnerID, note}) => {
+export const addRecord = async (partnerID, note) => {
   const url = urljoin(config.apiUrl, '/record');
   return axios
     .post(url, {partnerID, note}, {headers: {authorization: RAMUtils.getAuthToken()}})

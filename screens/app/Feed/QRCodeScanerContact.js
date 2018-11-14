@@ -27,7 +27,7 @@ class QrScannerScannerContacts extends Component {
 
 
   onButtonPress = () => {
-    this.props.navigation.navigate('CreatingContact');
+    this.props.navigation.navigate('ProfileContact');
   }
 
   onSuccess(e) {
@@ -67,7 +67,7 @@ class QrScannerScannerContacts extends Component {
             bottomContent={
               <View style={styles.buttonview}>
                 <Button bordered danger
-                  // onPress={() => this.onButtonPress()}
+                  onPress={() => this.onButtonPress()}
                 >
                   <Text>    Search Contacts    </Text>
                 </Button>

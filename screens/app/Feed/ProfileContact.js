@@ -8,9 +8,10 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 
 import FeedScreenWrapper from './_wrapper';
 
-import {Button, Icon, Text, Thumbnail, Toast} from 'native-base';
+import {Button, Icon, Text, Thumbnail, Toast, Form, Textarea} from 'native-base';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
+var base64 = require('base-64');
 
 export default class ProfileContactScreen extends React.Component {
   static navigationOptions = {
@@ -23,45 +24,49 @@ export default class ProfileContactScreen extends React.Component {
 
     this.state = {
       loading: false,
+      note: '',
     };
 
     const partnerJSONString = this.props.navigation.getParam('partnerJSONString');
     // console.log(partnerJSONString);
     let partner = this.formUserProfile();
     if (partnerJSONString) {
-      partner = JSON.parse(partnerJSONString) || this.formUserProfile();
+      partner = JSON.parse(base64.decode(partnerJSONString)) || this.formUserProfile();
     }
     // console.log(partner);
 
     this.partner = partner;
   }
 
+
+
   formUserProfile = () => ({
     id: '',
     fullname: '',
     photoUrl: '',
-    // username: '',
-    // email: '',
-    // tel: '',
-    // firstName: '',
-    // lastName: '',
-    // company: '',
-    // position: '',
   });
 
-  onAddContact = () => {
+  onTrackPressed = () => {
     this.setState({loading: true});
     appApi
       .addContact(this.partner.id)
       .then(() => {
-        this.setState({loading: false});
-        Toast.show({
-          text: 'Successfully',
-          buttonText: 'Ok',
-          buttonTextStyle: {color: '#008000'},
-          buttonStyle: {backgroundColor: '#5cb85c'},
+        appApi
+        .addRecord(this.partner.id, this.state.note)
+        .then(() => {
+          this.setState({loading: false});
+          Toast.show({
+            text: 'Successfully',
+            buttonText: 'Ok',
+            buttonTextStyle: {color: '#008000'},
+            buttonStyle: {backgroundColor: '#5cb85c'},
+          });
+          this.props.navigation.navigate('Contact');
+        })
+        .catch(err => {
+          this.setState({loading: false});
+          handleError(err);
         });
-        this.props.navigation.navigate('Contact');
       })
       .catch(err => {
         this.setState({loading: false});
@@ -83,36 +88,16 @@ export default class ProfileContactScreen extends React.Component {
           <View style={styles.avatarSection}>
             <Thumbnail source={{uri: avatar}} style={{width: 150, height: 150}} />
           </View>
-
           <View style={styles.infoSection}>
             <View style={styles.infoContent}>
-              <Text style={{...styles.label}}>Full Name</Text>
               <Text style={styles.text}>{user.fullname}</Text>
             </View>
-            {/* <View style={styles.line} />
-            <View style={styles.infoContent}>
-              <Text style={styles.label}> Email </Text>
-              <Text style={styles.text} defaultValue={user.email} maxLength={40} underlineColorAndroid="transparent" />
-            </View>
-            <View style={styles.line} />
-            <View style={styles.infoContent}>
-              <Text style={styles.label}> Tel </Text>
-              <Text style={styles.text} defaultValue={user.tel} maxLength={45} underlineColorAndroid="transparent" />
-            </View>
-            <View style={styles.line} />
-            <View style={styles.infoContent}>
-              <Text style={styles.label}> Company </Text>
-              <Text style={styles.text} defaultValue={user.company} maxLength={40} underlineColorAndroid="transparent" />
-            </View>
-            <View style={styles.line} />
-            <View style={styles.infoContent}>
-              <Text style={styles.label}> Position </Text>
-              <Text style={styles.text} defaultValue={user.position} maxLength={40} underlineColorAndroid="transparent" />
-            </View> */}
-
+            <Form>
+              <Textarea rowSpan={5} bordered placeholder="Note"  value={this.state.note} onChangeText={note => this.setState({note: note})} />
+            </Form>
             <View style={styles.saveButton}>
-              <Button rounded danger style={{paddingHorizontal: 20}} onPress={() => this.onAddContact()}>
-                <Text>Connect</Text>
+              <Button rounded danger style={{paddingHorizontal: 20}} onPress={() => this.onTrackPressed()}>
+                <Text>Track</Text>
               </Button>
             </View>
           </View>
@@ -128,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 280,
+    height: 150,
     backgroundColor: '#fff',
   },
   container: {
@@ -137,7 +122,7 @@ const styles = StyleSheet.create({
   },
   infoSection: {
     flex: 1,
-    marginTop: 25,
+    marginTop: 5,
   },
   line: {
     backgroundColor: 'gainsboro',
@@ -147,10 +132,8 @@ const styles = StyleSheet.create({
   },
   infoContent: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 15,
-    marginRight: 15,
   },
   text: {
     fontWeight: '400',

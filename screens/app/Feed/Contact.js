@@ -60,7 +60,7 @@ class ContactScreen extends Component {
       <ListItem
         avatar
         onPress={() => {
-          this.props.navigation.navigate('Log');
+          this.props.navigation.navigate('Log',{item});
         }}>
         <Left>
           <Thumbnail source={{uri: photoUrl}} small />
