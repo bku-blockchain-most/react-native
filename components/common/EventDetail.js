@@ -4,45 +4,75 @@
  */
 
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image,Linking} from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
-import Button from './Button';
+import Button3 from './Button3';
+import VillageList from '../../screens/app/Detail/VillageList';
+import QRCode from 'react-native-qrcode';
+import { RAMUtils } from '../../utils/RAMUtils';
 
-const EventDetail = ({event, text, navigate}) => {
-  const {event_name, organizer, starting_date, photo_url} = event;
+const EventDetail = ({ eventX, text1 ,naviga}) => {
 
-  const {headerContentStyle, headerTextStyle, imageStyle} = styles;
-
+  const { event_name, organizer, _id, starting_date, photo_url } = eventX;
+  const { thumbnailStyle,
+      headerContentStyle,
+      thumbnailContainerStyle,
+      headerTextStyle,
+      imageStyle
+  } = styles;
   return (
-    <Card>
-      <CardSection>
-        <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{event_name}</Text>
-          <Text>{organizer}</Text>
-          <Text>{starting_date}</Text>
-        </View>
-      </CardSection>
+      <Card>
+          {RAMUtils.getGotTicket() && 
+          <CardSection>
+              <View style={{flexDirection: 'column',alignItems: 'center',
+                  height: 220,
+                  flex: 1,
+                  width: null,}}>
+              <View style={styles.qrStyle}>
+                  <QRCode
+                  value={'User ID : ' + RAMUtils.getId()
+                  + '\n' + 'Ticket ID : ' + RAMUtils.getTid()
+                  + '\n' + 'Link Etherscan : ' + RAMUtils.getLink()}
+                  size={200}
+                  bgColor='#00B2EE'
+                  fgColor='white' />
+              </View>
+              <View style={styles.LinkContentStyle}>
+                  <Text style={styles.LinkTextStyle} onPress={() => Linking.openURL(RAMUtils.getLink())} >Check your transaction here</Text>
+              </View>
+              </View>
+          </CardSection>
+          }
+          
+          <CardSection>
+              <View style={headerContentStyle}>
+                  <Text style={headerTextStyle}>{event_name}</Text>
+                  <Text>{organizer}</Text>
+                  <Text>{starting_date}</Text>
+              </View>
+          </CardSection>
 
-      <CardSection>
-        <Image style={imageStyle} source={{uri: photo_url}} />
-      </CardSection>
-
-      <CardSection>
-        <Button
-          buttonPress={() => {
-            navigate('QrGeneration', {text});
-          }}>
-          Get Ticket
-        </Button>
-        <Button
-          buttonPress={() => {
-            navigate('Village');
-          }}>
-          See more
-        </Button>
-      </CardSection>
-    </Card>
+          <CardSection>
+              <Image
+                  style={imageStyle}
+                  source={{ uri: photo_url }}
+              />
+          </CardSection>
+          <View style={{borderBottomWidth: 1, borderColor:'#ddd'}}>
+              <VillageList text={text1}/>
+          </View>
+          <View style={{
+                      padding: 5,
+                      backgroundColor: '#fff',
+                      justifyContent: 'flex-start',
+                      flexDirection: 'row',
+                      position: 'relative',}}>
+              {!RAMUtils.getGotTicket() && <Button3 buttonPress={() => {naviga('QrGen',{ text: text1});}} >
+                  Get Ticket
+              </Button3>}
+          </View>
+      </Card>
   );
 };
 

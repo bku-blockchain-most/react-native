@@ -3,6 +3,8 @@ package com.most;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.github.wuxudong.rncharts.MPAndroidChartPackage;
+import com.horcrux.svg.SvgPackage;
 import org.reactnative.camera.RNCameraPackage;
 
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new MPAndroidChartPackage(),
+            new SvgPackage(),
             new RNCameraPackage(),
             new VectorIconsPackage()
       );
