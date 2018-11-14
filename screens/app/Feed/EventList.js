@@ -8,8 +8,6 @@ import {ScrollView, View} from 'react-native';
 import {Icon} from 'native-base';
 import axios from 'axios';
 import EventDetail from '../../../components/common/EventDetail';
-import urlJoin from 'url-join';
-import config from '../../../config';
 import FeedScreenWrapper from './_wrapper';
 import {RAMUtils} from '../../../utils';
 
