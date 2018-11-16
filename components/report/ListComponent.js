@@ -18,7 +18,7 @@ const list = [
     description: 'Báo cáo thống kê dành cho những người trình bày. Báo cáo về số lượng người tham dự buổi trình bày, phân loại ngườ dùng,...'
   },
   {
-    name: 'Expert',
+    name: 'Expert & Investor',
     avatar_url: 'https://cdn1.iconfinder.com/data/icons/managers-15/430/Untitled-34-512.png',
     description: 'Báo cáo thống kê dành cho chuyên gia. Báo cáo về những chủ đề đang hot, có nhiều người quan tâm,...'
   }
