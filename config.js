@@ -1,5 +1,5 @@
 export default {
-  apiUrl: 'http://most.bkchain.tk/api',
+  apiUrl: 'http://api.most.bkchain.tk',
   apiBlockchainTicket: 'http://blockchain-ticket.herokuapp.com',
   constants: {
     authToken: 'AUTH_TOKEN',

@@ -28,9 +28,9 @@ class EventList extends Component {
     this.setState({loading: true});
     // axios.get(urlJoin(config.apiBlockchainTicket, 'events')).then(response => this.setState({loading: false, events: response.data}));
     this.setState({
-      uid:RAMUtils.getId()
+      uid: RAMUtils.getId(),
     });
-    axios.get('http://blockchain-ticket.herokuapp.com/events').then(response => this.setState({loading:false, events: response.data }));
+    axios.get('http://blockchain-ticket.herokuapp.com/events').then(response => this.setState({loading: false, events: response.data}));
   }
 
   render() {
