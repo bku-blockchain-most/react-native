@@ -66,11 +66,7 @@ class QrScannerScannerContacts extends Component {
             }
             bottomContent={
               <View style={styles.buttonview}>
-                <Button bordered danger
-                  onPress={() => this.onButtonPress()}
-                >
-                  <Text>    Search Contacts    </Text>
-                </Button>
+
               </View>
             }
           />
