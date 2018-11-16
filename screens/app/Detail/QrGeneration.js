@@ -34,6 +34,7 @@ class QrGeneration extends Component {
   }
   componentWillMount() {
     const {params} = this.props.navigation.state;
+    console.log(params);
     this.GetTid2(params.text);
   }
   render() {

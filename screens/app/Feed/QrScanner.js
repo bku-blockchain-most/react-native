@@ -2,13 +2,14 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Alert, Image} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {Icon} from 'native-base'
+import {Icon} from 'native-base';
 import axios from 'axios';
 import urlJoin from 'url-join';
 import config from '../../../config';
 import {Button, Text} from 'native-base';
 import {styles} from '../../../styles';
 import {OpenSansText} from '../../../components/common/StyledText';
+import { RAMUtils } from '../../../utils';
 
 class QrScanner extends Component {
   static navigationOptions = {
@@ -55,7 +56,7 @@ class QrScanner extends Component {
     this.setState({bid: e.data});
     Alert.alert('This is Booth: ' + e.data);
     const {params} = this.props.navigation.state;
-    this.setState({uid: params.text});
+    this.setState({uid: RAMUtils.getUser().id});
   }
 
   render() {

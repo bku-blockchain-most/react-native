@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
-import { createTabNavigator, createStackNavigator } from 'react-navigation';
-import { Platform } from 'react-native';
-import { Icon } from 'native-base';
+import {createTabNavigator, createStackNavigator} from 'react-navigation';
+import {Platform} from 'react-native';
+import {Icon} from 'native-base';
 
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
@@ -20,17 +20,17 @@ import Log from './Log';
 import ProfileContactScreen from './ProfileContact';
 import QRCodeScanerContact from './QRCodeScanerContact';
 import ReportScreen from '../../../components/report';
-import { color } from '../../../styles';
+import {color} from '../../../styles';
 import OrganiserScreen from '../../../components/report/Organiser';
 import ExpertScreen from '../../../components/report/Expert';
 import PresenterScreen from '../../../components/report/Presenter';
 const ContactStack = createStackNavigator(
   {
-    Contact: { screen: Contact },
-    CreatingContact: { screen: CreatingContact },
-    Log: { screen: Log },
-    QRCodeScanerContact: { screen: QRCodeScanerContact },
-    ProfileContact: { screen: ProfileContactScreen },
+    Contact: {screen: Contact},
+    CreatingContact: {screen: CreatingContact},
+    Log: {screen: Log},
+    QRCodeScanerContact: {screen: QRCodeScanerContact},
+    ProfileContact: {screen: ProfileContactScreen},
   },
   {
     headerMode: 'none',
@@ -64,11 +64,14 @@ const FeedAppNavigator = createTabNavigator(
     initialRouteName: 'Profile',
     tabBarPosition: 'bottom',
 
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ tintColor }) => {
-        const { routeName } = navigation.state;
+    navigationOptions: ({navigation}) => ({
+      tabBarIcon: ({tintColor}) => {
+        const {routeName} = navigation.state;
         if (routeName === 'Contacts') {
-          return <Icon name="contact-mail" type="MaterialCommunityIcons" style={{ color: tintColor }} />;
+          return <Icon name="contact-mail" type="MaterialCommunityIcons" style={{color: tintColor}} />;
+        }
+        if (routeName === 'Report') {
+          return <Icon name="chart-areaspline" type="MaterialCommunityIcons" style={{color: tintColor}} />;
         }
       },
     }),

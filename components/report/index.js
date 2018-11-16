@@ -3,21 +3,21 @@ import List from './ListComponent';
 import {Icon} from 'native-base';
 
 export default class Report extends Component{
-  static navigationOptions = {
-    title: 'Report',
-    headerBackTitle: null,
-    tabBarLabel: 'Report',
+  // static navigationOptions = {
+  //   title: 'Report',
+  //   headerBackTitle: null,
+  //   tabBarLabel: 'Report',
 
-    tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="file-report"
-        type="MaterialCommunityIcons"
-        style={{color: tintColor}}
-      />
-    ),
-  };
+  //   tabBarIcon: ({tintColor}) => (
+  //     <Icon
+  //       name="file-report"
+  //       type="MaterialCommunityIcons"
+  //       style={{color: tintColor}}
+  //     />
+  //   ),
+  // };
     render(){
-      const {navigate}=this.props.navigation;
+      const {navigate} = this.props.navigation;
       console.log('LOG:',navigate);
         return <List nav={navigate}/>;
     }
