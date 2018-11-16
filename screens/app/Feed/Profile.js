@@ -112,11 +112,13 @@ export default class ProfileScreen extends React.Component {
             <Tab heading="QR CODE">
               <View style={styles.qrcodeSection}>
                 <QRCode
-                  value={base64.encode(JSON.stringify({
-                    id: user.id,
-                    fullname: user.firstName + user.lastName,
-                    photoUrl: user.photoUrl,
-                  }))}
+                  value={base64.encode(
+                    JSON.stringify({
+                      id: user.id,
+                      fullname: user.firstName + user.lastName,
+                      photoUrl: user.photoUrl,
+                    }),
+                  )}
                   size={Dimensions.get('screen').width * 0.88}
                   fgColor="white"
                 />
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 280,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,

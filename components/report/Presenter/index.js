@@ -11,20 +11,20 @@ export default class Presenters extends Component {
         super(props);
         this.state = {
             selectedIndex: 0
-        }
-        this.updateIndex = this.updateIndex.bind(this)
+        };
+        this.updateIndex = this.updateIndex.bind(this);
     }
 
     updateIndex(selectedIndex) {
-        this.setState({ selectedIndex })
-    } 
+        this.setState({ selectedIndex });
+    }
 
-   
+
 
     render() {
-        const boothname = database.boothName.map(item => item.name)
-        const boothId = database.boothName.map(item => item.id)
-        const { selectedIndex } = this.state
+        const boothname = database.boothName.map(item => item.name);
+        const boothId = database.boothName.map(item => item.id);
+        const { selectedIndex } = this.state;
         return (
             <View style={{ flex: 1 }}>
             <Header
@@ -32,7 +32,7 @@ export default class Presenters extends Component {
                         centerComponent={<Text style={{fontSize:30,color:'white' }} >{Presenters.navigationOptions.title.toLocaleUpperCase()}</Text>}
                         backgroundColor="#ff0000"
                     />
-                <Picker 
+                <Picker
                     selectedValue={boothname[this.state.selectedIndex]}
                     style={{ height: 50, width: 200}}
                     onValueChange={(itemValue, itemIndex) => this.setState({ selectedIndex: itemIndex })}>

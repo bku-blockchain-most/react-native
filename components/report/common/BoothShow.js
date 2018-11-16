@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet, Linking,Text } from 'react-native'
-import React, { Component } from 'react'
-import { Card, Rating, Button } from 'react-native-elements'
+import { Dimensions, StyleSheet, Linking,Text } from 'react-native';
+import React, { Component } from 'react';
+import { Card, Rating, Button } from 'react-native-elements';
 
 
 class BoothShow extends Component {
@@ -11,7 +11,7 @@ class BoothShow extends Component {
 
     render() {
         return (
-            
+
             <Card
                 title={this.props.data.title}
                 image={{uri:this.props.data.avatar}}
@@ -21,11 +21,11 @@ class BoothShow extends Component {
                 </Text>
                 <Rating
                     showRating
-                    type='star'
+                    type="star"
                     fractions={1}
                     imageSize={40}
                     startingValue={this.props.data.ratingPoint}
-                    
+
                     style={{ paddingVertical: 10 }}
                 />
                 <Text>
@@ -40,7 +40,7 @@ class BoothShow extends Component {
                 <Text>
                     Vốn kêu gọi: {this.props.data.description.capital}
                 </Text>
-                <Button title='Go to booth'
+                <Button title="Go to booth"
                     onPress={() => Linking.openURL(this.props.data.link)}
                 />
             </Card>

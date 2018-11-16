@@ -1,5 +1,5 @@
-import React from "react";
-import { ScrollView,StyleSheet,Platform } from "react-native";
+import React from 'react';
+import { ScrollView,StyleSheet,Platform } from 'react-native';
 import {
   VictoryChart,
   VictoryBar,
@@ -10,8 +10,8 @@ import {
   VictoryArea,
   VictoryStack,
   VictoryTooltip
-} from "victory-native";
-import { range, random } from "lodash";
+} from 'victory-native';
+import { range, random } from 'lodash';
 
 const getTransitionData = () => {
     const n = random(4, 10);
@@ -36,7 +36,7 @@ const candleData = [
 
 export default class extends React.Component {
   static navigationOptions = {
-    headerTitle: "VictoryChart"
+    headerTitle: 'VictoryChart'
   };
 
   constructor(props) {
@@ -70,9 +70,9 @@ export default class extends React.Component {
 
         <VictoryChart domain={{ x: [0, 4] }}>
           <VictoryGroup
-            labels={["a", "b", "c"]}
+            labels={['a', 'b', 'c']}
             offset={10}
-            colorScale={"qualitative"}
+            colorScale={'qualitative'}
           >
             <VictoryBar
               data={[{ x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 5 }]}
@@ -93,41 +93,41 @@ export default class extends React.Component {
               {
                 x: 1,
                 y: 3,
-                fill: "red",
-                symbol: "plus",
+                fill: 'red',
+                symbol: 'plus',
                 size: 6,
-                label: "Red"
+                label: 'Red'
               },
               {
                 x: 2,
                 y: 5,
-                fill: "magenta",
+                fill: 'magenta',
                 size: 9,
                 opacity: 0.4,
-                label: "Magenta"
+                label: 'Magenta'
               },
               {
                 x: 3,
                 y: 4,
-                fill: "orange",
+                fill: 'orange',
                 size: 5,
-                label: "Orange"
+                label: 'Orange'
               },
               {
                 x: 4,
                 y: 2,
-                fill: "brown",
-                symbol: "square",
+                fill: 'brown',
+                symbol: 'square',
                 size: 6,
-                label: "Brown"
+                label: 'Brown'
               },
               {
                 x: 5,
                 y: 5,
-                fill: "black",
-                symbol: "triangleUp",
+                fill: 'black',
+                symbol: 'triangleUp',
                 size: 5,
-                label: "Black"
+                label: 'Black'
               }
             ]}
           />
@@ -139,11 +139,11 @@ export default class extends React.Component {
         </VictoryChart>
         <VictoryChart animate={{ duration: 2000 }}>
           <VictoryBar
-            labels={() => "Hi"}
+            labels={() => 'Hi'}
             data={this.state.transitionData}
             style={{
               data: {
-                fill: "tomato",
+                fill: 'tomato',
                 width: 12
               }
             }}
@@ -152,8 +152,8 @@ export default class extends React.Component {
                 duration: 500,
                 before: () => ({
                   y: 0,
-                  fill: "orange",
-                  label: "BYE"
+                  fill: 'orange',
+                  label: 'BYE'
                 })
               }
             }}
@@ -164,38 +164,38 @@ export default class extends React.Component {
           <VictoryStack>
             <VictoryArea
               data={[
-                { x: "a", y: 2 },
-                { x: "b", y: 3 },
-                { x: "c", y: 5 },
-                { x: "d", y: 4 },
-                { x: "e", y: 7 }
+                { x: 'a', y: 2 },
+                { x: 'b', y: 3 },
+                { x: 'c', y: 5 },
+                { x: 'd', y: 4 },
+                { x: 'e', y: 7 }
               ]}
             />
             <VictoryArea
               data={[
-                { x: "a", y: 1 },
-                { x: "b", y: 4 },
-                { x: "c", y: 5 },
-                { x: "d", y: 7 },
-                { x: "e", y: 5 }
+                { x: 'a', y: 1 },
+                { x: 'b', y: 4 },
+                { x: 'c', y: 5 },
+                { x: 'd', y: 7 },
+                { x: 'e', y: 5 }
               ]}
             />
             <VictoryArea
               data={[
-                { x: "a", y: 3 },
-                { x: "b", y: 2 },
-                { x: "c", y: 6 },
-                { x: "d", y: 2 },
-                { x: "e", y: 6 }
+                { x: 'a', y: 3 },
+                { x: 'b', y: 2 },
+                { x: 'c', y: 6 },
+                { x: 'd', y: 2 },
+                { x: 'e', y: 6 }
               ]}
             />
             <VictoryArea
               data={[
-                { x: "a", y: 2 },
-                { x: "b", y: 3 },
-                { x: "c", y: 3 },
-                { x: "d", y: 4 },
-                { x: "e", y: 7 }
+                { x: 'a', y: 2 },
+                { x: 'b', y: 3 },
+                { x: 'c', y: 3 },
+                { x: 'd', y: 4 },
+                { x: 'e', y: 7 }
               ]}
             />
           </VictoryStack>
@@ -204,28 +204,28 @@ export default class extends React.Component {
     );
   }
 }
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fff"
+      backgroundColor: '#fff'
     },
     sectionHeader: {
       paddingHorizontal: 15,
       paddingVertical: 10,
-      backgroundColor: "#eee",
-      borderBottomColor: "#ccc",
+      backgroundColor: '#eee',
+      borderBottomColor: '#ccc',
       borderBottomWidth: StyleSheet.hairlineWidth
     },
     sectionHeaderText: {
-      fontWeight: "bold"
+      fontWeight: 'bold'
     },
     item: {
-      backgroundColor: "#fff",
-      borderBottomColor: "#ccc",
+      backgroundColor: '#fff',
+      borderBottomColor: '#ccc',
       borderBottomWidth: StyleSheet.hairlineWidth,
-      justifyContent: "space-between",
-      alignItems: "center",
-      flexDirection: "row",
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexDirection: 'row',
       ...Platform.select({
         ios: { marginLeft: 15, paddingRight: 15, paddingVertical: 15 },
         android: { padding: 15 }

@@ -19,7 +19,7 @@ export default class GroupChartScreen extends React.Component {
       legend: {
         enabled: true,
         textSize: 14,
-        form: "SQUARE",
+        form: 'SQUARE',
         formSize: 14,
         wordWrapEnabled: true
       },
@@ -75,14 +75,14 @@ export default class GroupChartScreen extends React.Component {
     };
   }
 
- 
+
 
 
 
   render() {
-    const newdata=_.cloneDeep(this.dt);
-    newdata.data.dataSets=this.props.dataset;
-    newdata.xAxis.valueFormatter=this.props.label;
+    const newdata = _.cloneDeep(this.dt);
+    newdata.data.dataSets = this.props.dataset;
+    newdata.xAxis.valueFormatter = this.props.label;
     return (
 
         <View style={styles.container}>

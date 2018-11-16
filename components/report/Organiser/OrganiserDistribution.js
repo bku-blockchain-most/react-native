@@ -21,12 +21,12 @@ import _ from 'lodash';
 import victoryLabel from 'victory-native/lib/components/victory-label';
 import victoryAxis from 'victory-native/lib/components/victory-axis';
 
-const data=dataNTC();
-const values=data.map((values, index)=>{
-    return {x:index+1,y:Math.round(values.TT/values.TD*1000)/10};
+const data = dataNTC();
+const values = data.map((values, index)=>{
+    return {x:index + 1,y:Math.round(values.TT / values.TD * 1000) / 10};
 });
-const label=data.map(item=>item.name);
-const dataSets= [{
+const label = data.map(item=>item.name);
+const dataSets = [{
     values: values,
     label: 'Tuong tac/tham du',
     config: {
@@ -44,14 +44,14 @@ export default class OrganiserDistribution extends Component {
         return (
             <View style={{flex:1}}>
                 <VictoryChart domain={{ x: [0, 5], y:[0,100] }}>
-                   
+
                         <VictoryBar
                             data={values}
                             categories={{ x: label }}
                             labels={(d)=>d.y}
-                            style={{labels: {fill :"green"}}}
+                            style={{labels: {fill :'green'}}}
                         />
-                        
+
                 </VictoryChart>
             </View>
         );

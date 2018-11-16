@@ -61,7 +61,7 @@ class HBarChart extends React.Component {
 
 
   render() {
-    this.dt=this.props.data;
+    this.dt = this.props.data;
     return (
       <View style={{flex: 1}}>
         <View style={styles.container}>

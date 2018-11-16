@@ -15,16 +15,16 @@ export default class Expert extends Component {
         this.state = {
             selectedIndex: 0,
             selectedCategory: 0
-        }
-        this.updateIndex = this.updateIndex.bind(this)
+        };
+        this.updateIndex = this.updateIndex.bind(this);
     }
 
     updateIndex(selectedIndex) {
-        this.setState({ ...this.state, selectedIndex })
+        this.setState({ ...this.state, selectedIndex });
     }
 
     render() {
-        const buttons = ['Số liệu', 'Biểu đồ']
+        const buttons = ['Số liệu', 'Biểu đồ'];
         const { selectedIndex } = this.state;
         const category = [].concat(database.categoryInfo);
         const { boothName, boothInfo, categoryInfo } = database;
@@ -46,7 +46,7 @@ export default class Expert extends Component {
             };
         });
         if (selectedIndex == 0)
-            return (
+            {return (
                 <View style={{ flex: 1 }}>
                     <Header
                         placement="left"
@@ -72,7 +72,7 @@ export default class Expert extends Component {
                     />
                     <ExpertStatistics filter={category[this.state.selectedCategory]} data={data} />
                 </View>
-            );
+            );}
         return (
 
             <View style={{ flex: 1 }}>
@@ -111,4 +111,4 @@ var styles = {
     pageStyle: {
         flex: 1
     }
-}
+};

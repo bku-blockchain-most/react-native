@@ -62,9 +62,9 @@ class Pie extends React.Component {
   }
 
   render() {
-    const dt=this.props.data;
+    const dt = this.props.data;
     return (
-    
+
 
         <View style={styles.container}>
           <PieChart

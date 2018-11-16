@@ -65,9 +65,7 @@ class QrScannerScannerContacts extends Component {
             </Text>
             }
             bottomContent={
-              <View style={styles.buttonview}>
-
-              </View>
+              <View style={styles.buttonview} />
             }
           />
         </Content>

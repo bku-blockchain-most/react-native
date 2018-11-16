@@ -17,7 +17,7 @@ import {
     VictoryArea,
     VictoryStack,
     VictoryTooltip
-  } from "victory-native";
+  } from 'victory-native';
 import _ from 'lodash';
 import NewPie from '../common/NewPie';
 
@@ -38,13 +38,13 @@ export default class ExpertBarChart extends Component {
     render() {
         let data = this.props.data;
         if (this.props.filter != 'All')
-            data = this.props.data.filter(item => item.category == this.props.filter);
+            {data = this.props.data.filter(item => item.category == this.props.filter);}
         const label = data.map(item => item.title);
         console.log('label', label, 's');
         const dt = {
-            "Quan tam": data.map(item => item.description.care),
-            "Tham Du": data.map(item => item.description.attend),
-            "Tuong tac": data.map(item => item.interactive)
+            'Quan tam': data.map(item => item.description.care),
+            'Tham Du': data.map(item => item.description.attend),
+            'Tuong tac': data.map(item => item.interactive)
         };
         const dtCreate = data.map(item => {
             return {
@@ -62,15 +62,15 @@ export default class ExpertBarChart extends Component {
                         <VictoryChart style={{flex:1}}
                         theme={VictoryTheme.material}
                         domainPadding={{y:10}}
-                            domain ={{x:[0, dt["Quan tam"].length+1]}}
+                            domain ={{x:[0, dt['Quan tam'].length + 1]}}
                             >
                             <VictoryGroup
                             style={{flex:1}}
                                 //labels={label}
-                                
+
                                 offset={15}
                                 height={500}
-                                colorScale={"qualitative"}
+                                colorScale={'qualitative'}
                                 categories={{ x: label }}
                                 // horizontal={true}
                                 animate={{
@@ -79,16 +79,16 @@ export default class ExpertBarChart extends Component {
                                   }}
                             >
                                 <VictoryBar
-                                    data={dt["Quan tam"].map((value, index) => ({ x: index + 1, y: value }))}
-                                    
+                                    data={dt['Quan tam'].map((value, index) => ({ x: index + 1, y: value }))}
+
                                 />
                                 <VictoryBar
-                                    data={dt["Tham Du"].map((value, index) => ({ x: index + 1, y: value }))}
-                                    
+                                    data={dt['Tham Du'].map((value, index) => ({ x: index + 1, y: value }))}
+
                                 />
                                 <VictoryBar
-                                    data={dt["Tuong tac"].map((value, index) => ({ x: index + 1, y: value }))}
-                                
+                                    data={dt['Tuong tac'].map((value, index) => ({ x: index + 1, y: value }))}
+
                                 />
                             </VictoryGroup>
                         </VictoryChart>

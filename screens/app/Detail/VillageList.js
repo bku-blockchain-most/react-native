@@ -9,10 +9,7 @@ import axios from 'axios';
 import Button2 from '../../../components/common/Button2';
 import VillageDetail from '../../../components/common/VillageDetail';
 import CheckBox from 'react-native-checkbox';
-import Card from '../../../components/common/Card';
 import CardSection from '../../../components/common/CardSection';
-import urlJoin from 'url-join';
-import config from '../../../config';
 import Accordion from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 class VillageList extends Component {

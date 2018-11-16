@@ -38,8 +38,6 @@ export default class ProfileContactScreen extends React.Component {
     this.partner = partner;
   }
 
-
-
   formUserProfile = () => ({
     id: '',
     fullname: '',
@@ -52,21 +50,21 @@ export default class ProfileContactScreen extends React.Component {
       .addContact(this.partner.id)
       .then(() => {
         appApi
-        .addRecord(this.partner.id, this.state.note)
-        .then(() => {
-          this.setState({loading: false});
-          Toast.show({
-            text: 'Successfully',
-            buttonText: 'Ok',
-            buttonTextStyle: {color: '#008000'},
-            buttonStyle: {backgroundColor: '#5cb85c'},
+          .addRecord(this.partner.id, this.state.note)
+          .then(() => {
+            this.setState({loading: false});
+            Toast.show({
+              text: 'Successfully',
+              buttonText: 'Ok',
+              buttonTextStyle: {color: '#008000'},
+              buttonStyle: {backgroundColor: '#5cb85c'},
+            });
+            this.props.navigation.navigate('Contact');
+          })
+          .catch(err => {
+            this.setState({loading: false});
+            handleError(err);
           });
-          this.props.navigation.navigate('Contact');
-        })
-        .catch(err => {
-          this.setState({loading: false});
-          handleError(err);
-        });
       })
       .catch(err => {
         this.setState({loading: false});
@@ -93,7 +91,7 @@ export default class ProfileContactScreen extends React.Component {
               <Text style={styles.text}>{user.fullname}</Text>
             </View>
             <Form>
-              <Textarea rowSpan={5} bordered placeholder="Note"  value={this.state.note} onChangeText={note => this.setState({note: note})} />
+              <Textarea rowSpan={5} bordered placeholder="Note" value={this.state.note} onChangeText={note => this.setState({note: note})} />
             </Form>
             <View style={styles.saveButton}>
               <Button rounded danger style={{paddingHorizontal: 20}} onPress={() => this.onTrackPressed()}>

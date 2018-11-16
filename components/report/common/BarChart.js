@@ -56,8 +56,8 @@ class BarChartScreen extends React.Component {
 
 
   render() {
-    this.dt.data.dataSets=this.props.dataset;
-    this.dt.xAxis.valueFormatter=this.props.label;
+    this.dt.data.dataSets = this.props.dataset;
+    this.dt.xAxis.valueFormatter = this.props.label;
     return (
       <View style={{flex: 1}}>
 

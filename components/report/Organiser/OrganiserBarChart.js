@@ -1,5 +1,5 @@
-import React,{Component} from "react";
-import { View,ScrollView,StyleSheet,Platform } from "react-native";
+import React,{Component} from 'react';
+import { View,ScrollView,StyleSheet,Platform } from 'react-native';
 import {
   VictoryChart,
   VictoryBar,
@@ -11,21 +11,21 @@ import {
   VictoryArea,
   VictoryStack,
   VictoryTooltip
-} from "victory-native";
-import _ from "lodash";
+} from 'victory-native';
+import _ from 'lodash';
 
 import {
     dataNTC,
 } from '../create';
-import victoryLegend from "victory-native/lib/components/victory-legend";
+import victoryLegend from 'victory-native/lib/components/victory-legend';
 
 const data = dataNTC();
 
 const color = ['blue', 'red', 'yellow'];
 const dt = {
-    "Quan tam": data.map(item => item.QT),
-    "Tham Du": data.map(item => item.TD),
-    "Tuong tac": data.map(item => item.TT)
+    'Quan tam': data.map(item => item.QT),
+    'Tham Du': data.map(item => item.TD),
+    'Tuong tac': data.map(item => item.TT)
 };
 
 const label = data.map(item => item.name);
@@ -41,31 +41,31 @@ export default class Organiser extends Component {
         super(props);
     }
     render() {
-        return(
+        return (
             <View style={{flex:1}}>
                 <VictoryChart style={{flex:1}} domain={{ x: [0, 5] }}>
                     <VictoryLegend x={115} y={20}
                         orientation="horizontal"
                         gutter={20}
-                        style={{border:{stroke: "black"},title:{fontSize: 20}}}
+                        style={{border:{stroke: 'black'},title:{fontSize: 20}}}
                         data={[
-                            {name:"Quan tâm",symbol:{fill: "blue"}},
-                            {name:"Tham dự",symbol:{fill:"green"}},
-                            {name:"Tương tác",symbol:{fill:"yellow"}}
+                            {name:'Quan tâm',symbol:{fill: 'blue'}},
+                            {name:'Tham dự',symbol:{fill:'green'}},
+                            {name:'Tương tác',symbol:{fill:'yellow'}}
                         ]}/>
                     <VictoryGroup
                         categories={{x: label}}
                         offset={10}
-                        colorScale={"qualitative"}
+                        colorScale={'qualitative'}
                     >
                         <VictoryBar
-                            data={dt["Quan tam"].map((value,index)=>({x:index+1,y:value}))}
+                            data={dt['Quan tam'].map((value,index)=>({x:index + 1,y:value}))}
                         />
                         <VictoryBar
-                          data={dt["Tham Du"].map((value,index)=>({x:index+1,y:value}))}
+                          data={dt['Tham Du'].map((value,index)=>({x:index + 1,y:value}))}
                         />
                         <VictoryBar
-                            data={dt["Tuong tac"].map((value,index)=>({x:index+1,y:value}))}
+                            data={dt['Tuong tac'].map((value,index)=>({x:index + 1,y:value}))}
                         />
                     </VictoryGroup>
                 </VictoryChart>

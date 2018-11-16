@@ -9,7 +9,6 @@ import RootNavigator from './screens';
 import getTheme from './native-base-theme/components';
 import customVariables from './native-base-theme/variables/platform';
 
-
 export default class App extends Component {
   render() {
     return (

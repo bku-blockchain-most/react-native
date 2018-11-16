@@ -14,7 +14,7 @@ export default class TableData extends Component {
           <Rows data={this.props.Data} textStyle={styles.text} />
         </Table>
       </View>
-    )
+    );
   }
 }
 

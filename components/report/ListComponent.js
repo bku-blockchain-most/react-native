@@ -37,13 +37,13 @@ export default class App extends Component {
         {item.description}
       </Text>
       <Button
-        icon={<Icon name='code' color='#ffffff' />}
-        backgroundColor='#03A9F4'
+        icon={<Icon name="code" color="#ffffff" />}
+        backgroundColor="#03A9F4"
         onPress={()=>navigate(item.name)}
         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-        title='VIEW NOW' />
+        title="VIEW NOW" />
     </Card>
-  )
+  );
   }
 
   render() {
@@ -55,7 +55,7 @@ export default class App extends Component {
           keyExtractor={item => item.name}
         />
       </List>
-    )
+    );
   }
 
 }

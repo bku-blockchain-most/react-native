@@ -12,19 +12,19 @@ export default class Organiser extends Component {
         super(props);
         this.state = {
             selectedIndex: 0
-        }
-        this.updateIndex = this.updateIndex.bind(this)
+        };
+        this.updateIndex = this.updateIndex.bind(this);
     }
 
     updateIndex(selectedIndex) {
-        this.setState({ selectedIndex })
+        this.setState({ selectedIndex });
     }
 
     render() {
-        const buttons = ['Số liệu', 'Biểu đồ']
-        const { selectedIndex } = this.state
+        const buttons = ['Số liệu', 'Biểu đồ'];
+        const { selectedIndex } = this.state;
         if (selectedIndex == 0)
-            return (
+            {return (
                 <View style={{ flex: 1 }}>
                 <Header
                         placement="left"
@@ -40,7 +40,7 @@ export default class Organiser extends Component {
                     />
                     <OrganiserStatistics />
                 </View>
-            );
+            );}
         return (
             <View style={{ flex: 1 }}>
             <Header
@@ -64,7 +64,7 @@ export default class Organiser extends Component {
                         </View>}
                         <View style={styles.pageStyle} key="2">
                             <OrganiserDistribution/>
-                        </View> 
+                        </View>
                     </ViewPagerAndroid>
                 </View>
             </View>
@@ -79,4 +79,4 @@ var styles = {
     pageStyle: {
         flex: 1
     }
-}
+};

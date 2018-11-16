@@ -20,13 +20,13 @@ export default class OrganiserStatistics extends Component {
     }*/
   }
   render() {
-    const Head=["Lĩnh vực","Quan Tâm","Tham Dự","Tương Tác"];
-    const Data=dataNTC().map(item=>_.valuesIn(item));
+    const Head = ['Lĩnh vực','Quan Tâm','Tham Dự','Tương Tác'];
+    const Data = dataNTC().map(item=>_.valuesIn(item));
     return (
       <View style={styles.container}>
         <Table Head={Head} Data={Data} />
       </View>
-    )
+    );
   }
 }
 

@@ -9,7 +9,7 @@ import Card from './Card2';
 import CardSection from './CardSection';
 
 const VillageDetail = ({villageX, text1}) => {
-  state = {uid: '', cmnd: '', loggedIn: false, check: false};
+  this.state = {uid: '', cmnd: '', loggedIn: false, check: false};
 
   const {village_name, vid, village_head, location, photo_url} = villageX;
   const {thumbnailStyle, headerContentStyle, thumbnailContainerStyle, headerTextStyle, imageStyle} = styles;

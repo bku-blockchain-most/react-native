@@ -1,4 +1,4 @@
-import { range, random } from "lodash";
+import { range, random } from 'lodash';
 
 export const getData = () =>
   range(1, 10).map(i => ({ x: i, y: random(1, 10) }));
@@ -25,7 +25,7 @@ export const getYFunction = () => {
 };
 
 export const getStyles = () => {
-  const colors = ["red", "orange", "magenta", "gold", "blue", "purple"];
+  const colors = ['red', 'orange', 'magenta', 'gold', 'blue', 'purple'];
   return {
     stroke: colors[random(0, 5)],
     strokeWidth: random(1, 5)

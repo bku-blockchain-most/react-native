@@ -29,5 +29,5 @@ const styles = {
         paddingTop: 5,
         paddingBottom: 5,
     }
-}
+};
 export default Button2;

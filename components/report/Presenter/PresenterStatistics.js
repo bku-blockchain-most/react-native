@@ -17,7 +17,7 @@ export default class PresenterStatistics extends Component {
     }*/
   }
   render() {
-      const Head = ["Thành phần", "Số lượng"];
+      const Head = ['Thành phần', 'Số lượng'];
       const dt = database.boothInfo.find(x => x.boothId == this.props.boothId).statics.thanhPhan;
       const dtCreate = () => {
       return database.roleName.map((item,index)=>{
@@ -26,14 +26,14 @@ export default class PresenterStatistics extends Component {
               sl : dt[index]
           };
       });
-    }
-    const Data=dtCreate().map(item=>_.valuesIn(item));
+    };
+    const Data = dtCreate().map(item=>_.valuesIn(item));
                   //Data=[[database.boothInfo.find(x=>x.boothId == 2).statics.thanhPhan[1],1]]
     return (
       <View style={styles.container}>
         <Table Head={Head} Data={Data} />
       </View>
-    )
+    );
   }
 }
 

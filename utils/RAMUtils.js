@@ -24,7 +24,7 @@ export const RAMUtils = {
   getTid: () => tid,
   updateTid: data => { tid = data; },
   clearTid: () => { tid = ''; },
- 
+
   getGotTicket: () => GotTicket,
   updateGotTicket: data => { GotTicket = data; },
   clearGotTicket: () => { GotTicket = ''; },

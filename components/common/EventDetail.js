@@ -29,7 +29,7 @@ const EventDetail = ({eventX, text1, naviga}) => {
             }}>
             <View style={styles.qrStyle}>
               <QRCode
-                value={'User ID : ' + RAMUtils.getId() + '\n' + 'Ticket ID : ' + RAMUtils.getTid() + '\n' + 'Link Etherscan : ' + RAMUtils.getLink()}
+                value={'User ID : ' + RAMUtils.getUser().id + '\n' + 'Ticket ID : ' + RAMUtils.getTid() + '\n' + 'Link Etherscan : ' + RAMUtils.getLink()}
                 size={200}
                 bgColor="#00B2EE"
                 fgColor="white"

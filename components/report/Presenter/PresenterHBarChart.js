@@ -22,20 +22,20 @@ export default class PresenterChart extends Component{
         super(props);
     }
     render(){
-        const color=["#ed7615", "#edb015", "#edde15", "#35d127", "#107007"];
+        const color = ['#ed7615', '#edb015', '#edde15', '#35d127', '#107007'];
         const dt = _.valuesIn(database.boothInfo.find(x => x.boothId == this.props.boothId).statics.feedback);
-        return(
+        return (
           <View style={{flex:1}}>
           <VictoryChart domain={{ x: [0, 200], y:[0,6] }  }>
-            
+
                   <VictoryBar
-                      data={dt.map((value,index)=>({x:index+1,y:value}))}
+                      data={dt.map((value,index)=>({x:index + 1,y:value}))}
                       categories={{ x: ['1 *', '2 *', '3 *', '4 *', '5 *'] }}
                       labels={(d)=>d.y}
                       horizontal={true}
-                      style={{labels: {fill :"green"}}}
+                      style={{labels: {fill :'green'}}}
                   />
-                  
+
           </VictoryChart>
       </View>
         );
