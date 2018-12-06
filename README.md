@@ -1,6 +1,6 @@
-# Decentralized Voting Application - React Native
+# React Native
 
-Demo application on mobile platform
+Mobile Application using React Native
 
 ## Development
 
