@@ -27,11 +27,11 @@ export default class Presenters extends Component {
         const { selectedIndex } = this.state;
         return (
             <View style={{ flex: 1 }}>
-            <Header
+            {/* <Header
                         placement="left"
                         centerComponent={<Text style={{fontSize:30,color:'white' }} >{Presenters.navigationOptions.title.toLocaleUpperCase()}</Text>}
                         backgroundColor="#ff0000"
-                    />
+                    /> */}
                 <Picker
                     selectedValue={boothname[this.state.selectedIndex]}
                     style={{ height: 50, width: 200}}

@@ -6,21 +6,22 @@ import {
 import { Card, Button, List, ListItem, Icon } from 'react-native-elements';
 import { FlatList, Text } from 'react-native';
 
+
 const list = [
   {
     name: 'Organiser',
     avatar_url: 'https://cdn1.iconfinder.com/data/icons/professions-filled-line/160/27-512.png',
-    description: 'Báo cáo thống kê dành cho nhà tổ chức sự kiện. Báo cáo chi tiết về số lượng người tham dự, số vé phát hành,...'
+    //description: 'Báo cáo thống kê dành cho nhà tổ chức sự kiện. Báo cáo chi tiết về số lượng người tham dự, số vé phát hành,...'
   },
   {
     name: 'Presenter',
     avatar_url: 'https://previews.123rf.com/images/yupiramos/yupiramos1612/yupiramos161219133/68207107-news-presenter-avatar-character-vector-illustration-design.jpg',
-    description: 'Báo cáo thống kê dành cho những người trình bày. Báo cáo về số lượng người tham dự buổi trình bày, phân loại ngườ dùng,...'
+    //description: 'Báo cáo thống kê dành cho những người trình bày. Báo cáo về số lượng người tham dự buổi trình bày, phân loại ngườ dùng,...'
   },
   {
-    name: 'Expert & Investor',
+    name: 'Expert',
     avatar_url: 'https://cdn1.iconfinder.com/data/icons/managers-15/430/Untitled-34-512.png',
-    description: 'Báo cáo thống kê dành cho chuyên gia. Báo cáo về những chủ đề đang hot, có nhiều người quan tâm,...'
+    //description: 'Báo cáo thống kê dành cho chuyên gia. Báo cáo về những chủ đề đang hot, có nhiều người quan tâm,...'
   }
 ];
 export default class App extends Component {
@@ -47,6 +48,7 @@ export default class App extends Component {
   }
 
   render() {
+    
     return (
       <List>
         <FlatList

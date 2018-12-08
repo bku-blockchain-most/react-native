@@ -11,6 +11,7 @@ import {
     VictoryBar,
     VictoryGroup,
     VictoryTheme,
+    VictoryLegend,
     VictoryCandlestick,
     VictoryLine,
     VictoryScatter,
@@ -60,23 +61,31 @@ export default class ExpertBarChart extends Component {
                     initialPage={0}>
                     <View style={styles.pageStyle} key="1">
                         <VictoryChart style={{flex:1}}
-                        theme={VictoryTheme.material}
-                        domainPadding={{y:10}}
+                            theme={VictoryTheme.material}
+                            domainPadding={{y:10}}
                             domain ={{x:[0, dt['Quan tam'].length + 1]}}
                             >
+                            <VictoryLegend x={115} y={20}
+                                orientation="horizontal"
+                                gutter={20}
+                                style={{border:{stroke: 'black'},title:{fontSize: 20}}}
+                                data={[
+                                    {name:'Quan tâm',symbol:{fill: '#003333'}},
+                                    {name:'Tham dự',symbol:{fill:'#009999'}},
+                                    {name:'Tương tác',symbol:{fill:'#FFCC33'}}
+                                ]}/>
                             <VictoryGroup
-                            style={{flex:1}}
                                 //labels={label}
 
-                                offset={15}
-                                height={500}
+                                offset={150}
+                                //height={500}
                                 colorScale={'qualitative'}
                                 categories={{ x: label }}
                                 // horizontal={true}
-                                animate={{
-                                    duration: 2000,
-                                    onLoad: { duration: 1000 }
-                                  }}
+                                // animate={{
+                                //     duration: 2000,
+                                //     onLoad: { duration: 1000 }
+                                //   }}
                             >
                                 <VictoryBar
                                     data={dt['Quan tam'].map((value, index) => ({ x: index + 1, y: value }))}

@@ -26,11 +26,11 @@ export default class Organiser extends Component {
         if (selectedIndex == 0)
             {return (
                 <View style={{ flex: 1 }}>
-                <Header
+                {/* <Header
                         placement="left"
                         centerComponent={<Text style={{fontSize:30,color:'white' }} >{Organiser.navigationOptions.title.toLocaleUpperCase()}</Text>}
                         backgroundColor="#ff0000"
-                    />
+                    /> */}
                     <ButtonGroup
                         onPress={this.updateIndex}
                         selectedIndex={selectedIndex}

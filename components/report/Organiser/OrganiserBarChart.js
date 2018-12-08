@@ -49,9 +49,9 @@ export default class Organiser extends Component {
                         gutter={20}
                         style={{border:{stroke: 'black'},title:{fontSize: 20}}}
                         data={[
-                            {name:'Quan tâm',symbol:{fill: 'blue'}},
-                            {name:'Tham dự',symbol:{fill:'green'}},
-                            {name:'Tương tác',symbol:{fill:'yellow'}}
+                            {name:'Quan tâm',symbol:{fill: '#003333'}},
+                            {name:'Tham dự',symbol:{fill:'#009999'}},
+                            {name:'Tương tác',symbol:{fill:'#FFCC33'}}
                         ]}/>
                     <VictoryGroup
                         categories={{x: label}}

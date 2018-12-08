@@ -5,6 +5,7 @@ import ExpertStatistics from './ExpertStatistics';
 import database from '../database.json';
 import _ from 'lodash';
 import ExpertBarChart from './ExpertBarChart';
+import axios from 'axios';
 
 export default class Expert extends Component {
     static navigationOptions = {
@@ -28,6 +29,7 @@ export default class Expert extends Component {
         const { selectedIndex } = this.state;
         const category = [].concat(database.categoryInfo);
         const { boothName, boothInfo, categoryInfo } = database;
+        console.log('boothname : ', boothName, boothInfo, categoryInfo, category)
         const data = boothName.map((item, index) => {
             return {
                 title: item.name,
@@ -48,11 +50,11 @@ export default class Expert extends Component {
         if (selectedIndex == 0)
             {return (
                 <View style={{ flex: 1 }}>
-                    <Header
+                    {/* <Header
                         placement="left"
                         centerComponent={<Text style={{ fontSize: 30, color: 'white' }} >{Expert.navigationOptions.title.toLocaleUpperCase()}</Text>}
                         backgroundColor="#ff0000"
-                    />
+                    /> */}
                     <Picker
                         selectedValue={category[this.state.selectedCategory]}
                         style={{ height: 50, width: 200 }}
@@ -76,11 +78,11 @@ export default class Expert extends Component {
         return (
 
             <View style={{ flex: 1 }}>
-                <Header
+                {/* <Header
                     placement="left"
                     centerComponent={<Text style={{ fontSize: 30, color: 'white' }} >{Expert.navigationOptions.title.toLocaleUpperCase()}</Text>}
                     backgroundColor="#ff0000"
-                />
+                /> */}
                 <Picker
                     selectedValue={category[this.state.selectedCategory]}
                     style={{ height: 50, width: 200 }}
