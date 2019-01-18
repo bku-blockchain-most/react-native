@@ -34,7 +34,7 @@ class SignUpScreen extends Component {
       <AuthScreenWrapper showButtonBack={true} navigation={navigation} loading={this.state.loading}>
         <Form style={{width: '86%'}}>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.primary}} />
             <Input
               placeholder="Username"
               placeholderTextColor={color.inactive}
@@ -46,7 +46,7 @@ class SignUpScreen extends Component {
             />
           </Item>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="email" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="email" style={{color: color.primary}} />
             <Input
               placeholder="Email"
               placeholderTextColor={color.inactive}
@@ -58,7 +58,7 @@ class SignUpScreen extends Component {
             />
           </Item>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="phone-in-talk" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="phone-in-talk" style={{color: color.primary}} />
             <Input
               placeholder="Tel"
               placeholderTextColor={color.inactive}
@@ -70,7 +70,7 @@ class SignUpScreen extends Component {
             />
           </Item>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.primary}} />
             <Input
               placeholder="Password"
               placeholderTextColor={color.inactive}
@@ -81,7 +81,7 @@ class SignUpScreen extends Component {
             />
           </Item>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="key-plus" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="key-plus" style={{color: color.primary}} />
             <Input
               placeholder="Confirm Password"
               placeholderTextColor={color.inactive}
@@ -91,8 +91,8 @@ class SignUpScreen extends Component {
               onChangeText={value => this.setState({confirmPassword: value})}
             />
           </Item>
-          <Button full rounded style={{marginTop: 20, backgroundColor: color.accent}} onPress={this._onClickSignUp}>
-            <Text uppercase style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 20}}>
+          <Button full rounded style={{marginTop: 20, backgroundColor: color.primary}} onPress={this._onClickSignUp}>
+            <Text uppercase style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 18}}>
               Create Account
             </Text>
           </Button>

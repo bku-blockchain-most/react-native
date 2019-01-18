@@ -30,7 +30,7 @@ class LoginScreen extends Component {
       <AuthScreenWrapper loading={this.state.loading}>
         <Form style={{width: '86%'}}>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.primary}} />
             <Input
               placeholder="Username"
               placeholderTextColor={color.inactive}
@@ -42,7 +42,7 @@ class LoginScreen extends Component {
             />
           </Item>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.primary}} />
             <Input
               placeholder="Password"
               placeholderTextColor={color.inactive}
@@ -52,16 +52,18 @@ class LoginScreen extends Component {
               onChangeText={value => this.setState({password: value})}
             />
           </Item>
-          <Button full rounded style={{marginTop: 15, backgroundColor: color.accent}} onPress={this._onClickLogin}>
-            <Text uppercase style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 20}}>
+          <Button full rounded style={{marginTop: 15, backgroundColor: color.primary}} onPress={this._onClickLogin}>
+            <Text uppercase style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 18}}>
               Login
             </Text>
           </Button>
           <Button transparent style={{color: 'white', alignSelf: 'flex-end'}} onPress={() => navigation.navigate('Forgot')}>
-            <Text style={{color: 'white', ...styles.fontRoboto}}>Forgot Password?</Text>
+            <Text style={{color: color.primaryLight, ...styles.fontRoboto, fontSize: 16}} uppercase={false}>
+              Forgot Password?
+            </Text>
           </Button>
-          <View style={{backgroundColor: color.inactiveLight, height: 0.2}} />
-          <Button full rounded bordered danger style={{marginTop: 20, backgroundColor: 'white'}} onPress={() => navigation.navigate('SignUp')}>
+          <View style={{backgroundColor: color.white, height: 0.2}} />
+          <Button full rounded style={{marginTop: 20, backgroundColor: 'white', borderWidth: 0}} onPress={() => navigation.navigate('SignUp')}>
             <Text style={{...styles.fontRoboto, fontWeight: 'bold', color: color.primaryDark}}>Join with us</Text>
           </Button>
         </Form>

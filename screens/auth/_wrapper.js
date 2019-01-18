@@ -20,7 +20,7 @@ class AuthScreenWrapper extends Component {
    */
   render() {
     return (
-      <Container style={{backgroundColor: color.primaryDark}}>
+      <Container style={{backgroundColor: '#d1d1d1'}}>
         <Content contentContainerStyle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           {Platform.select({
             android: <StatusBar backgroundColor={color.primaryDark} barStyle="light-content" />,
@@ -28,8 +28,8 @@ class AuthScreenWrapper extends Component {
           })}
 
           {this.props.showButtonBack && (
-            <Button transparent style={{position: 'absolute', left: 8, top: 8}} onPress={() => this.props.navigation.goBack()}>
-              <Icon name="ios-arrow-back" style={{color: 'white', fontSize: 26}} />
+            <Button transparent style={{position: 'absolute', left: 10, top: 8}} onPress={() => this.props.navigation.goBack()}>
+              <Icon name="ios-arrow-back" style={{color: color.primary, fontSize: 30}} />
             </Button>
           )}
 

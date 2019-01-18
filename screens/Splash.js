@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {StatusBar, View, Image} from 'react-native';
+import {StatusBar, View, Image, Dimensions} from 'react-native';
 
 import {styles, color} from '../styles';
 import {RAMUtils, CacheUtils} from '../utils';
@@ -49,18 +49,15 @@ class SplashScreen extends Component {
 
   // Render any loading content that you like here
   render() {
-    const faviconSize = 160;
-
     return (
-      <View style={{...styles.centerBox, ...styles.bgPrimaryDark}}>
+      <View style={{...styles.centerBox, backgroundColor: '#d1d1d1'}}>
         <StatusBar backgroundColor={color.primary} barStyle="light-content" />
         <Image
-          source={require('../assets/icons/favicon.png')}
+          source={require('../assets/icons/brand.png')}
           style={{
-            height: faviconSize,
-            width: faviconSize,
+            width: Dimensions.get('window').width * 0.8,
           }}
-          resizeMode="cover"
+          resizeMode="contain"
         />
       </View>
     );

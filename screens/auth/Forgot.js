@@ -24,7 +24,7 @@ class ForgotScreen extends Component {
       <AuthScreenWrapper showButtonBack={true} navigation={navigation}>
         <Form style={{width: '86%'}}>
           <Item regular style={{...customStyles.input}}>
-            <Icon active type="MaterialCommunityIcons" name="email" style={{color: color.accent}} />
+            <Icon active type="MaterialCommunityIcons" name="email" style={{color: color.primary}} />
             <Input
               placeholder="Email"
               placeholderTextColor={color.inactive}
@@ -36,10 +36,8 @@ class ForgotScreen extends Component {
             />
           </Item>
 
-          <Button full rounded style={{marginTop: 20, backgroundColor: color.accent}} onPress={this._onClickForgotPassword}>
-            <Text uppercase style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 20}}>
-              Reset Password
-            </Text>
+          <Button full rounded style={{marginTop: 20, backgroundColor: color.primary}} onPress={this._onClickForgotPassword}>
+            <Text style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 18}}>Reset Password</Text>
           </Button>
         </Form>
       </AuthScreenWrapper>
