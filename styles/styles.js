@@ -43,4 +43,8 @@ export const styles = StyleSheet.create({
   fontOpenSansBold: {
     fontFamily: fonts.OpenSansBold,
   },
+
+  fontRoboto: {
+    fontFamily: fonts.Roboto,
+  },
 });

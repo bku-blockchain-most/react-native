@@ -7,9 +7,11 @@ import React, {Component} from 'react';
 import {ScrollView, View} from 'react-native';
 import {Icon} from 'native-base';
 import axios from 'axios';
+import urlJoin from 'url-join';
 import EventDetail from '../../../components/common/EventDetail';
 import FeedScreenWrapper from './_wrapper';
 import {RAMUtils} from '../../../utils';
+import config from '../../../config';
 
 class EventList extends Component {
   static navigationOptions = {
@@ -26,11 +28,10 @@ class EventList extends Component {
 
   componentWillMount() {
     this.setState({loading: true});
-    // axios.get(urlJoin(config.apiBlockchainTicket, 'events')).then(response => this.setState({loading: false, events: response.data}));
     this.setState({
       uid: RAMUtils.getId(),
     });
-    axios.get('http://blockchain-ticket.herokuapp.com/events').then(response => this.setState({loading: false, events: response.data}));
+    axios.get(urlJoin(config.apiUrl, 'ticket', 'events')).then(response => this.setState({loading: false, events: response.data}));
   }
 
   render() {

@@ -4,10 +4,10 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import {Button, Text, Form, Item, Input, Toast, Icon} from 'native-base';
 
-import AuthScreenWrapper from './_wrapper';
+import AuthScreenWrapper, {customStyles} from './_wrapper';
 
 import {authApi} from '../../api';
 import {styles, color} from '../../styles';
@@ -31,72 +31,72 @@ class SignUpScreen extends Component {
     const {navigation} = this.props;
 
     return (
-      <AuthScreenWrapper title="SIGN UP" showButtonBack={true} navigation={navigation} loading={this.state.loading}>
-        <Form style={{...styles.fullWidth}}>
-          <Item regular style={{...xstyles.input}}>
+      <AuthScreenWrapper showButtonBack={true} navigation={navigation} loading={this.state.loading}>
+        <Form style={{width: '86%'}}>
+          <Item regular style={{...customStyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.accent}} />
             <Input
               placeholder="Username"
               placeholderTextColor={color.inactive}
-              style={{...styles.fontOpenSans}}
+              style={{...styles.fontRoboto}}
               value={this.state.username}
               onChangeText={value => {
                 this.setState({username: value});
               }}
             />
           </Item>
-          <Item regular style={{...xstyles.input}}>
+          <Item regular style={{...customStyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="email" style={{color: color.accent}} />
             <Input
               placeholder="Email"
               placeholderTextColor={color.inactive}
-              style={{...styles.fontOpenSans}}
+              style={{...styles.fontRoboto}}
               value={this.state.email}
               onChangeText={value => {
                 this.setState({email: value});
               }}
             />
           </Item>
-          <Item regular style={{...xstyles.input}}>
+          <Item regular style={{...customStyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="phone-in-talk" style={{color: color.accent}} />
             <Input
               placeholder="Tel"
               placeholderTextColor={color.inactive}
-              style={{...styles.fontOpenSans}}
+              style={{...styles.fontRoboto}}
               value={this.state.tel}
               onChangeText={value => {
                 this.setState({tel: value});
               }}
             />
           </Item>
-          <Item regular style={{...xstyles.input}}>
+          <Item regular style={{...customStyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.accent}} />
             <Input
               placeholder="Password"
               placeholderTextColor={color.inactive}
-              style={{...styles.fontOpenSans}}
+              style={{...styles.fontRoboto}}
               secureTextEntry
               value={this.state.password}
               onChangeText={value => this.setState({password: value})}
             />
           </Item>
-          <Item regular style={{...xstyles.input}}>
+          <Item regular style={{...customStyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="key-plus" style={{color: color.accent}} />
             <Input
               placeholder="Confirm Password"
               placeholderTextColor={color.inactive}
-              style={{...styles.fontOpenSans}}
+              style={{...styles.fontRoboto}}
               secureTextEntry
               value={this.state.confirmPassword}
               onChangeText={value => this.setState({confirmPassword: value})}
             />
           </Item>
+          <Button full rounded style={{marginTop: 20, backgroundColor: color.accent}} onPress={this._onClickSignUp}>
+            <Text uppercase style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 20}}>
+              Create Account
+            </Text>
+          </Button>
         </Form>
-        <Button full rounded style={{marginTop: 20, backgroundColor: color.accent}} onPress={this._onClickSignUp}>
-          <Text uppercase style={{...styles.fontOpenSans, fontWeight: 'bold', fontSize: 20}}>
-            Create Account
-          </Text>
-        </Button>
       </AuthScreenWrapper>
     );
   }
@@ -146,10 +146,3 @@ class SignUpScreen extends Component {
 }
 
 export default SignUpScreen;
-
-const xstyles = StyleSheet.create({
-  input: {
-    backgroundColor: 'white',
-    marginVertical: 8,
-  },
-});

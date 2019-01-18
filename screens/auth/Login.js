@@ -4,10 +4,9 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
 import {Button, Text, Form, Item, Input, View, Toast, Icon} from 'native-base';
 
-import AuthScreenWrapper from './_wrapper';
+import AuthScreenWrapper, {customStyles} from './_wrapper';
 
 import {authApi} from '../../api';
 import {styles, color} from '../../styles';
@@ -28,46 +27,44 @@ class LoginScreen extends Component {
     const {navigation} = this.props;
 
     return (
-      <AuthScreenWrapper title="LOGIN" loading={this.state.loading}>
-        <Form style={{...styles.fullWidth}}>
-          <Item regular style={{...xstyles.input}}>
+      <AuthScreenWrapper loading={this.state.loading}>
+        <Form style={{width: '86%'}}>
+          <Item regular style={{...customStyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="account-box" style={{color: color.accent}} />
             <Input
               placeholder="Username"
               placeholderTextColor={color.inactive}
-              style={{...styles.fontOpenSans}}
+              style={{...styles.fontRoboto}}
               value={this.state.username}
               onChangeText={value => {
                 this.setState({username: value});
               }}
             />
           </Item>
-          <Item regular style={{...xstyles.input}}>
+          <Item regular style={{...customStyles.input}}>
             <Icon active type="MaterialCommunityIcons" name="key" style={{color: color.accent}} />
             <Input
               placeholder="Password"
               placeholderTextColor={color.inactive}
-              style={{...styles.fontOpenSans}}
+              style={{...styles.fontRoboto}}
               secureTextEntry
               value={this.state.password}
               onChangeText={value => this.setState({password: value})}
             />
           </Item>
-        </Form>
-        <Button full rounded style={{marginTop: 20, backgroundColor: color.accent}} onPress={this._onClickLogin}>
-          <Text uppercase style={{...styles.fontOpenSans, fontWeight: 'bold', fontSize: 20}}>
-            Login
-          </Text>
-        </Button>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Button transparent style={{marginTop: 5, color: 'white'}} onPress={() => navigation.navigate('Forgot')}>
-            <Text style={{color: 'white', ...styles.fontOpenSans}}>Forgot Password?</Text>
+          <Button full rounded style={{marginTop: 15, backgroundColor: color.accent}} onPress={this._onClickLogin}>
+            <Text uppercase style={{...styles.fontRoboto, fontWeight: 'bold', fontSize: 20}}>
+              Login
+            </Text>
           </Button>
-        </View>
-        <View style={{width: '100%', height: 1, backgroundColor: 'white', marginTop: 8, marginBottom: 3}} />
-        <Button full rounded bordered danger style={{marginTop: 10, backgroundColor: 'white'}} onPress={() => navigation.navigate('SignUp')}>
-          <Text style={{...styles.fontOpenSans, color: color.primaryDark}}>Sign Up</Text>
-        </Button>
+          <Button transparent style={{color: 'white', alignSelf: 'flex-end'}} onPress={() => navigation.navigate('Forgot')}>
+            <Text style={{color: 'white', ...styles.fontRoboto}}>Forgot Password?</Text>
+          </Button>
+          <View style={{backgroundColor: color.inactiveLight, height: 0.2}} />
+          <Button full rounded bordered danger style={{marginTop: 20, backgroundColor: 'white'}} onPress={() => navigation.navigate('SignUp')}>
+            <Text style={{...styles.fontRoboto, fontWeight: 'bold', color: color.primaryDark}}>Join with us</Text>
+          </Button>
+        </Form>
       </AuthScreenWrapper>
     );
   }
@@ -100,10 +97,3 @@ class LoginScreen extends Component {
 }
 
 export default LoginScreen;
-
-const xstyles = StyleSheet.create({
-  input: {
-    backgroundColor: 'white',
-    marginVertical: 8,
-  },
-});

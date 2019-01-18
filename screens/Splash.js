@@ -55,7 +55,7 @@ class SplashScreen extends Component {
       <View style={{...styles.centerBox, ...styles.bgPrimaryDark}}>
         <StatusBar backgroundColor={color.primary} barStyle="light-content" />
         <Image
-          source={require('../assets/icons/logo_white.png')}
+          source={require('../assets/icons/favicon.png')}
           style={{
             height: faviconSize,
             width: faviconSize,

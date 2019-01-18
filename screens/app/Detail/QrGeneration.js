@@ -21,7 +21,7 @@ class QrGeneration extends Component {
     this.setState({uid: text});
     axios({
       method: 'post',
-      url: urlJoin(config.apiBlockchainTicket, 'tickets'),
+      url: urlJoin(config.apiUrl, 'ticket', 'tickets'),
       data: {
         uid: text,
       },

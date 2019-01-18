@@ -29,7 +29,7 @@ class QrScanner extends Component {
   GetEntry() {
     axios({
       method: 'post',
-      url: urlJoin(config.apiBlockchainTicket, 'entries'),
+      url: urlJoin(config.apiUrl, 'ticket', 'entries'),
       data: {
         uid: this.state.uid,
         bid: this.state.bid,
