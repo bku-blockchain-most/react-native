@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, Platform} from 'react-native';
 import {Container} from 'native-base';
 import {color} from '../../styles';
 import Loading from '../../components/Loading';
@@ -17,7 +17,10 @@ class AppScreenWrapper extends Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={color.primary} barStyle="light-content" />
+        {Platform.select({
+          android: <StatusBar backgroundColor={color.primaryDark} barStyle="light-content" />,
+          ios: <StatusBar backgroundColor={color.primary} barStyle="dark-content" />,
+        })}
         <Loading visible={this.props.loading} />
         {this.props.children}
       </Container>
