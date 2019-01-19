@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {StyleSheet, View, Dimensions, Alert, RefreshControl} from 'react-native';
-import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input} from 'native-base';
+import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Spinner, Badge} from 'native-base';
 import QRCode from 'react-native-qrcode';
 import * as jws from '../../../utils/jws';
 
@@ -14,6 +14,8 @@ import AppScreenWrapper from '../_wrapper';
 import {RAMUtils} from '../../../utils';
 import {authApi, appApi} from '../../../api';
 import {color} from '../../../styles';
+
+let intervalQRCodeCountDown;
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -30,9 +32,34 @@ export default class ProfileScreen extends React.Component {
       refreshing: false,
 
       qrcodeCountDown: 60,
-      qrcodeContent: '',
-      qrcodeRefreshing: true,
+      qrcodeContent: null,
     };
+
+    this.qrcodeSize = (Dimensions.get('screen').width * 2) / 3;
+    this.initQRCodeCountDown();
+  }
+
+  initQRCodeCountDown = () => {
+    const data = this.retrieveDataQRCode();
+    jws.generate(data, signature => {
+      this.state.qrcodeContent = signature;
+      this.addQrCodeCountDown();
+    });
+  };
+
+  addQrCodeCountDown = () => {
+    this.clearQrCodeCountDown();
+    intervalQRCodeCountDown = setInterval(() => {
+      if (this.state.qrcodeCountDown > 0) {
+        this.setState({qrcodeCountDown: this.state.qrcodeCountDown - 1});
+      } else {
+        this.clearQrCodeCountDown();
+      }
+    }, 1000);
+  };
+
+  clearQrCodeCountDown() {
+    clearInterval(intervalQRCodeCountDown);
   }
 
   onUpdateProfile = () => {
@@ -67,19 +94,17 @@ export default class ProfileScreen extends React.Component {
     const {user} = this.state;
     return {
       id: user.id,
-      username: user.username,
-      fullname: user.firstName + user.lastName,
-      photoUrl: user.photoUrl,
+      // fullname: user.firstName + user.lastName,
+      // photoUrl: user.photoUrl,
     };
   };
 
   refreshQRCode = () => {
+    this.clearQrCodeCountDown();
     const data = this.retrieveDataQRCode();
-    this.setState({
-      qrcodeRefreshing: true,
-    });
     jws.generate(data, signature => {
-      this.setState({qrcodeRefreshing: false, qrcodeContent: signature, qrcodeCountDown: 60});
+      this.setState({qrcodeContent: signature, qrcodeCountDown: 60});
+      this.addQrCodeCountDown();
     });
   };
 
@@ -101,7 +126,7 @@ export default class ProfileScreen extends React.Component {
           <View style={styles.avatarSection}>
             <View style={{position: 'absolute', top: 0, left: 0, height: 90, width: '100%', backgroundColor: color.primary}} />
             <Thumbnail
-              source={user.photoUrl && user.photoUrl.length > 0 ? {url: user.photoUrl} : require('../../../assets/icons/default_avatar.png')}
+              source={user.photoUrl && user.photoUrl.length > 0 ? {uri: user.photoUrl} : require('../../../assets/icons/default_avatar.png')}
               style={{width: 150, height: 150}}
             />
             <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -159,10 +184,38 @@ export default class ProfileScreen extends React.Component {
             </Button>
           </Form>
 
-          <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10}}>
+          <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10}}>
+            <Text style={{color: color.white}}>View profile</Text>
+          </View>
+          <View style={styles.qrcodeSection}>
+            {this.state.qrcodeContent ? (
+              <QRCode value={this.state.qrcodeContent} size={this.qrcodeSize} fgColor="white" />
+            ) : (
+              <View style={{height: this.qrcodeSize, width: this.qrcodeSize, justifyContent: 'center', alignItems: 'center', flex: 1}}>
+                <Spinner color="red" />
+              </View>
+            )}
+            <Text style={{fontSize: 15, marginVertical: 10}}> Scan QR code to add contact</Text>
+            <View style={{flexDirection: 'row', flex: 1, width: this.qrcodeSize, justifyContent: 'space-around'}}>
+              {this.state.qrcodeCountDown === 0 ? (
+                <Badge danger>
+                  <Text>Expired</Text>
+                </Badge>
+              ) : (
+                <Badge warning>
+                  <Text>{this.state.qrcodeCountDown} s</Text>
+                </Badge>
+              )}
+              <Button rounded small info onPress={() => this.refreshQRCode()}>
+                <Icon name="refresh" />
+              </Button>
+            </View>
+          </View>
+
+          <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 20}}>
             <Text style={{color: color.white}}>Privacy</Text>
           </View>
-          <Form style={{padding: 10}}>
+          <Form style={{padding: 10, marginBottom: 5}}>
             <Item floatingLabel underline={false} bordered={false}>
               <Label>Old Password</Label>
               <Input defaultValue={user.company} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
@@ -179,13 +232,6 @@ export default class ProfileScreen extends React.Component {
               <Text>Change password</Text>
             </Button>
           </Form>
-
-          <View style={styles.qrcodeSection}>
-            <QRCode value={this.state.qrcodeContent} size={Dimensions.get('screen').width * 0.6} fgColor="white" />
-            <Text style={{color: color.primary, fontSize: 15, marginVertical: 10}}> Scan QR code to add contact</Text>
-            <Button onPress={() => this.refreshQRCode()}>Refresh</Button>
-            <Text>{this.state.qrcodeCountDown} s</Text>
-          </View>
 
           {/* <Button full rounded danger onPress={this._onClickSignOut}>
             <Text>Sign me out</Text>

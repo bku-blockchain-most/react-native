@@ -18,14 +18,14 @@ export const generate = (data, cb) => {
     data,
   };
 
-  const key = 'hv89gw4ru309mc3f454ef';
+  const key = 'h98ty39';
   const signature = rsa.KJUR.jws.JWS.sign('HS256', JSON.stringify(header), JSON.stringify(payload), key);
 
   return cb(signature);
 };
 
 export const verify = (signature, cb) => {
-  const isValid = rsa.KJUR.jws.JWS.verify(signature, 'hv89gw4ru309mc3f454ef', ['HS256']);
+  const isValid = rsa.KJUR.jws.JWS.verify(signature, 'h98ty39', ['HS256']);
   if (!isValid) {
     return cb(new Error('Signature is not valid'));
   }
