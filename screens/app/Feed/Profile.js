@@ -5,16 +5,15 @@
 
 import React from 'react';
 import {StyleSheet, View, Dimensions, Alert, RefreshControl} from 'react-native';
-
+import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input} from 'native-base';
 import QRCode from 'react-native-qrcode';
+import * as jws from '../../../utils/jws';
 
 import AppScreenWrapper from '../_wrapper';
 
-import {Button, Tab, Tabs, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Toast} from 'native-base';
 import {RAMUtils} from '../../../utils';
 import {authApi, appApi} from '../../../api';
 import {color} from '../../../styles';
-var base64 = require('base-64');
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -29,6 +28,10 @@ export default class ProfileScreen extends React.Component {
       user: RAMUtils.getUser(),
       loading: false,
       refreshing: false,
+
+      qrcodeCountDown: 60,
+      qrcodeContent: '',
+      qrcodeRefreshing: true,
     };
   }
 
@@ -58,6 +61,26 @@ export default class ProfileScreen extends React.Component {
         console.log(err);
         this.setState({refreshing: false});
       });
+  };
+
+  retrieveDataQRCode = () => {
+    const {user} = this.state;
+    return {
+      id: user.id,
+      username: user.username,
+      fullname: user.firstName + user.lastName,
+      photoUrl: user.photoUrl,
+    };
+  };
+
+  refreshQRCode = () => {
+    const data = this.retrieveDataQRCode();
+    this.setState({
+      qrcodeRefreshing: true,
+    });
+    jws.generate(data, signature => {
+      this.setState({qrcodeRefreshing: false, qrcodeContent: signature, qrcodeCountDown: 60});
+    });
   };
 
   render() {
@@ -157,25 +180,12 @@ export default class ProfileScreen extends React.Component {
             </Button>
           </Form>
 
-          {/* <Tabs>
-            <Tab heading="INFO" />
-            <Tab heading="QR CODE">
-              <View style={styles.qrcodeSection}>
-                <QRCode
-                  value={base64.encode(
-                    JSON.stringify({
-                      id: user.id,
-                      fullname: user.firstName + user.lastName,
-                      photoUrl: user.photoUrl,
-                    }),
-                  )}
-                  size={Dimensions.get('screen').width * 0.88}
-                  fgColor="white"
-                />
-                <Text style={{color: 'royalblue', fontSize: 19, fontStyle: 'italic', marginTop: 10}}> Scan this QR code to add contact</Text>
-              </View>
-            </Tab>
-          </Tabs> */}
+          <View style={styles.qrcodeSection}>
+            <QRCode value={this.state.qrcodeContent} size={Dimensions.get('screen').width * 0.6} fgColor="white" />
+            <Text style={{color: color.primary, fontSize: 15, marginVertical: 10}}> Scan QR code to add contact</Text>
+            <Button onPress={() => this.refreshQRCode()}>Refresh</Button>
+            <Text>{this.state.qrcodeCountDown} s</Text>
+          </View>
 
           {/* <Button full rounded danger onPress={this._onClickSignOut}>
             <Text>Sign me out</Text>
