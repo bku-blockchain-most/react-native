@@ -5,13 +5,13 @@
 
 import React from 'react';
 import {StyleSheet, View, Dimensions, Alert, RefreshControl, Modal} from 'react-native';
-import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Spinner, Badge} from 'native-base';
+import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Spinner, Badge, ListItem, List, Left, Right, Body, H2, Toast} from 'native-base';
 import QRCode from 'react-native-qrcode';
 import * as jws from '../../../utils/jws';
 
 import AppScreenWrapper from '../_wrapper';
 
-import {RAMUtils} from '../../../utils';
+import {RAMUtils, handleError} from '../../../utils';
 import {authApi, appApi} from '../../../api';
 import {color} from '../../../styles';
 
@@ -35,20 +35,17 @@ export default class ProfileScreen extends React.Component {
       qrcodeContent: null,
 
       showDialog: false,
+      showQrCode: false,
+      showChangePassword: false,
+
+      oldPassword: '',
+      newPassword: '',
+      confirmPass: '',
     };
 
     this.qrcodeSize = (Dimensions.get('screen').width * 2) / 3;
     this.dialogSize = (Dimensions.get('screen').width * 4) / 5;
-    this.initQRCodeCountDown();
   }
-
-  initQRCodeCountDown = () => {
-    const data = this.retrieveDataQRCode();
-    jws.generate(data, signature => {
-      this.state.qrcodeContent = signature;
-      this.addQrCodeCountDown();
-    });
-  };
 
   addQrCodeCountDown = () => {
     this.clearQrCodeCountDown();
@@ -64,6 +61,11 @@ export default class ProfileScreen extends React.Component {
   clearQrCodeCountDown() {
     clearInterval(intervalQRCodeCountDown);
   }
+
+  onShareQrCode = () => {
+    this.setState({showQrCode: true});
+    this.refreshQRCode();
+  };
 
   onUpdateProfile = () => {
     this.setState({loading: true});
@@ -155,7 +157,7 @@ export default class ProfileScreen extends React.Component {
           <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10}}>
             <Text style={{color: color.white}}>Profile</Text>
           </View>
-          <Form style={{padding: 10}}>
+          <Form style={{paddingLeft: 2, paddingRight: 16}}>
             <Item fixedLabel underline={false} bordered={false}>
               <Icon active name="rename-box" type="MaterialCommunityIcons" />
               <Label>First Name</Label>
@@ -192,59 +194,126 @@ export default class ProfileScreen extends React.Component {
               <Label>Position</Label>
               <Input defaultValue={user.position} maxLength={40} underlineColorAndroid="transparent" onChangeText={v => this.setState({user: {...this.state.user, position: v}})} />
             </Item>
-            <Button full danger bordered style={{marginVertical: 20}} onPress={() => this.onUpdateProfile()}>
+            <Button full danger bordered style={{marginVertical: 20, marginLeft: 14}} onPress={() => this.onUpdateProfile()}>
               <Text>Update profile</Text>
             </Button>
           </Form>
 
           <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10}}>
-            <Text style={{color: color.white}}>View profile</Text>
-          </View>
-          <View style={styles.qrcodeSection}>
-            {this.state.qrcodeContent ? (
-              <QRCode value={this.state.qrcodeContent} size={this.qrcodeSize} fgColor="white" />
-            ) : (
-              <View style={{height: this.qrcodeSize, width: this.qrcodeSize, justifyContent: 'center', alignItems: 'center', flex: 1}}>
-                <Spinner color="red" />
-              </View>
-            )}
-            <Text style={{fontSize: 15, marginVertical: 10}}> Scan QR code to add contact</Text>
-            <View style={{flexDirection: 'row', flex: 1, width: this.qrcodeSize, justifyContent: 'space-around'}}>
-              {this.state.qrcodeCountDown === 0 ? (
-                <Badge danger>
-                  <Text>Expired</Text>
-                </Badge>
-              ) : (
-                <Badge warning>
-                  <Text>{this.state.qrcodeCountDown} s</Text>
-                </Badge>
-              )}
-              <Button rounded small info onPress={() => this.refreshQRCode()}>
-                <Icon name="refresh" />
-              </Button>
-            </View>
-          </View>
-
-          <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 20}}>
             <Text style={{color: color.white}}>Privacy</Text>
           </View>
-          <Form style={{padding: 10, marginBottom: 5}}>
-            <Item floatingLabel underline={false} bordered={false}>
-              <Label>Old Password</Label>
-              <Input defaultValue={user.company} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
-            </Item>
-            <Item floatingLabel underline={false} bordered={false}>
-              <Label>New Password</Label>
-              <Input defaultValue={user.position} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
-            </Item>
-            <Item floatingLabel underline={false} bordered={false}>
-              <Label>Confirm Password</Label>
-              <Input defaultValue={user.position} maxLength={40} underlineColorAndroid="transparent" secureTextEntry />
-            </Item>
-            <Button full danger bordered style={{marginVertical: 20}}>
-              <Text>Change password</Text>
-            </Button>
-          </Form>
+          <List style={{marginTop: 5, marginBottom: 15}}>
+            <ListItem icon onPress={() => this.onShareQrCode()}>
+              <Left>
+                <Icon active name="qrcode" type="MaterialCommunityIcons" color={color.accent} />
+              </Left>
+              <Body>
+                <Text>Share QR Code</Text>
+              </Body>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
+            </ListItem>
+            <ListItem icon onPress={() => this.setState({showChangePassword: true})}>
+              <Left>
+                <Icon active name="security" type="MaterialCommunityIcons" color={color.primaryLight} />
+              </Left>
+              <Body>
+                <Text>Change Password</Text>
+              </Body>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
+            </ListItem>
+          </List>
+
+          <Modal visible={this.state.showQrCode} animationType="slide">
+            <View style={{padding: 20, alignItems: 'center', flex: 1}}>
+              <H2 style={{marginTop: 15}}>Share your QR Code</H2>
+              <View style={styles.qrcodeSection}>
+                {this.state.qrcodeContent ? (
+                  <QRCode value={this.state.qrcodeContent} size={this.qrcodeSize} fgColor="white" />
+                ) : (
+                  <View style={{height: this.qrcodeSize, width: this.qrcodeSize, justifyContent: 'center', alignItems: 'center', flex: 1}}>
+                    <Spinner color="red" />
+                  </View>
+                )}
+                <Text style={{fontSize: 15, marginVertical: 20}}>Scan QR code to add contact</Text>
+                <View style={{flexDirection: 'row', flex: 1, width: this.qrcodeSize, justifyContent: 'space-around'}}>
+                  {this.state.qrcodeCountDown === 0 ? (
+                    <Badge danger>
+                      <Text>Expired</Text>
+                    </Badge>
+                  ) : (
+                    <Badge warning>
+                      <Text>{this.state.qrcodeCountDown} s</Text>
+                    </Badge>
+                  )}
+                  <Button
+                    dark
+                    onPress={() => {
+                      this.setState({showQrCode: false});
+                      this.clearQrCodeCountDown();
+                    }}
+                    style={{margin: 3}}>
+                    <Text>Close</Text>
+                  </Button>
+                  <Button rounded small info onPress={() => this.refreshQRCode()}>
+                    <Icon name="refresh" />
+                  </Button>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
+          {/* <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 20}}>
+            <Text style={{color: color.white}}>Privacy</Text>
+          </View> */}
+          <Modal visible={this.state.showChangePassword} animationType="slide">
+            <View style={{padding: 20}}>
+              <H2 style={{marginTop: 15}}>Change Password</H2>
+              <Form style={{marginBottom: 5, marginTop: 20}}>
+                <Item regular underline={false} bordered={false} style={{marginVertical: 5}}>
+                  <Input
+                    placeholder="Old Password"
+                    placeholderTextColor={color.inactive}
+                    maxLength={40}
+                    underlineColorAndroid="transparent"
+                    secureTextEntry
+                    onChangeText={v => this.setState({oldPassword: v})}
+                  />
+                </Item>
+                <Item regular underline={false} bordered={false} style={{marginVertical: 5}}>
+                  <Input
+                    placeholder="New Password"
+                    placeholderTextColor={color.inactive}
+                    maxLength={40}
+                    underlineColorAndroid="transparent"
+                    secureTextEntry
+                    onChangeText={v => this.setState({newPassword: v})}
+                  />
+                </Item>
+                <Item regular underline={false} bordered={false} style={{marginVertical: 5}}>
+                  <Input
+                    placeholder="Confirm Password"
+                    placeholderTextColor={color.inactive}
+                    maxLength={40}
+                    underlineColorAndroid="transparent"
+                    secureTextEntry
+                    onChangeText={v => this.setState({confirmPass: v})}
+                  />
+                </Item>
+                <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5, marginTop: 10}}>
+                  <Button dark onPress={() => this.setState({showChangePassword: false})} style={{margin: 3}}>
+                    <Text>Cancel</Text>
+                  </Button>
+                  <Button danger style={{margin: 3}} onPress={() => this.onChangePassword()}>
+                    <Text>Change password</Text>
+                  </Button>
+                </View>
+              </Form>
+            </View>
+          </Modal>
 
           <Modal visible={this.state.showDialog} transparent animationType="none">
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00000050'}}>
@@ -265,6 +334,28 @@ export default class ProfileScreen extends React.Component {
       </AppScreenWrapper>
     );
   }
+
+  onChangePassword = async () => {
+    if (this.state.oldPassword === '' || this.state.newPassword === '') {
+      return Alert.alert("Fields can't be empty");
+    }
+    if (this.state.newPassword !== this.state.confirmPass) {
+      return Alert.alert('Confirm password is not match');
+    }
+    this.setState({loading: true});
+    authApi
+      .changePassword({oldPassword: this.state.oldPassword, newPassword: this.state.newPassword})
+      .then(msg => {
+        this.setState({loading: false});
+        Alert.alert(msg);
+        this.setState({oldPassword: '', newPassword: '', confirmPass: '', showChangePassword: false});
+      })
+      .catch(err => {
+        this.setState({loading: false});
+        console.log(err);
+        handleError(err);
+      });
+  };
 
   _onClickSignOut = async () => {
     authApi

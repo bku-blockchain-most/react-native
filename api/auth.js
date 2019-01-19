@@ -46,9 +46,9 @@ export const signup = (username, email, tel, password) => {
 export const changePassword = ({oldPassword, newPassword}) => {
   const url = urljoin(config.apiUrl, '/reset');
   return axios
-    .post(url, {oldPassword, newPassword})
+    .post(url, {oldPassword, newPassword}, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
-    .then(async ({message}) => {
+    .then(({message}) => {
       console.log(message);
       return message;
     });
