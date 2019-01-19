@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Dimensions, Alert, RefreshControl} from 'react-native';
+import {StyleSheet, View, Dimensions, Alert, RefreshControl, Modal} from 'react-native';
 import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Spinner, Badge} from 'native-base';
 import QRCode from 'react-native-qrcode';
 import * as jws from '../../../utils/jws';
@@ -33,9 +33,12 @@ export default class ProfileScreen extends React.Component {
 
       qrcodeCountDown: 60,
       qrcodeContent: null,
+
+      showDialog: false,
     };
 
     this.qrcodeSize = (Dimensions.get('screen').width * 2) / 3;
+    this.dialogSize = (Dimensions.get('screen').width * 4) / 5;
     this.initQRCodeCountDown();
   }
 
@@ -126,7 +129,7 @@ export default class ProfileScreen extends React.Component {
           <View style={styles.avatarSection}>
             <View style={{position: 'absolute', top: 0, left: 0, height: 90, width: '100%', backgroundColor: color.primary}} />
             <View style={{flexDirection: 'row', flex: 1, height: 120, width: '100%', justifyContent: 'space-around', alignItems: 'center'}}>
-              <Button rounded iconLeft style={{backgroundColor: '#337ab7', alignSelf: 'center'}}>
+              <Button rounded iconLeft style={{backgroundColor: '#337ab7', alignSelf: 'center'}} onPress={() => this.setState({showDialog: true})}>
                 <Icon fontSize={12} name="logout" type="SimpleLineIcons" />
                 <Text style={{fontSize: 12}}>Logout</Text>
               </Button>
@@ -243,9 +246,21 @@ export default class ProfileScreen extends React.Component {
             </Button>
           </Form>
 
-          {/* <Button full rounded danger onPress={this._onClickSignOut}>
-            <Text>Sign me out</Text>
-          </Button> */}
+          <Modal visible={this.state.showDialog} transparent animationType="none">
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00000050'}}>
+              <View style={{flexDirection: 'column', paddingHorizontal: 20, paddingVertical: 15, backgroundColor: color.white, width: this.dialogSize, borderRadius: 12}}>
+                <Text style={{marginVertical: 15, fontSize: 18}}>Do you want to logout?</Text>
+                <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5}}>
+                  <Button dark onPress={() => this.setState({showDialog: false})} style={{margin: 3}}>
+                    <Text>Cancel</Text>
+                  </Button>
+                  <Button danger onPress={this._onClickSignOut} style={{margin: 3}}>
+                    <Text>OK</Text>
+                  </Button>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </Content>
       </AppScreenWrapper>
     );
