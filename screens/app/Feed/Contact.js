@@ -4,6 +4,7 @@
  */
 
 import React, {Component} from 'react';
+import {RefreshControl} from 'react-native';
 import {Text, Icon, ListItem, List, Left, Right, Content, Body, Thumbnail, Header, Item, Input} from 'native-base';
 
 import AppScreenWrapper from '../_wrapper';
@@ -23,26 +24,28 @@ class ContactScreen extends Component {
       loading: false,
       original: [],
       filter: [],
+      refreshing: false,
     };
   }
 
   componentWillMount() {
+    this.setState({loading: true});
     this.fetchContacts();
   }
 
   fetchContacts = () => {
-    this.setState({loading: true});
     appApi
       .fetchContacts()
       .then(contacts => {
         this.setState({
           loading: false,
+          refreshing: false,
           original: contacts,
           filter: contacts,
         });
       })
       .catch(err => {
-        this.setState({loading: false});
+        this.setState({loading: false, refreshing: false});
         handleError(err);
       });
   };
@@ -54,16 +57,17 @@ class ContactScreen extends Component {
     });
   };
 
+  handleRefresh = () => {
+    this.setState({refreshing: true});
+    this.fetchContacts();
+  };
+
   renderItem = item => {
     const {firstName, lastName, photoUrl, tel} = item || {};
     return (
-      <ListItem
-        avatar
-        onPress={() => {
-          this.props.navigation.navigate('Log', {item});
-        }}>
+      <ListItem avatar onPress={() => this.props.navigation.navigate('LogsContact', {item})}>
         <Left>
-          <Thumbnail source={{uri: photoUrl}} small />
+          <Thumbnail source={photoUrl && photoUrl.length > 0 ? {uri: photoUrl} : require('../../../assets/icons/default_avatar.png')} small />
         </Left>
         <Body>
           <Text>{firstName + ' ' + lastName}</Text>
@@ -82,7 +86,7 @@ class ContactScreen extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" placeholderTextColor={color.inactive} onChangeText={text => this.onSearchInputChanged(text)} />
+            <Input placeholder="Search contacts" placeholderTextColor={color.inactive} onChangeText={text => this.onSearchInputChanged(text)} />
             <Icon
               name="qrcode-scan"
               type="MaterialCommunityIcons"
@@ -92,7 +96,10 @@ class ContactScreen extends Component {
             />
           </Item>
         </Header>
-        <Content>
+        <Content
+          refreshControl={
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']} />
+          }>
           <List dataArray={this.state.filter} renderRow={item => this.renderItem(item)} enableEmptySections />
         </Content>
       </AppScreenWrapper>

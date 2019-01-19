@@ -17,7 +17,7 @@ import QrScannerScreen from './QrScanner';
 
 import Contact from './Contact';
 import CreatingContact from './CreatingContact';
-import Log from './Log';
+// import Log from './Log';
 import ProfileContactScreen from './ProfileContact';
 import QRCodeScanerContact from './QRCodeScanerContact';
 
@@ -30,7 +30,7 @@ const ContactStack = createStackNavigator(
   {
     Contact: {screen: Contact},
     CreatingContact: {screen: CreatingContact},
-    Log: {screen: Log},
+    // Log: {screen: Log},
     QRCodeScanerContact: {screen: QRCodeScanerContact},
     ProfileContact: {screen: ProfileContactScreen},
   },

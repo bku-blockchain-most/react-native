@@ -25,7 +25,7 @@ class Loading extends Component {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#00000020',
+            backgroundColor: '#00000010',
             zIndex: 99999,
           }}>
           <Spinner color="red" />

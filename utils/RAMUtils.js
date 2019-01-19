@@ -65,11 +65,11 @@ let id = '';
 let tid = '';
 let link = '';
 let GotTicket = false;
-let authToken = '';
 
 /**
  * Private data on Preferences
  */
+let authToken = '';
 
 let user = {
   id: '',

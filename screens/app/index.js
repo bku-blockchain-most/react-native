@@ -11,6 +11,7 @@ import PollingDetailScreen from './Detail/PollingDetail';
 import PollingAnswerScreen from './Detail/PollingAnswer';
 import QrGenerationScreen from './Detail/QrGeneration';
 import VillageListScreen from './Detail/VillageList';
+import LogsContactScreen from './Detail/LogsContact';
 // import ReportScreen from '../../components/report';
 
 const AppNavigator = createStackNavigator(
@@ -23,6 +24,7 @@ const AppNavigator = createStackNavigator(
     PollingAnswer: PollingAnswerScreen,
     QrGeneration: QrGenerationScreen,
     Village: VillageListScreen,
+    LogsContact: LogsContactScreen,
     // Report: ReportScreen,
   },
   {
