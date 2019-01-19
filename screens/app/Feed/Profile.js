@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {StyleSheet, View, Dimensions, Alert, RefreshControl, Modal} from 'react-native';
-import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Spinner, Badge, ListItem, List, Left, Right, Body, H2, Toast} from 'native-base';
+import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Spinner, Badge, ListItem, List, Left, Right, Body, H2} from 'native-base';
 import QRCode from 'react-native-qrcode';
 import * as jws from '../../../utils/jws';
 
