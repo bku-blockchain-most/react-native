@@ -125,11 +125,21 @@ export default class ProfileScreen extends React.Component {
           }>
           <View style={styles.avatarSection}>
             <View style={{position: 'absolute', top: 0, left: 0, height: 90, width: '100%', backgroundColor: color.primary}} />
-            <Thumbnail
-              source={user.photoUrl && user.photoUrl.length > 0 ? {uri: user.photoUrl} : require('../../../assets/icons/default_avatar.png')}
-              style={{width: 150, height: 150}}
-            />
-            <View style={{flexDirection: 'row', marginTop: 10}}>
+            <View style={{flexDirection: 'row', flex: 1, height: 120, width: '100%', justifyContent: 'space-around', alignItems: 'center'}}>
+              <Button rounded iconLeft style={{backgroundColor: '#337ab7', alignSelf: 'center'}}>
+                <Icon fontSize={12} name="logout" type="SimpleLineIcons" />
+                <Text style={{fontSize: 12}}>Logout</Text>
+              </Button>
+              <Thumbnail
+                source={user.photoUrl && user.photoUrl.length > 0 ? {uri: user.photoUrl} : require('../../../assets/icons/default_avatar.png')}
+                style={{width: 120, height: 120}}
+              />
+              <Button rounded iconRight style={{backgroundColor: '#337ab7', alignSelf: 'center'}} onPress={() => this.props.navigation.navigate('Contacts')}>
+                <Text style={{fontSize: 12}}>Contacts</Text>
+                <Icon fontSize={12} name="contact-phone" type="MaterialIcons" />
+              </Button>
+            </View>
+            <View style={{flexDirection: 'row'}}>
               <Icon active type="MaterialCommunityIcons" name="account-box" />
               <Text style={{margin: 5}}>{user.username}</Text>
             </View>
@@ -139,7 +149,7 @@ export default class ProfileScreen extends React.Component {
             </View>
           </View>
 
-          <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10}}>
+          <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10}}>
             <Text style={{color: color.white}}>Profile</Text>
           </View>
           <Form style={{padding: 10}}>
