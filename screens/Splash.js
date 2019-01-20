@@ -50,7 +50,7 @@ class SplashScreen extends Component {
   // Render any loading content that you like here
   render() {
     return (
-      <View style={{...styles.centerBox, backgroundColor: '#d1d1d1'}}>
+      <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#d1d1d1'}}>
         <StatusBar backgroundColor={color.primary} barStyle="light-content" />
         <Image
           source={require('../assets/icons/brand.png')}

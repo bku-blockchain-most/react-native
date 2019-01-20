@@ -4,11 +4,11 @@
  */
 
 import React, {Component} from 'react';
-import {Text, Button, List, ListItem, Content, Footer, CheckBox, Body, Toast} from 'native-base';
+import {Text, Button, List, ListItem, Content, Footer, CheckBox, Body, Toast, H3} from 'native-base';
 import {Alert, Linking, RefreshControl} from 'react-native';
 
 import DetailScreenWrapper from './_wrapper';
-import {styles, color, refreshControlColors} from '../../../styles';
+import {color, refreshControlColors} from '../../../styles';
 import {appApi} from '../../../api';
 import {handleError, UrlUtils} from '../../../utils';
 
@@ -24,9 +24,9 @@ class PollingAnswerScreen extends Component {
 
     this.candidates = this.polling.candidates || [];
 
-    console.log(this.polling);
-    console.log(this.avai);
-    console.log(this.voting);
+    // console.log(this.polling);
+    // console.log(this.avai);
+    // console.log(this.voting);
 
     if (this.voting !== null) {
       const {ballots} = this.voting;
@@ -40,21 +40,21 @@ class PollingAnswerScreen extends Component {
 
     this.state = {
       candidates: this.candidates,
-      loading: false,
       voting: this.voting,
+      loading: false,
       refreshing: false,
+      loadingVote: false,
     };
   }
 
   getVoting = () => {
-    this.setState({loading: true});
     appApi
       .getVoting(this.polling.id)
       .then(voting => {
-        this.setState({loading: false, refreshing: false, voting});
+        this.setState({loading: false, refreshing: false, loadingVote: false, voting});
       })
       .catch(err => {
-        this.setState({loading: false, refreshing: false});
+        this.setState({loading: false, refreshing: false, loadingVote: false});
         console.log(err);
       });
   };
@@ -67,7 +67,7 @@ class PollingAnswerScreen extends Component {
         buttonText: 'Close',
       });
     }
-    console.log(ballots);
+    // console.log(ballots);
     Alert.alert('Confirmation', 'Do you want to submit your voting?', [
       {
         text: 'Cancel',
@@ -79,7 +79,7 @@ class PollingAnswerScreen extends Component {
           this.setState({loading: true});
           try {
             const vote = await appApi.votePollings(this.polling.id, ballots);
-            console.log(vote);
+            // console.log(vote);
             this.setState({loading: false, voting: vote});
             Alert.alert('Notification', 'Your voting is commited to smart contract', [{text: 'OK', onPress: () => {}}]);
           } catch (err) {
@@ -91,34 +91,32 @@ class PollingAnswerScreen extends Component {
     ]);
   };
 
+  handleRefresh() {
+    this.setState({refreshing: true});
+    this.getVoting();
+  }
+
   render() {
     const {navigation} = this.props;
     const {candidates} = this.state;
+    const {polling} = this;
 
-    console.log('Polling Answer');
-    console.log(candidates);
+    // console.log('Polling Answer');
+    // console.log(candidates);
 
     return (
-      <DetailScreenWrapper titleHeader="Make a voting" navigation={navigation} hasTabs loading={this.state.loading}>
-        <Content
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => {
-                this.setState({refreshing: true});
-                this.getVoting();
-              }}
-              colors={refreshControlColors}
-            />
-          }>
+      <DetailScreenWrapper titleHeader="Make a Vote" navigation={navigation} hasTabs loading={this.state.loading}>
+        <Content padder refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={refreshControlColors} />}>
           {this.state.voting && (
-            <Text style={{...styles.fontOpenSans, padding: 20}}>
+            <Text style={{marginBottom: 10, marginTop: 5}}>
               <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
               <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(this.state.voting.eth.txHash || ''))}>
                 {this.state.voting.eth.txHash || ''}
               </Text>
             </Text>
           )}
+          <H3 style={{color: color.primary, fontWeight: '700', marginTop: 12}}>{polling.title || 'Title Polling'}</H3>
+          <Text style={{fontSize: 18, fontWeight: '700', marginTop: 10}}>Candidates:</Text>
           <List>
             {candidates.map(o => (
               <ListItem noBorder key={o.id}>
@@ -143,12 +141,12 @@ class PollingAnswerScreen extends Component {
 
         <Footer>
           {this.avai && this.state.voting == null ? (
-            <Button full style={{...styles.fullWidth, height: '100%', ...styles.bgPrimary}} onPress={() => this._onClickSubmit()}>
-              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
+            <Button full style={{width: '100%', height: '100%', backgroundColor: color.primary}} onPress={() => this._onClickSubmit()}>
+              <Text style={{textTransform: 'uppercase'}}>Submit</Text>
             </Button>
           ) : (
-            <Button full style={{...styles.fullWidth, height: '100%'}} disabled>
-              <Text style={{...styles.fontOpenSans, textTransform: 'uppercase'}}>Submit</Text>
+            <Button full style={{width: '100%', height: '100%'}} disabled>
+              <Text style={{textTransform: 'uppercase'}}>Submit</Text>
             </Button>
           )}
         </Footer>
