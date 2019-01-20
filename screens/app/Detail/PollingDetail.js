@@ -19,8 +19,6 @@ class PollingDetailScreen extends Component {
 
     const {navigation} = this.props;
 
-    console.log('PollingDetailScreen');
-
     this.polling = navigation.getParam('polling');
     this.eth = this.polling.eth || {};
     console.log(this.polling, this.eth);

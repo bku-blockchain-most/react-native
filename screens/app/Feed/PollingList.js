@@ -4,14 +4,14 @@
  */
 
 import React, {Component} from 'react';
-import {Icon, List, ListItem, Body, Segment, Button, Text, Content} from 'native-base';
+import {Icon, List, Card, CardItem, ListItem, Left, Body, Segment, Button, Text, Content} from 'native-base';
 import {RefreshControl} from 'react-native';
+import moment from 'moment';
 
 import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
-import ItemPolling from '../../../components/ItemPolling';
-import {refreshControlColors, dynamicStyles} from '../../../styles';
+import {refreshControlColors, dynamicStyles, color} from '../../../styles';
 
 const RangeTime = {
   recently: 'Recently',
@@ -102,6 +102,34 @@ class PollingListScreen extends Component {
     }
   }
 
+  renderPollingItem(poll) {
+    return (
+      <Card style={{flex: 1, ...dynamicStyles.changePadding(4), ...dynamicStyles.changeMargin(0)}}>
+        <CardItem style={{backgroundColor: 'white', ...dynamicStyles.changePadding(5)}}>
+          <Left style={{justifyContent: 'flex-start', ...dynamicStyles.changePadding(0)}}>
+            <Icon type="MaterialCommunityIcons" name="calendar-clock" active style={{color: color.primary}} />
+            <Body>
+              <Text style={{fontWeight: '700', color: color.primary}}>{poll.title || 'Title Polling'}</Text>
+              <Text note>
+                {moment(poll.startDate).calendar()}
+                {' - '}
+                {moment(poll.endDate).calendar()}
+              </Text>
+            </Body>
+          </Left>
+        </CardItem>
+        <CardItem style={{...dynamicStyles.changePadding(5)}}>
+          <Body style={{...dynamicStyles.changePadding(0)}}>
+            <Text note>
+              {poll.eventID || ''} - {poll.ownerID || ''}
+            </Text>
+            <Text numberOfLines={2}>{poll.description || ''}</Text>
+          </Body>
+        </CardItem>
+      </Card>
+    );
+  }
+
   render() {
     const {rangeTime} = this.state;
     return (
@@ -131,9 +159,7 @@ class PollingListScreen extends Component {
             dataArray={this.state.pollings}
             renderRow={o => (
               <ListItem onPress={() => this._onClickPollDetail(o)} noBorder noIndent style={{...dynamicStyles.changeMargin(0)}}>
-                <Body style={{...dynamicStyles.changePadding(0)}}>
-                  <ItemPolling poll={o} />
-                </Body>
+                <Body style={{...dynamicStyles.changePadding(0)}}>{this.renderPollingItem(o)}</Body>
               </ListItem>
             )}
             enableEmptySections
