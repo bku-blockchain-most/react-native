@@ -32,7 +32,6 @@ const AppNavigator = createStackNavigator(
     PollingAnswer: PollingAnswerScreen,
     QrGeneration: QrGenerationScreen,
     Village: VillageListScreen,
-
     LogsContact,
     QrCodeScannerContact,
 

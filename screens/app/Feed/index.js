@@ -16,29 +16,11 @@ import EventListScreen from './EventList';
 import QrScannerScreen from './QrScanner';
 
 import ContactScreen from './Contact';
-// import CreatingContact from './CreatingContact';
-// import Log from './Log';
-// import ProfileContactScreen from './ProfileContact';
-// import QRCodeScanerContact from './QRCodeScanerContact';
 
 // import ReportScreen from '../../../components/report';
 // import OrganiserScreen from '../../../components/report/Organiser';
 // import ExpertScreen from '../../../components/report/Expert';
 // import PresenterScreen from '../../../components/report/Presenter';
-
-// const ContactStack = createStackNavigator(
-//   {
-//     Contact: {screen: Contact},
-//     CreatingContact: {screen: CreatingContact},
-//     Log: {screen: Log},
-//     QRCodeScanerContact: {screen: QRCodeScanerContact},
-//     ProfileContact: {screen: ProfileContactScreen},
-//   },
-//   {
-//     headerMode: 'none',
-//     header: null,
-//   },
-// );
 
 // const ReportNavigator = createStackNavigator(
 //   {
@@ -59,7 +41,6 @@ const FeedAppNavigator = createTabNavigator(
     PollingList: PollingListScreen,
     Profile: ProfileScreen,
     Contacts: ContactScreen,
-    // Contacts: ContactStack,
     QrScanner: QrScannerScreen,
     // Report: ReportNavigator,
   },
