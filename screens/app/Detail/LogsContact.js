@@ -143,7 +143,6 @@ class LogsContact extends Component {
           })}
           expanded={0}
         />
-        {/* <List dataArray={this.state.filter} renderRow={item => this.renderItem(item)} enableEmptySections />; */}
       </View>
     );
   };
@@ -202,6 +201,7 @@ class LogsContact extends Component {
             </Button>
             <Button
               rounded
+              disabled={!this.state.inContactList}
               style={{backgroundColor: '#d60022', alignSelf: 'center', width: 54, height: 54, borderRadius: 27, justifyContent: 'center', padding: 0}}
               onPress={() => this.handleAddRecord()}>
               <Icon name="plus" type="FontAwesome" />
