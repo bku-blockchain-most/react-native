@@ -11,20 +11,31 @@ import PollingDetailScreen from './Detail/PollingDetail';
 import PollingAnswerScreen from './Detail/PollingAnswer';
 import QrGenerationScreen from './Detail/QrGeneration';
 import VillageListScreen from './Detail/VillageList';
-import LogsContactScreen from './Detail/LogsContact';
+import LogsContact from './Detail/LogsContact';
+import QrCodeScannerContact from './Detail/QrCodeScannerContact';
+
 // import ReportScreen from '../../components/report';
 
 const AppNavigator = createStackNavigator(
   {
-    // Tab Bar Navigator
+    /**
+     * Tab Bar Navigator
+     * Contains screen on bottom tab bar
+     */
     FeedApp: FeedAppNavigator,
 
-    // Full Screen
+    /**
+     * Full Screens
+     * Contains single screen (full screen device)
+     */
     PollingDetail: PollingDetailScreen,
     PollingAnswer: PollingAnswerScreen,
     QrGeneration: QrGenerationScreen,
     Village: VillageListScreen,
-    LogsContact: LogsContactScreen,
+
+    LogsContact,
+    QrCodeScannerContact,
+
     // Report: ReportScreen,
   },
   {

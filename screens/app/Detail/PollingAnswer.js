@@ -8,7 +8,7 @@ import {Text, Button, List, ListItem, Content, Footer, CheckBox, Body, Toast} fr
 import {Alert, Linking, RefreshControl} from 'react-native';
 
 import DetailScreenWrapper from './_wrapper';
-import {styles, color} from '../../../styles';
+import {styles, color, refreshControlColors} from '../../../styles';
 import {appApi} from '../../../api';
 import {handleError, UrlUtils} from '../../../utils';
 
@@ -108,7 +108,7 @@ class PollingAnswerScreen extends Component {
                 this.setState({refreshing: true});
                 this.getVoting();
               }}
-              colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']}
+              colors={refreshControlColors}
             />
           }>
           {this.state.voting && (

@@ -10,7 +10,7 @@ import {Text, Icon, ListItem, List, Left, Right, Content, Body, Thumbnail, Heade
 import AppScreenWrapper from '../_wrapper';
 import {handleError, testMatch} from '../../../utils';
 import {appApi} from '../../../api';
-import {color} from '../../../styles';
+import {color, refreshControlColors} from '../../../styles';
 
 class ContactScreen extends Component {
   static navigationOptions = {
@@ -65,7 +65,7 @@ class ContactScreen extends Component {
   renderItem = item => {
     const {firstName, lastName, photoUrl, tel} = item || {};
     return (
-      <ListItem avatar onPress={() => this.props.navigation.navigate('LogsContact', {item})}>
+      <ListItem avatar onPress={() => this.props.navigation.navigate('LogsContact', {profile: item})}>
         <Left>
           <Thumbnail source={photoUrl && photoUrl.length > 0 ? {uri: photoUrl} : require('../../../assets/icons/default_avatar.png')} small />
         </Left>
@@ -87,19 +87,10 @@ class ContactScreen extends Component {
           <Item>
             <Icon name="ios-search" />
             <Input placeholder="Search contacts" placeholderTextColor={color.inactive} onChangeText={text => this.onSearchInputChanged(text)} />
-            <Icon
-              name="qrcode-scan"
-              type="MaterialCommunityIcons"
-              onPress={() => {
-                this.props.navigation.navigate('QRCodeScanerContact');
-              }}
-            />
+            <Icon name="qrcode-scan" type="MaterialCommunityIcons" onPress={() => this.props.navigation.navigate('QrCodeScannerContact')} />
           </Item>
         </Header>
-        <Content
-          refreshControl={
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']} />
-          }>
+        <Content refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={refreshControlColors} />}>
           <List dataArray={this.state.filter} renderRow={item => this.renderItem(item)} enableEmptySections />
         </Content>
       </AppScreenWrapper>

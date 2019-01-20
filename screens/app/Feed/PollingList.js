@@ -11,6 +11,7 @@ import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
 import ItemPolling from '../../../components/ItemPolling';
+import {refreshControlColors} from '../../../styles';
 
 const RangeTime = {
   recently: 'Recently',
@@ -122,7 +123,7 @@ class PollingListScreen extends Component {
                 this.setState({refreshing: true});
                 this.handleRefresh(rangeTime);
               }}
-              colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']}
+              colors={refreshControlColors}
             />
           }
           dataArray={this.state.pollings}

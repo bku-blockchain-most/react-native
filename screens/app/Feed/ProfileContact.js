@@ -5,44 +5,43 @@
 
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {Button, Icon, Text, Thumbnail, Toast, Form, Textarea, Content} from 'native-base';
 
-import FeedScreenWrapper from './_wrapper';
+import AppScreenWrapper from '../_wrapper';
 
-import {Button, Icon, Text, Thumbnail, Toast, Form, Textarea} from 'native-base';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
-var base64 = require('base-64');
 
 export default class ProfileContactScreen extends React.Component {
   static navigationOptions = {
     tabBarIcon: ({tintColor}) => <Icon name="account-location" type="MaterialCommunityIcons" style={{color: tintColor}} />,
-    title: 'Profile',
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       note: '',
+      user: null,
     };
 
-    const partnerJSONString = this.props.navigation.getParam('partnerJSONString');
-    // console.log(partnerJSONString);
-    let partner = this.formUserProfile();
-    if (partnerJSONString) {
-      partner = JSON.parse(base64.decode(partnerJSONString)) || this.formUserProfile();
-    }
-    // console.log(partner);
-
-    this.partner = partner;
+    this.profileID = this.props.navigation.getParam('profileID');
   }
 
-  formUserProfile = () => ({
-    id: '',
-    fullname: '',
-    photoUrl: '',
-  });
+  componentWillMount() {
+    setTimeout(() => this.fetchUser(), 200); // prevent flash loading
+  }
+
+  fetchUser() {
+    appApi
+      .fetchUserProfileByID(this.profileID)
+      .then(user => this.setState({user, loading: false}))
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
+  }
 
   onTrackPressed = () => {
     this.setState({loading: true});
@@ -73,7 +72,7 @@ export default class ProfileContactScreen extends React.Component {
   };
 
   render() {
-    const user = this.partner;
+    const {user} = this.state;
 
     const avatar =
       user.photoUrl && user.photoUrl.length > 0
@@ -81,8 +80,8 @@ export default class ProfileContactScreen extends React.Component {
         : 'https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1';
 
     return (
-      <FeedScreenWrapper loading={this.state.loading}>
-        <ScrollView automaticallyAdjustContentInsets={true} style={styles.container}>
+      <AppScreenWrapper loading={this.state.loading}>
+        <Content>
           <View style={styles.avatarSection}>
             <Thumbnail source={{uri: avatar}} style={{width: 150, height: 150}} />
           </View>
@@ -99,8 +98,8 @@ export default class ProfileContactScreen extends React.Component {
               </Button>
             </View>
           </View>
-        </ScrollView>
-      </FeedScreenWrapper>
+        </Content>
+      </AppScreenWrapper>
     );
   }
 }

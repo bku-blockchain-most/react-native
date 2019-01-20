@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {createTabNavigator, createStackNavigator} from 'react-navigation';
+import {createTabNavigator} from 'react-navigation';
 import {Platform} from 'react-native';
 import {Icon} from 'native-base';
 
@@ -15,30 +15,30 @@ import PollingListScreen from './PollingList';
 import EventListScreen from './EventList';
 import QrScannerScreen from './QrScanner';
 
-import Contact from './Contact';
-import CreatingContact from './CreatingContact';
+import ContactScreen from './Contact';
+// import CreatingContact from './CreatingContact';
 // import Log from './Log';
-import ProfileContactScreen from './ProfileContact';
-import QRCodeScanerContact from './QRCodeScanerContact';
+// import ProfileContactScreen from './ProfileContact';
+// import QRCodeScanerContact from './QRCodeScanerContact';
 
 // import ReportScreen from '../../../components/report';
 // import OrganiserScreen from '../../../components/report/Organiser';
 // import ExpertScreen from '../../../components/report/Expert';
 // import PresenterScreen from '../../../components/report/Presenter';
 
-const ContactStack = createStackNavigator(
-  {
-    Contact: {screen: Contact},
-    CreatingContact: {screen: CreatingContact},
-    // Log: {screen: Log},
-    QRCodeScanerContact: {screen: QRCodeScanerContact},
-    ProfileContact: {screen: ProfileContactScreen},
-  },
-  {
-    headerMode: 'none',
-    header: null,
-  },
-);
+// const ContactStack = createStackNavigator(
+//   {
+//     Contact: {screen: Contact},
+//     CreatingContact: {screen: CreatingContact},
+//     Log: {screen: Log},
+//     QRCodeScanerContact: {screen: QRCodeScanerContact},
+//     ProfileContact: {screen: ProfileContactScreen},
+//   },
+//   {
+//     headerMode: 'none',
+//     header: null,
+//   },
+// );
 
 // const ReportNavigator = createStackNavigator(
 //   {
@@ -58,7 +58,8 @@ const FeedAppNavigator = createTabNavigator(
     EventList: EventListScreen,
     PollingList: PollingListScreen,
     Profile: ProfileScreen,
-    Contacts: ContactStack,
+    Contacts: ContactScreen,
+    // Contacts: ContactStack,
     QrScanner: QrScannerScreen,
     // Report: ReportNavigator,
   },
@@ -81,10 +82,6 @@ const FeedAppNavigator = createTabNavigator(
     tabBarOptions: {
       showLabel: false,
       showIcon: true,
-      // activeTintColor: color.primary,
-      // activeBackgroundColor: color.inactiveLight,
-      // inactiveBackgroundColor: color.white,
-      // inactiveTintColor: color.inactive,
       activeTintColor: color.white,
       activeBackgroundColor: color.primaryDark,
       inactiveBackgroundColor: color.primary,

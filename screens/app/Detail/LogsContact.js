@@ -12,7 +12,7 @@ import communications from 'react-native-communications';
 import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
 import {handleError, testMatch, RAMUtils} from '../../../utils';
-import {color} from '../../../styles';
+import {color, refreshControlColors} from '../../../styles';
 
 class LogsContact extends Component {
   static navigationOptions = {
@@ -23,17 +23,37 @@ class LogsContact extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       refreshing: false,
       original: [], // { time, note, partner: { ... } }
       filter: [],
-      item: this.props.navigation.getParam('item'),
+      profile: null,
+      inContactList: false,
     };
+
+    this.profileID = this.props.navigation.getParam('profileID'); // scan QR Code, should fetching user by ID
+    if (!this.profileID || this.profileID === '') {
+      this.state.inContactList = true;
+      this.state.profile = this.props.navigation.getParam('profile'); // contact in contacts list
+    }
   }
 
   componentWillMount() {
-    this.setState({loading: true});
-    this.fetchRecords();
+    if (this.state.profile) {
+      setTimeout(() => this.fetchRecords(), 200); // prevent flash loading
+    } else {
+      setTimeout(() => this.fetchUser(), 200); // prevent flash loading
+    }
+  }
+
+  fetchUser() {
+    appApi
+      .fetchUserProfileByID(this.profileID)
+      .then(profile => this.setState({profile, loading: false}))
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
   }
 
   handleRefresh() {
@@ -42,17 +62,17 @@ class LogsContact extends Component {
   }
 
   fetchRecords = () => {
-    const {id} = this.state.item;
+    const {id} = this.state.profile;
     appApi
       .fetchRecords(id)
-      .then(records => {
+      .then(records =>
         this.setState({
           loading: false,
           refreshing: false,
           original: records,
           filter: records,
-        });
-      })
+        }),
+      )
       .catch(err => {
         this.setState({loading: false, refreshing: false});
         handleError(err);
@@ -65,6 +85,19 @@ class LogsContact extends Component {
       filter: this.state.original.filter(o => testMatch(pattern, o, ['time', 'note'])),
     });
   };
+
+  addToContact() {
+    this.setState({loading: true});
+    setTimeout(() => {
+      appApi
+        .addContact(this.profileID)
+        .then(() => this.setState({loading: false, inContactList: true}))
+        .catch(err => {
+          this.setState({loading: false});
+          handleError(err);
+        });
+    }, 200);
+  }
 
   renderItem = item => {
     return (
@@ -111,7 +144,7 @@ class LogsContact extends Component {
   };
 
   renderProfile = () => {
-    const user = this.state.item;
+    const user = this.state.profile;
     const userFullname = user.firstName + ' ' + user.lastName;
     const myFullname = RAMUtils.getUser().firstName + ' ' + RAMUtils.getUser().lastName;
     const message = `Hello ${userFullname},\nI'm ${myFullname}, ...`;
@@ -188,16 +221,21 @@ class LogsContact extends Component {
   render() {
     return (
       <AppScreenWrapper loading={this.state.loading}>
-        <Content
-          refreshControl={
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']} />
-          }>
-          {this.renderProfile()}
+        <Content refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={refreshControlColors} />}>
+          {this.state.profile ? this.renderProfile() : null}
           {/* {this.renderSearchBar()} */}
-          <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10, marginBottom: 15}}>
-            <Text style={{color: color.white}}>Your records</Text>
-          </View>
-          {this.renderLogContent()}
+          {this.state.inContactList && (
+            <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10, marginBottom: 15}}>
+              <Text style={{color: color.white}}>Your records</Text>
+            </View>
+          )}
+          {this.state.inContactList ? this.renderLogContent() : null}
+          {this.state.profile &&
+            !this.state.inContactList && (
+              <Button primary full transparent style={{alignSelf: 'center'}} onPress={() => this.addToContact()}>
+                <Text>Add To Contact</Text>
+              </Button>
+            )}
         </Content>
       </AppScreenWrapper>
     );

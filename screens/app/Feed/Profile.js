@@ -13,7 +13,7 @@ import AppScreenWrapper from '../_wrapper';
 
 import {RAMUtils, handleError} from '../../../utils';
 import {authApi, appApi} from '../../../api';
-import {color} from '../../../styles';
+import {color, refreshControlColors} from '../../../styles';
 
 let intervalQRCodeCountDown;
 
@@ -42,9 +42,6 @@ export default class ProfileScreen extends React.Component {
       newPassword: '',
       confirmPass: '',
     };
-
-    this.qrcodeSize = (Dimensions.get('screen').width * 2) / 3;
-    this.dialogSize = (Dimensions.get('screen').width * 4) / 5;
   }
 
   addQrCodeCountDown = () => {
@@ -64,7 +61,9 @@ export default class ProfileScreen extends React.Component {
 
   onShareQrCode = () => {
     this.setState({showQrCode: true});
-    this.refreshQRCode();
+    setTimeout(() => {
+      this.refreshQRCode();
+    }, 200);
   };
 
   onUpdateProfile = () => {
@@ -98,18 +97,14 @@ export default class ProfileScreen extends React.Component {
 
   retrieveDataQRCode = () => {
     const {user} = this.state;
-    return {
-      id: user.id,
-      // fullname: user.firstName + user.lastName,
-      // photoUrl: user.photoUrl,
-    };
+    return {id: user.id};
   };
 
   refreshQRCode = () => {
     this.clearQrCodeCountDown();
     const data = this.retrieveDataQRCode();
     jws.generate(data, signature => {
-      this.setState({qrcodeContent: signature, qrcodeCountDown: 60});
+      this.setState({qrcodeCountDown: 60, qrcodeContent: signature});
       this.addQrCodeCountDown();
     });
   };
@@ -165,10 +160,11 @@ export default class ProfileScreen extends React.Component {
   }
 
   renderModalLogout() {
+    const dialogSize = Math.round((Dimensions.get('screen').width * 4) / 5);
     return (
       <Modal visible={this.state.showDialog} transparent animationType="none">
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00000050'}}>
-          <View style={{flexDirection: 'column', paddingHorizontal: 20, paddingVertical: 15, backgroundColor: color.white, width: this.dialogSize, borderRadius: 12}}>
+          <View style={{flexDirection: 'column', paddingHorizontal: 20, paddingVertical: 15, backgroundColor: color.white, width: dialogSize, borderRadius: 12}}>
             <Text style={{marginVertical: 15, fontSize: 18}}>Do you want to logout?</Text>
             <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5}}>
               <Button dark onPress={() => this.setState({showDialog: false})} style={{margin: 3}}>
@@ -185,40 +181,41 @@ export default class ProfileScreen extends React.Component {
   }
 
   renderModalQrCode() {
+    const qrcodeSize = 256;
     return (
       <Modal visible={this.state.showQrCode} animationType="slide">
         <View style={{padding: 20, alignItems: 'center', flex: 1}}>
           <H2 style={{marginTop: 15}}>Share your QR Code</H2>
           <View style={styles.qrcodeSection}>
             {this.state.qrcodeContent ? (
-              <QRCode value={this.state.qrcodeContent} size={this.qrcodeSize} fgColor="white" />
+              <QRCode value={this.state.qrcodeContent} size={qrcodeSize} fgColor="white" />
             ) : (
-              <View style={{height: this.qrcodeSize, width: this.qrcodeSize, justifyContent: 'center', alignItems: 'center', flex: 1}}>
+              <View style={{height: qrcodeSize, width: qrcodeSize, justifyContent: 'center', alignItems: 'center', flex: 1}}>
                 <Spinner color="red" />
               </View>
             )}
             <Text style={{fontSize: 15, marginVertical: 20}}>Scan QR code to add contact</Text>
-            <View style={{flexDirection: 'row', flex: 1, width: this.qrcodeSize, justifyContent: 'space-around'}}>
-              {this.state.qrcodeCountDown === 0 ? (
-                <Badge danger>
-                  <Text>Expired</Text>
-                </Badge>
-              ) : (
-                <Badge warning>
-                  <Text>{this.state.qrcodeCountDown} s</Text>
-                </Badge>
-              )}
+            <Badge danger={this.state.qrcodeCountDown === 0} warning={this.state.qrcodeCountDown > 0} style={{alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{fontSize: 18, textAlign: 'center', paddingHorizontal: 16, paddingVertical: 8}}>
+                {this.state.qrcodeCountDown === 0 ? 'Expired' : `${this.state.qrcodeCountDown} s`}
+              </Text>
+            </Badge>
+            <View style={{flexDirection: 'row', flex: 1, width: qrcodeSize, justifyContent: 'space-around', marginTop: 20}}>
               <Button
                 dark
+                full
+                iconRight
                 onPress={() => {
                   this.setState({showQrCode: false});
                   this.clearQrCodeCountDown();
                 }}
-                style={{margin: 3}}>
+                style={{flex: 1}}>
                 <Text>Close</Text>
+                <Icon name="close" type="MaterialCommunityIcons" />
               </Button>
-              <Button rounded small info onPress={() => this.refreshQRCode()}>
+              <Button full primary iconLeft onPress={() => this.refreshQRCode()} style={{flex: 1}}>
                 <Icon name="refresh" />
+                <Text>Refresh</Text>
               </Button>
             </View>
           </View>
@@ -305,10 +302,7 @@ export default class ProfileScreen extends React.Component {
   render() {
     return (
       <AppScreenWrapper loading={this.state.loading}>
-        <Content
-          refreshControl={
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']} />
-          }>
+        <Content refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={refreshControlColors} />}>
           {this.renderAvatar()}
 
           <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10}}>

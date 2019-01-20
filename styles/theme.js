@@ -22,3 +22,5 @@ export const fonts = {
   OpenSansBold: 'OpenSans-Bold',
   Roboto: 'Roboto',
 };
+
+export const refreshControlColors = ['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075'];

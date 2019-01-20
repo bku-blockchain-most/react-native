@@ -9,7 +9,7 @@ import {Linking, RefreshControl} from 'react-native';
 import moment from 'moment';
 
 import DetailScreenWrapper from './_wrapper';
-import {styles} from '../../../styles';
+import {styles, refreshControlColors} from '../../../styles';
 import {RAMUtils, UrlUtils} from '../../../utils';
 import {appApi} from '../../../api';
 
@@ -73,7 +73,7 @@ class PollingDetailScreen extends Component {
                 this.setState({refreshing: true});
                 this.getVoting();
               }}
-              colors={['#eb0025', '#f96e00', '#f4a21a', '#3c40cb', '#337ab7', '#176075']}
+              colors={refreshControlColors}
             />
           }>
           {this.state.voting && (
