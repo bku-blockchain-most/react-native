@@ -4,8 +4,8 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, View, RefreshControl} from 'react-native';
-import {Text, Icon, Content, Header, Accordion, Button, Item, Input, Card, CardItem, Body, Thumbnail} from 'native-base';
+import {StyleSheet, View, RefreshControl, Modal, Alert} from 'react-native';
+import {Text, Icon, Content, Header, Textarea, Toast, Form, H2, Accordion, Button, Item, Input, Card, CardItem, Body, Thumbnail} from 'native-base';
 import moment from 'moment';
 import communications from 'react-native-communications';
 
@@ -25,10 +25,15 @@ class LogsContact extends Component {
     this.state = {
       loading: true,
       refreshing: false,
+
       original: [], // { time, note, partner: { ... } }
       filter: [],
+
       profile: null,
       inContactList: false,
+
+      note: '',
+      showNote: false,
     };
 
     this.profileID = this.props.navigation.getParam('profileID'); // scan QR Code, should fetching user by ID
@@ -114,6 +119,20 @@ class LogsContact extends Component {
         });
     }, 200);
   }
+
+  onSaveRecord = () => {
+    this.setState({loading: true});
+    appApi
+      .addRecord(this.state.profile.id, this.state.note)
+      .then(() => {
+        Alert.alert('Successfully', 'Record has been saved successfully.');
+        this.setState({loading: false, showNote: false});
+      })
+      .catch(err => {
+        this.setState({loading: false});
+        handleError(err);
+      });
+  };
 
   renderItem = item => {
     return (
@@ -234,6 +253,29 @@ class LogsContact extends Component {
     );
   };
 
+  renderModalAddNote() {
+    const userFullname = this.state.profile.firstName + ' ' + this.state.profile.lastName;
+    return (
+      <Modal visible={this.state.showNote} animationType="slide" onDismiss={() => this.setState({loading: false})}>
+        <View style={{padding: 20}}>
+          <H2 style={{marginTop: 15}}>Add Note</H2>
+          <Text style={{marginTop: 20}}>Recording with {userFullname}</Text>
+          <Form style={{marginBottom: 5, marginTop: 15}}>
+            <Textarea rowSpan={8} bordered placeholder="Add your note..." value={this.state.note} onChangeText={note => this.setState({note: note})} />
+            <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5, marginTop: 10}}>
+              <Button dark onPress={() => this.setState({showNote: false})} style={{margin: 3}}>
+                <Text>Cancel</Text>
+              </Button>
+              <Button danger style={{margin: 3}} onPress={() => this.onSaveRecord()}>
+                <Text>Save Record</Text>
+              </Button>
+            </View>
+          </Form>
+        </View>
+      </Modal>
+    );
+  }
+
   render() {
     return (
       <AppScreenWrapper loading={this.state.loading}>
@@ -252,12 +294,16 @@ class LogsContact extends Component {
                 <Text>Add To Contact</Text>
               </Button>
             )}
+
+          {this.renderModalAddNote()}
         </Content>
       </AppScreenWrapper>
     );
   }
 
-  handleAddRecord() {}
+  handleAddRecord() {
+    this.setState({showNote: true});
+  }
 }
 
 const styles = StyleSheet.create({
