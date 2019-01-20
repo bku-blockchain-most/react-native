@@ -60,6 +60,14 @@ export const RAMUtils = {
     RAMUtils.clearUser();
     RAMUtils.clearAuthToken();
   },
+
+  addContacts: contacts => {
+    myContacts = [...myContacts, ...contacts];
+  },
+  getContacts: () => myContacts,
+  setContacts: contacts => {
+    myContacts = contacts;
+  },
 };
 let id = '';
 let tid = '';
@@ -82,3 +90,5 @@ let user = {
   company: '',
   position: '',
 };
+
+let myContacts = [];

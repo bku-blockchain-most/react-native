@@ -35,11 +35,18 @@ class LogsContact extends Component {
     if (!this.profileID || this.profileID === '') {
       this.state.inContactList = true;
       this.state.profile = this.props.navigation.getParam('profile'); // contact in contacts list
+    } else {
+      // Check if this profile in contact list
+      const myContacts = RAMUtils.getContacts();
+      if (myContacts.find(o => o.id === this.profileID)) {
+        this.state.inContactList = true; // in contact list but no have profile
+      }
     }
   }
 
   componentWillMount() {
     if (this.state.profile) {
+      // have profile, fetching records
       setTimeout(() => this.fetchRecords(), 200); // prevent flash loading
     } else {
       setTimeout(() => this.fetchUser(), 200); // prevent flash loading
@@ -49,7 +56,16 @@ class LogsContact extends Component {
   fetchUser() {
     appApi
       .fetchUserProfileByID(this.profileID)
-      .then(profile => this.setState({profile, loading: false}))
+      .then(profile => {
+        if (this.state.inContactList) {
+          // this profile is in contacts, should fetch records
+          this.setState({profile});
+          this.fetchRecords();
+        } else {
+          // new profile
+          this.setState({profile, loading: false});
+        }
+      })
       .catch(err => {
         this.setState({loading: false});
         handleError(err);
@@ -232,7 +248,7 @@ class LogsContact extends Component {
           {this.state.inContactList ? this.renderLogContent() : null}
           {this.state.profile &&
             !this.state.inContactList && (
-              <Button primary full transparent style={{alignSelf: 'center'}} onPress={() => this.addToContact()}>
+              <Button primary full bordered transparent style={{alignSelf: 'center', marginTop: 20}} onPress={() => this.addToContact()}>
                 <Text>Add To Contact</Text>
               </Button>
             )}

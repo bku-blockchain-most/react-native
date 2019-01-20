@@ -7,7 +7,7 @@ import rsa from 'jsrsasign';
 
 export const generate = (data, cb) => {
   const current = rsa.KJUR.jws.IntDate.get('now');
-  const expireOneMinute = current + 60;
+  const expireOneMinute = current + 5 * 60;
 
   const header = {alg: 'HS256', typ: 'JWT'};
 

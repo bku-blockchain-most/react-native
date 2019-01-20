@@ -42,6 +42,7 @@ export const fetchContacts = async () => {
     .then(res => res.data)
     .then(data => {
       console.log(data); // [ {user1}, {user2} ]
+      RAMUtils.setContacts(data);
       return data;
     });
 };
@@ -65,6 +66,7 @@ export const addContact = async partnerID => {
     .post(url, {partnerID}, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(({message}) => {
+      RAMUtils.addContacts([{id: partnerID}]);
       console.log(message);
       return message;
     });
