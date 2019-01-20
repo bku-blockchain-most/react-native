@@ -53,6 +53,10 @@ class QrCodeScannerContact extends Component {
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <QRCodeScanner
             onRead={this.onSuccess.bind(this)}
+            fadeIn
+            reactivate
+            reactivateTimeout={2000}
+            showMarker
             topContent={<Text style={customStyles.title}>Scan QR Code to add contact</Text>}
             bottomContent={<View style={customStyles.button} />}
           />
