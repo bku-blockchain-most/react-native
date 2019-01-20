@@ -4,14 +4,14 @@
  */
 
 import React, {Component} from 'react';
-import {Icon, List, ListItem, Body, Segment, Button, Text} from 'native-base';
+import {Icon, List, ListItem, Body, Segment, Button, Text, Content} from 'native-base';
 import {RefreshControl} from 'react-native';
 
 import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
 import {handleError} from '../../../utils';
 import ItemPolling from '../../../components/ItemPolling';
-import {refreshControlColors} from '../../../styles';
+import {refreshControlColors, dynamicStyles} from '../../../styles';
 
 const RangeTime = {
   recently: 'Recently',
@@ -33,38 +33,47 @@ class PollingListScreen extends Component {
       loading: false,
       rangeTime: RangeTime.recently,
     };
+  }
 
+  componentWillMount() {
+    this.setState({loading: true});
     this._fetchPollings();
   }
 
   _fetchPollings = () => {
-    this.setState({loading: true});
     appApi
       .fetchPollings()
       .then(pollings => {
         this.setState({pollings, refreshing: false, loading: false});
       })
-      .catch(err => handleError(err));
+      .catch(err => {
+        this.setState({loading: false, refreshing: false});
+        handleError(err);
+      });
   };
 
   _fetchPollingsInPast = () => {
-    this.setState({loading: true});
     appApi
       .fetchPollingsInPast()
       .then(pollings => {
         this.setState({pollings, refreshing: false, loading: false});
       })
-      .catch(err => handleError(err));
+      .catch(err => {
+        this.setState({loading: false, refreshing: false});
+        handleError(err);
+      });
   };
 
   _fetchPollingsInComing = () => {
-    this.setState({loading: true});
     appApi
       .fetchPollingsInComing()
       .then(pollings => {
         this.setState({pollings, refreshing: false, loading: false});
       })
-      .catch(err => handleError(err));
+      .catch(err => {
+        this.setState({loading: false, refreshing: false});
+        handleError(err);
+      });
   };
 
   _onClickPollDetail = polling => {
@@ -72,15 +81,18 @@ class PollingListScreen extends Component {
   };
 
   handleChangeRange = rangeTime => {
-    if (rangeTime === this.state.rangeTime) {
-      return;
+    if (rangeTime !== this.state.rangeTime) {
+      this.setState({rangeTime, loading: true});
+      this.handleFetch(rangeTime);
     }
-
-    this.setState({rangeTime});
-    this.handleRefresh(rangeTime);
   };
 
   handleRefresh = rangeTime => {
+    this.setState({refreshing: true});
+    this.handleFetch(rangeTime);
+  };
+
+  handleFetch(rangeTime) {
     if (rangeTime === RangeTime.recently) {
       this._fetchPollings();
     } else if (rangeTime === RangeTime.past) {
@@ -88,7 +100,7 @@ class PollingListScreen extends Component {
     } else if (rangeTime === RangeTime.coming) {
       this._fetchPollingsInComing();
     }
-  };
+  }
 
   render() {
     const {rangeTime} = this.state;
@@ -113,35 +125,21 @@ class PollingListScreen extends Component {
             <Text>{RangeTime.coming}</Text>
           </Button>
         </Segment>
-
-        <List
-          // TODO: pull to refresh is not working
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => {
-                this.setState({refreshing: true});
-                this.handleRefresh(rangeTime);
-              }}
-              colors={refreshControlColors}
-            />
-          }
-          dataArray={this.state.pollings}
-          renderRow={o => (
-            <ListItem onPress={() => this._onClickPollDetail(o)}>
-              <Body>
-                <ItemPolling poll={o} />
-              </Body>
-            </ListItem>
-          )}
-          enableEmptySections
-        />
-
-        {/* {this.state.pollings.length === 0 && (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-            <Text>No anything</Text>
-          </View>
-        )} */}
+        <Content scrollEnabled={false} contentContainerStyle={{flex: 1}}>
+          <List
+            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh(rangeTime)} colors={refreshControlColors} />}
+            dataArray={this.state.pollings}
+            renderRow={o => (
+              <ListItem onPress={() => this._onClickPollDetail(o)} noBorder noIndent style={{...dynamicStyles.changeMargin(0)}}>
+                <Body style={{...dynamicStyles.changePadding(0)}}>
+                  <ItemPolling poll={o} />
+                </Body>
+              </ListItem>
+            )}
+            enableEmptySections
+            style={{...dynamicStyles.changePadding(4), ...dynamicStyles.changeMargin(5), flex: 1}}
+          />
+        </Content>
       </AppScreenWrapper>
     );
   }

@@ -48,3 +48,24 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.Roboto,
   },
 });
+
+export const dynamicStyles = {
+  changePadding: padding => ({
+    paddingLeft: padding,
+    paddingRight: padding,
+    paddingTop: padding,
+    paddingBottom: padding,
+    paddingHorizontal: padding,
+    paddingVertical: padding,
+    padding,
+  }),
+  changeMargin: margin => ({
+    marginLeft: margin,
+    marginRight: margin,
+    marginTop: margin,
+    marginBottom: margin,
+    marginHorizontal: margin,
+    marginVertical: margin,
+    margin,
+  }),
+};

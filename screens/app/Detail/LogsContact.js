@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, RefreshControl, Modal, Alert} from 'react-native';
-import {Text, Icon, Content, Header, Textarea, Toast, Form, H2, Accordion, Button, Item, Input, Card, CardItem, Body, Thumbnail} from 'native-base';
+import {Text, Icon, Content, Header, Textarea, Form, H2, Accordion, Button, Item, Input, Card, CardItem, Body, Thumbnail} from 'native-base';
 import moment from 'moment';
 import communications from 'react-native-communications';
 

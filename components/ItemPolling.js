@@ -6,26 +6,19 @@
 import React, {Component} from 'react';
 import {Card, CardItem, Text, Left, Body, Icon} from 'native-base';
 import moment from 'moment';
-import {color, styles} from '../styles';
+import {color, dynamicStyles} from '../styles';
 
 class ItemPolling extends Component {
   render() {
     const {poll} = this.props;
     return (
-      <Card style={{flex: 0}}>
-        <CardItem>
-          <Left>
-            <Icon type="MaterialIcons" name="event-note" active style={{color: color.primary}} />
+      <Card style={{flex: 1, ...dynamicStyles.changePadding(4), ...dynamicStyles.changeMargin(0)}}>
+        <CardItem style={{backgroundColor: 'white', ...dynamicStyles.changePadding(5)}}>
+          <Left style={{justifyContent: 'flex-start', ...dynamicStyles.changePadding(0)}}>
+            <Icon type="MaterialCommunityIcons" name="calendar-clock" active style={{color: color.primary}} />
             <Body>
-              <Text
-                style={{
-                  ...styles.fontOpenSans,
-                  fontWeight: '700',
-                  ...styles.textPrimary,
-                }}>
-                {poll.title || 'Title Polling'}
-              </Text>
-              <Text style={{...styles.fontOpenSans}} note>
+              <Text style={{fontWeight: '700', color: color.primary}}>{poll.title || 'Title Polling'}</Text>
+              <Text note>
                 {moment(poll.startDate).calendar()}
                 {' - '}
                 {moment(poll.endDate).calendar()}
@@ -33,17 +26,12 @@ class ItemPolling extends Component {
             </Body>
           </Left>
         </CardItem>
-        <CardItem>
-          <Body>
-            <Text style={{...styles.fontOpenSans}}>Event: {poll.eventID || ''}</Text>
-            <Text style={{...styles.fontOpenSans}}>Owner: {poll.ownerID || ''}</Text>
-          </Body>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <Text style={{...styles.fontOpenSans}} numberOfLines={2}>
-              {poll.description || ''}
+        <CardItem style={{...dynamicStyles.changePadding(5)}}>
+          <Body style={{...dynamicStyles.changePadding(0)}}>
+            <Text note>
+              {poll.eventID || ''} - {poll.ownerID || ''}
             </Text>
+            <Text numberOfLines={2}>{poll.description || ''}</Text>
           </Body>
         </CardItem>
       </Card>
