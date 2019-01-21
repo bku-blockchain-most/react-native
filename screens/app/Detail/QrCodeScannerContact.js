@@ -44,11 +44,6 @@ class QrCodeScannerContact extends Component {
           <Body>
             <Title>Scan Contact</Title>
           </Body>
-          <Right>
-            <Button transparent onPress={() => this.props.navigation.navigate('CreatingContact')}>
-              <Icon name="add" type="MaterialIcons" color={color.white} />
-            </Button>
-          </Right>
         </Header>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <QRCodeScanner

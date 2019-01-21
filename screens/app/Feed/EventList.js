@@ -4,55 +4,148 @@
  */
 
 import React, {Component} from 'react';
-import {ScrollView, View} from 'react-native';
-import {Icon} from 'native-base';
-import axios from 'axios';
-import urlJoin from 'url-join';
-import EventDetail from '../../../components/common/EventDetail';
-import FeedScreenWrapper from './_wrapper';
-import {RAMUtils} from '../../../utils';
-import config from '../../../config';
+import {RefreshControl, Image, Modal} from 'react-native';
+import {Icon, Content, List, ListItem, Body, Card, CardItem, Left, Text, Button, View, Thumbnail} from 'native-base';
+import moment from 'moment';
+
+import AppScreenWrapper from '../_wrapper';
+
+import {handleError} from '../../../utils';
+import {refreshControlColors, dynamicStyles, color} from '../../../styles';
+import {appApi} from '../../../api';
 
 class EventList extends Component {
   static navigationOptions = {
-    title: 'Event',
-    headerBackTitle: null,
-    tabBarLabel: 'Event',
     tabBarIcon: ({tintColor}) => <Icon name="event-available" type="MaterialIcons" style={{color: tintColor}} />,
   };
 
-  state = {
-    events: [],
-    loading: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      event: null, // now we only support one event
+      villages: [], // villages in this event
+      loading: false,
+      refreshing: false,
+      showDescription: false,
+    };
+  }
 
   componentWillMount() {
+    this.countDownLoading = 2;
     this.setState({loading: true});
-    this.setState({
-      uid: RAMUtils.getId(),
-    });
-    axios.get(urlJoin(config.apiUrl, 'ticket', 'events')).then(response => this.setState({loading: false, events: response.data}));
+    this.fetchEvent();
+    this.fetchVillages();
+  }
+
+  fetchEvent() {
+    appApi
+      .fetchEvents()
+      .then(events => {
+        this.setState({loading: --this.countDownLoading > 0, event: events[0] || {}});
+      })
+      .catch(err => {
+        this.setState({loading: --this.countDownLoading > 0});
+        handleError(err);
+      });
+  }
+
+  fetchVillages() {
+    appApi
+      .fetchVillages()
+      .then(villages => {
+        this.setState({loading: --this.countDownLoading > 0, refreshing: false, villages});
+      })
+      .catch(err => {
+        this.setState({loading: --this.countDownLoading > 0, refreshing: false});
+        handleError(err);
+      });
+  }
+
+  handleRefresh() {}
+
+  renderEvent() {
+    const {event_name, organizer, title, starting_date, photo_url} = this.state.event;
+    return (
+      <View style={{flex: 1}}>
+        <Image source={{uri: photo_url}} style={{width: null, flex: 1, height: 200}} />
+        <View style={{padding: 15}}>
+          <View style={{flexDirection: 'row', marginTop: 4}}>
+            <Thumbnail source={{uri: photo_url}} style={{flex: 0}} />
+            <View style={{flex: 1, marginLeft: 10}}>
+              <Text style={{fontWeight: '700', color: color.primary}}>{event_name || 'Title Polling'}</Text>
+              <Text note>
+                {moment(starting_date).calendar()} - {organizer || ''}
+              </Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: 10, justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: '700', flex: 1}}>{title || ''}</Text>
+            <Icon
+              name="ios-more"
+              style={{flex: 0, width: 32, height: 32, borderRadius: 16, backgroundColor: color.primary, color: color.white, textAlign: 'center', justifyContent: 'center'}}
+              onPress={() => this.setState({showDescription: true})}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderModalEventDetail() {
+    const {event_name, organizer, title, description, starting_date, photo_url} = this.state.event;
+    return (
+      <Modal visible={this.state.showDescription} animationType="slide">
+        <Button transparent onPress={() => this.setState({showDescription: false})} style={{position: 'absolute', top: 4, left: 8}}>
+          <Icon name="ios-arrow-back" />
+        </Button>
+        <View style={{padding: 20, marginTop: 28}}>
+          <View style={{flexDirection: 'row', marginTop: 4}}>
+            <Thumbnail source={{uri: photo_url}} style={{flex: 0}} />
+            <View style={{flex: 1, marginLeft: 10}}>
+              <Text style={{fontWeight: '700', color: color.primary}}>{event_name || 'Title Polling'}</Text>
+              <Text note>
+                {moment(starting_date).calendar()} - {organizer || ''}
+              </Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <Text style={{fontWeight: '700', flex: 1}}>{title || ''}</Text>
+          </View>
+          <View style={{marginTop: 10}}>
+            <Text>{description}</Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  renderVillage(village) {
+    return <Text />;
   }
 
   render() {
-    const {navigate} = this.props.navigation;
-    const {events} = this.state;
-
-    const user = RAMUtils.getUser();
-
-    console.log('EventList: events', events);
-    console.log('EventList: user', user);
-
     return (
-      <FeedScreenWrapper loading={this.state.loading}>
-        <View style={{flex: 1, backgroundColor: 'white'}}>
-          <ScrollView>
-            {events.map(event => (
-              <EventDetail key={event.event_name} eventX={event} text1={user.username} naviga={navigate} />
-            ))}
-          </ScrollView>
-        </View>
-      </FeedScreenWrapper>
+      <AppScreenWrapper loading={this.state.loading}>
+        <Content scrollEnabled={false} contentContainerStyle={{flex: 1}}>
+          {/* Event */}
+          {this.state.event && this.renderEvent()}
+          {this.state.event && this.renderModalEventDetail()}
+
+          {/* Villages List */}
+          <List
+            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={refreshControlColors} />}
+            dataArray={this.state.villages}
+            renderRow={o => (
+              <ListItem onPress={() => this._onClickPollDetail(o)} noBorder noIndent style={{...dynamicStyles.changeMargin(0)}}>
+                <Body style={{...dynamicStyles.changePadding(0)}}>{this.renderVillage(o)}</Body>
+              </ListItem>
+            )}
+            enableEmptySections
+            style={{...dynamicStyles.changePadding(4), ...dynamicStyles.changeMargin(5), flex: 1}}
+          />
+        </Content>
+      </AppScreenWrapper>
     );
   }
 }
