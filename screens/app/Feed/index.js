@@ -13,7 +13,7 @@ import {color} from '../../../styles';
 import ProfileScreen from './Profile';
 import PollingListScreen from './PollingList';
 import EventListScreen from './EventList';
-import QrScannerScreen from './QrScanner';
+// import QrScannerScreen from './QrScanner';
 
 import ContactScreen from './Contact';
 
@@ -41,7 +41,7 @@ const FeedAppNavigator = createTabNavigator(
     PollingList: PollingListScreen,
     Profile: ProfileScreen,
     Contacts: ContactScreen,
-    QrScanner: QrScannerScreen,
+    // QrScanner: QrScannerScreen,
     // Report: ReportNavigator,
   },
   {
@@ -51,9 +51,6 @@ const FeedAppNavigator = createTabNavigator(
     navigationOptions: ({navigation}) => ({
       tabBarIcon: ({tintColor}) => {
         const {routeName} = navigation.state;
-        if (routeName === 'Contacts') {
-          return <Icon name="contact-mail" type="MaterialCommunityIcons" style={{color: tintColor}} />;
-        }
         if (routeName === 'Report') {
           return <Icon name="chart-areaspline" type="MaterialCommunityIcons" style={{color: tintColor}} />;
         }

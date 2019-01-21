@@ -19,7 +19,7 @@ let intervalQRCodeCountDown;
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => <Icon name="account-location" type="MaterialCommunityIcons" style={{color: tintColor}} />,
+    tabBarIcon: ({tintColor}) => <Icon name="account-card-details" type="MaterialCommunityIcons" style={{color: tintColor}} />,
   };
 
   constructor(props) {

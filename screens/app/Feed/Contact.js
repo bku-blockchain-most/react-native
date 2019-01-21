@@ -14,7 +14,7 @@ import {color, refreshControlColors} from '../../../styles';
 
 class ContactScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({tintColor}) => <Icon name="contacts" type="MaterialIcons" style={{color: tintColor}} />,
+    tabBarIcon: ({tintColor}) => <Icon name="contact-phone" type="MaterialIcons" style={{color: tintColor}} />,
   };
 
   constructor(props) {

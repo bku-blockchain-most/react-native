@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import {RefreshControl, Image, Modal} from 'react-native';
-import {Icon, Content, List, ListItem, Body, Card, CardItem, Left, Text, Button, View, Thumbnail} from 'native-base';
+import {Icon, Content, ListItem, Body, Text, Button, View, Thumbnail, Card, CardItem, Left, List} from 'native-base';
 import moment from 'moment';
 
 import AppScreenWrapper from '../_wrapper';
@@ -68,7 +68,7 @@ class EventList extends Component {
     const {event_name, organizer, title, starting_date, photo_url} = this.state.event;
     return (
       <View style={{flex: 1}}>
-        <Image source={{uri: photo_url}} style={{width: null, flex: 1, height: 200}} />
+        <Image source={{uri: this.state.event.photo_url}} style={{width: null, flex: 1, height: 100, resizeMode: 'cover'}} />
         <View style={{padding: 15}}>
           <View style={{flexDirection: 'row', marginTop: 4}}>
             <Thumbnail source={{uri: photo_url}} style={{flex: 0}} />
@@ -121,7 +121,19 @@ class EventList extends Component {
   }
 
   renderVillage(village) {
-    return <Text />;
+    return (
+      <Card style={{flex: 1, ...dynamicStyles.changePadding(4), ...dynamicStyles.changeMargin(0)}}>
+        <CardItem style={{backgroundColor: 'white', ...dynamicStyles.changePadding(5)}}>
+          <Left style={{justifyContent: 'flex-start', ...dynamicStyles.changePadding(0)}}>
+            <Thumbnail source={{uri: village.photo_url}} style={{flex: 0}} />
+            <Body>
+              <Text style={{fontWeight: '700', color: color.primary}}>{village.village_name || 'Village Name'}</Text>
+              <Text note>{village.location || 'Location'}</Text>
+            </Body>
+          </Left>
+        </CardItem>
+      </Card>
+    );
   }
 
   render() {
@@ -131,13 +143,12 @@ class EventList extends Component {
           {/* Event */}
           {this.state.event && this.renderEvent()}
           {this.state.event && this.renderModalEventDetail()}
-
-          {/* Villages List */}
+          {/* Villages */}
           <List
             refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={refreshControlColors} />}
             dataArray={this.state.villages}
             renderRow={o => (
-              <ListItem onPress={() => this._onClickPollDetail(o)} noBorder noIndent style={{...dynamicStyles.changeMargin(0)}}>
+              <ListItem onPress={() => {}} noBorder noIndent style={{...dynamicStyles.changeMargin(0)}}>
                 <Body style={{...dynamicStyles.changePadding(0)}}>{this.renderVillage(o)}</Body>
               </ListItem>
             )}
