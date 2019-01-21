@@ -45,7 +45,7 @@ const FeedAppNavigator = createTabNavigator(
     // Report: ReportNavigator,
   },
   {
-    initialRouteName: 'Profile',
+    initialRouteName: 'EventList',
     tabBarPosition: 'bottom',
 
     navigationOptions: ({navigation}) => ({

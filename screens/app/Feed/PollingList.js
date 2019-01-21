@@ -158,12 +158,12 @@ class PollingListScreen extends Component {
             refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh(rangeTime)} colors={refreshControlColors} />}
             dataArray={this.state.pollings}
             renderRow={o => (
-              <ListItem onPress={() => this._onClickPollDetail(o)} noBorder noIndent style={{...dynamicStyles.changeMargin(0)}}>
-                <Body style={{...dynamicStyles.changePadding(0)}}>{this.renderPollingItem(o)}</Body>
+              <ListItem onPress={() => this._onClickPollDetail(o)} noBorder noIndent style={{...dynamicStyles.changeMargin(2), ...dynamicStyles.changePadding(2)}}>
+                <Body style={{...dynamicStyles.changePadding(1), ...dynamicStyles.changeMargin(1)}}>{this.renderPollingItem(o)}</Body>
               </ListItem>
             )}
             enableEmptySections
-            style={{...dynamicStyles.changePadding(4), ...dynamicStyles.changeMargin(5), flex: 1}}
+            style={{...dynamicStyles.changePadding(4), ...dynamicStyles.changeMargin(4), flex: 1}}
           />
         </Content>
       </AppScreenWrapper>

@@ -13,6 +13,7 @@ import QrGenerationScreen from './Detail/QrGeneration';
 import VillageListScreen from './Detail/VillageList';
 import LogsContact from './Detail/LogsContact';
 import QrCodeScannerContact from './Detail/QrCodeScannerContact';
+import VillageDetail from './Detail/VillageDetail';
 
 // import ReportScreen from '../../components/report';
 
@@ -34,6 +35,7 @@ const AppNavigator = createStackNavigator(
     Village: VillageListScreen,
     LogsContact,
     QrCodeScannerContact,
+    VillageDetail,
 
     // Report: ReportScreen,
   },
