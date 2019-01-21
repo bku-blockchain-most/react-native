@@ -84,14 +84,14 @@ export const addRecord = async (partnerID, note) => {
     });
 };
 
-export const updateProfile = async ({firstName, lastName, company, position}) => {
+export const updateProfile = async ({firstName, lastName, company, tel, position}) => {
   console.log('PUT /user');
   const url = urljoin(config.apiUrl, 'user');
   return axios
-    .put(url, {firstName, lastName, company, position}, {headers: {authorization: RAMUtils.getAuthToken()}})
+    .put(url, {firstName, lastName, company, tel, position}, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(({message}) => {
-      RAMUtils.updateUser({firstName, lastName, company, position});
+      RAMUtils.updateUser({firstName, lastName, tel, company, position});
       CacheUtils.setUser(RAMUtils.getUser());
       console.log(message);
       return message;

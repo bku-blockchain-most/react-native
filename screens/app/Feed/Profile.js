@@ -75,8 +75,7 @@ export default class ProfileScreen extends React.Component {
       })
       .catch(err => {
         this.setState({loading: false});
-        console.log(err);
-        Alert.alert(err);
+        handleError(err);
       });
   };
 
@@ -240,13 +239,7 @@ export default class ProfileScreen extends React.Component {
         <Item fixedLabel underline={false} bordered={false}>
           <Icon active type="MaterialCommunityIcons" name="phone-in-talk" />
           <Label>Tel</Label>
-          <Input
-            defaultValue={user.tel}
-            editable={false}
-            maxLength={45}
-            underlineColorAndroid="transparent"
-            onChangeText={v => this.setState({user: {...this.state.user, tel: v}})}
-          />
+          <Input defaultValue={user.tel} maxLength={45} underlineColorAndroid="transparent" onChangeText={v => this.setState({user: {...this.state.user, tel: v}})} />
         </Item>
         <Item fixedLabel underline={false} bordered={false}>
           <Icon active name="map-marker-radius" type="MaterialCommunityIcons" />
