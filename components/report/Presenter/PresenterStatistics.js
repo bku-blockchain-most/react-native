@@ -1,5 +1,10 @@
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+/**
+ * @format
+ * @flow
+ */
+
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
 import Table from '../common/TableData';
 import database from '../database.json';
 import _ from 'lodash';
@@ -17,18 +22,18 @@ export default class PresenterStatistics extends Component {
     }*/
   }
   render() {
-      const Head = ['Thành phần', 'Số lượng'];
-      const dt = database.boothInfo.find(x => x.boothId == this.props.boothId).statics.thanhPhan;
-      const dtCreate = () => {
-      return database.roleName.map((item,index)=>{
-          return {
-              loai : item,
-              sl : dt[index]
-          };
+    const Head = ['Thành phần', 'Số lượng'];
+    const dt = database.boothInfo.find(x => x.boothId == this.props.boothId).statics.thanhPhan;
+    const dtCreate = () => {
+      return database.roleName.map((item, index) => {
+        return {
+          loai: item,
+          sl: dt[index],
+        };
       });
     };
-    const Data = dtCreate().map(item=>_.valuesIn(item));
-                  //Data=[[database.boothInfo.find(x=>x.boothId == 2).statics.thanhPhan[1],1]]
+    const Data = dtCreate().map(item => _.valuesIn(item));
+    //Data=[[database.boothInfo.find(x=>x.boothId == 2).statics.thanhPhan[1],1]]
     return (
       <View style={styles.container}>
         <Table Head={Head} Data={Data} />
@@ -42,14 +47,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 30,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   head: {
     height: 40,
-    backgroundColor: '#f1f8ff'
+    backgroundColor: '#f1f8ff',
   },
   text: {
     margin: 6,
-    textAlign:'center'
-  }
+    textAlign: 'center',
+  },
 });

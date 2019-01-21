@@ -1,17 +1,15 @@
+/**
+ * @format
+ * @flow
+ */
 
 import React from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View, processColor
-} from 'react-native';
+import {StyleSheet, View, processColor} from 'react-native';
 
 import {BarChart} from 'react-native-charts-wrapper';
 import _ from 'lodash';
 
 export default class GroupChartScreen extends React.Component {
-
   constructor() {
     super();
 
@@ -21,31 +19,35 @@ export default class GroupChartScreen extends React.Component {
         textSize: 14,
         form: 'SQUARE',
         formSize: 14,
-        wordWrapEnabled: true
+        wordWrapEnabled: true,
       },
       data: {
-        dataSets: [{
-          values: [5, 40, 77, 81, 43],
-          label: 'Company A',
-          config: {
-            drawValues: false,
-            colors: [processColor('red')],
-          }
-        }, {
-          values: [40, 5, 50, 23, 79],
-          label: 'Company B',
-          config: {
-            drawValues: false,
-            colors: [processColor('blue')],
-          }
-        }, {
-          values: [10, 55, 35, 90, 82],
-          label: 'Company C',
-          config: {
-            drawValues: false,
-            colors: [processColor('green')],
-          }
-        }],
+        dataSets: [
+          {
+            values: [5, 40, 77, 81, 43],
+            label: 'Company A',
+            config: {
+              drawValues: false,
+              colors: [processColor('red')],
+            },
+          },
+          {
+            values: [40, 5, 50, 23, 79],
+            label: 'Company B',
+            config: {
+              drawValues: false,
+              colors: [processColor('blue')],
+            },
+          },
+          {
+            values: [10, 55, 35, 90, 82],
+            label: 'Company C',
+            config: {
+              drawValues: false,
+              colors: [processColor('green')],
+            },
+          },
+        ],
         config: {
           barWidth: 0.2,
           group: {
@@ -53,7 +55,7 @@ export default class GroupChartScreen extends React.Component {
             groupSpace: 0.4,
             barSpace: 0.1,
           },
-        }
+        },
       },
       xAxis: {
         valueFormatter: ['1990', '1991', '1992', '1993'],
@@ -62,7 +64,7 @@ export default class GroupChartScreen extends React.Component {
         axisMaximum: 6,
         axisMinimum: 0,
         centerAxisLabels: true,
-        scaleEnabled:true
+        scaleEnabled: true,
       },
 
       marker: {
@@ -71,33 +73,26 @@ export default class GroupChartScreen extends React.Component {
         textColor: processColor('white'),
         markerFontSize: 14,
       },
-
     };
   }
-
-
-
-
 
   render() {
     const newdata = _.cloneDeep(this.dt);
     newdata.data.dataSets = this.props.dataset;
     newdata.xAxis.valueFormatter = this.props.label;
     return (
-
-        <View style={styles.container}>
-          <BarChart
-            style={styles.chart}
-            xAxis={newdata.xAxis}
-            data={newdata.data}
-            legend={newdata.legend}
-            chartDescription={{ text: '' }}
-            drawValueAboveBar={false}
-            highlights={newdata.highlights}
-            marker={newdata.marker}
-          />
-        </View>
-
+      <View style={styles.container}>
+        <BarChart
+          style={styles.chart}
+          xAxis={newdata.xAxis}
+          data={newdata.data}
+          legend={newdata.legend}
+          chartDescription={{text: ''}}
+          drawValueAboveBar={false}
+          highlights={newdata.highlights}
+          marker={newdata.marker}
+        />
+      </View>
     );
   }
 }
@@ -105,12 +100,9 @@ export default class GroupChartScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
   },
   chart: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
-
-
-

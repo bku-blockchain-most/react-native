@@ -9,8 +9,6 @@ import FeedAppNavigator from './Feed';
 
 import PollingDetailScreen from './Detail/PollingDetail';
 import PollingAnswerScreen from './Detail/PollingAnswer';
-import QrGenerationScreen from './Detail/QrGeneration';
-import VillageListScreen from './Detail/VillageList';
 import LogsContact from './Detail/LogsContact';
 import QrCodeScannerContact from './Detail/QrCodeScannerContact';
 import VillageDetail from './Detail/VillageDetail';
@@ -31,8 +29,6 @@ const AppNavigator = createStackNavigator(
      */
     PollingDetail: PollingDetailScreen,
     PollingAnswer: PollingAnswerScreen,
-    QrGeneration: QrGenerationScreen,
-    Village: VillageListScreen,
     LogsContact,
     QrCodeScannerContact,
     VillageDetail,

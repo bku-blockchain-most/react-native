@@ -1,19 +1,24 @@
-import { Platform, StyleSheet } from 'react-native';
+/**
+ * @format
+ * @flow
+ */
+
+import {Platform, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
   sectionHeader: {
     paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: '#eee',
     borderBottomColor: '#ccc',
-    borderBottomWidth: StyleSheet.hairlineWidth
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   sectionHeaderText: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   item: {
     backgroundColor: '#fff',
@@ -23,11 +28,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     ...Platform.select({
-      ios: { marginLeft: 15, paddingRight: 15, paddingVertical: 15 },
-      android: { padding: 15 }
-    })
+      ios: {marginLeft: 15, paddingRight: 15, paddingVertical: 15},
+      android: {padding: 15},
+    }),
   },
   itemText: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });

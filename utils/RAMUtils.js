@@ -24,38 +24,6 @@ export const RAMUtils = {
     authToken = '';
   },
 
-  getId: () => id,
-  updateId: data => {
-    id = data;
-  },
-  clearId: () => {
-    id = '';
-  },
-
-  getLink: () => link,
-  updateLink: data => {
-    link = data;
-  },
-  clearLink: () => {
-    link = '';
-  },
-
-  getTid: () => tid,
-  updateTid: data => {
-    tid = data;
-  },
-  clearTid: () => {
-    tid = '';
-  },
-
-  getGotTicket: () => GotTicket,
-  updateGotTicket: data => {
-    GotTicket = data;
-  },
-  clearGotTicket: () => {
-    GotTicket = '';
-  },
-
   clearAll: () => {
     RAMUtils.clearUser();
     RAMUtils.clearAuthToken();
@@ -69,10 +37,6 @@ export const RAMUtils = {
     myContacts = contacts;
   },
 };
-let id = '';
-let tid = '';
-let link = '';
-let GotTicket = false;
 
 /**
  * Private data on Preferences
