@@ -5,7 +5,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, RefreshControl, Modal, Alert} from 'react-native';
-import {Text, Icon, Content, Header, Textarea, Form, H2, Accordion, Button, Item, Input, Card, CardItem, Body, Thumbnail} from 'native-base';
+import {Text, Icon, Content, Header, Textarea, Form, H2, Accordion, Button, Item, Input, Card, CardItem, Body, Thumbnail, Spinner} from 'native-base';
 import moment from 'moment';
 import communications from 'react-native-communications';
 
@@ -34,6 +34,7 @@ class LogsContact extends Component {
 
       note: '',
       showNote: false,
+      savingNote: false,
     };
 
     this.profileID = this.props.navigation.getParam('profileID'); // scan QR Code, should fetching user by ID
@@ -121,15 +122,15 @@ class LogsContact extends Component {
   }
 
   onSaveRecord = () => {
-    this.setState({loading: true});
+    this.setState({savingNote: true});
     appApi
       .addRecord(this.state.profile.id, this.state.note)
       .then(() => {
         Alert.alert('Successfully', 'Record has been saved successfully.');
-        this.setState({loading: false, showNote: false});
+        this.setState({savingNote: false, showNote: false, note: ''});
       })
       .catch(err => {
-        this.setState({loading: false});
+        this.setState({savingNote: false});
         handleError(err);
       });
   };
@@ -257,7 +258,7 @@ class LogsContact extends Component {
     const userFullname = this.state.profile.firstName + ' ' + this.state.profile.lastName;
     return (
       <Modal visible={this.state.showNote} animationType="slide" onDismiss={() => this.setState({loading: false})}>
-        <View style={{padding: 20}}>
+        <Content style={{padding: 20}}>
           <H2 style={{marginTop: 15}}>Add Note</H2>
           <Text style={{marginTop: 20}}>Recording with {userFullname}</Text>
           <Form style={{marginBottom: 5, marginTop: 15}}>
@@ -266,12 +267,18 @@ class LogsContact extends Component {
               <Button dark onPress={() => this.setState({showNote: false})} style={{margin: 3}}>
                 <Text>Cancel</Text>
               </Button>
-              <Button danger style={{margin: 3}} onPress={() => this.onSaveRecord()}>
-                <Text>Save Record</Text>
-              </Button>
+              {this.state.savingNote ? (
+                <Button disabled danger style={{margin: 3, paddingHorizontal: 32, paddingVertical: 10}}>
+                  <Spinner color={color.white} />
+                </Button>
+              ) : (
+                <Button danger style={{margin: 3}} onPress={() => this.onSaveRecord()}>
+                  <Text>Save Record</Text>
+                </Button>
+              )}
             </View>
           </Form>
-        </View>
+        </Content>
       </Modal>
     );
   }

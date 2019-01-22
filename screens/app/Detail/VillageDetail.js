@@ -9,6 +9,8 @@ import {Text, Content, Footer, Button, Spinner, Icon, View} from 'native-base';
 
 import DetailScreenWrapper from './_wrapper';
 import {color} from '../../../styles';
+import {appApi} from '../../../api';
+import {handleError} from '../../../utils';
 
 class VillageDetail extends Component {
   constructor(props) {
@@ -20,13 +22,36 @@ class VillageDetail extends Component {
     this.state = {
       loading: false,
       refreshing: false,
-      loadingInterest: false,
-      interested: false,
+      interested: null, // null: loading, true/false
     };
   }
 
   componentWillMount() {
-    this.setState({loadingInterest: false});
+    this.fetchInterest();
+  }
+
+  fetchInterest() {
+    appApi
+      .checkInterestedVilalgeOfEvent({
+        eventID: this.village.event,
+        villageID: this.village.vid,
+      })
+      .then(interested => this.setState({interested}))
+      .catch(console.log);
+  }
+
+  updateInterest(interested) {
+    this.setState({interested: null});
+    appApi
+      .updateInterestedVilalgeOfEvent({
+        eventID: this.village.event,
+        villageID: this.village.vid,
+        interested,
+      })
+      .then(msg => {
+        this.setState({interested});
+      })
+      .catch(err => handleError(err));
   }
 
   render() {
@@ -44,15 +69,15 @@ class VillageDetail extends Component {
         </Content>
         <Footer>
           <View style={{width: '100%', height: '100%', flex: 1, justifyContent: 'center', backgroundColor: color.white, paddingHorizontal: 10, paddingVertical: 8}}>
-            {this.state.loadingInterest ? (
+            {this.state.interested == null ? (
               <Spinner color={color.primary} />
             ) : this.state.interested ? (
-              <Button block danger iconRight style={{width: '100%', height: '100%'}} onPress={() => this.setState({interested: false})}>
+              <Button block danger iconRight style={{width: '100%', height: '100%'}} onPress={() => this.updateInterest(false)}>
                 <Text>Following</Text>
                 <Icon name="heart" type="Feather" />
               </Button>
             ) : (
-              <Button bordered danger iconRight style={{width: '100%', height: '100%', justifyContent: 'center'}} onPress={() => this.setState({interested: true})}>
+              <Button bordered danger iconRight style={{width: '100%', height: '100%', justifyContent: 'center'}} onPress={() => this.updateInterest(true)}>
                 <Text>Follow</Text>
                 <Icon name="heart" type="Feather" />
               </Button>

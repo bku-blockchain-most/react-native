@@ -17,7 +17,7 @@ export const fetchProfile = async username => {
     .then(data => {
       RAMUtils.updateUser(data);
       CacheUtils.setUser(RAMUtils.getUser());
-      console.log(data);
+      // console.log(data);
       return data;
     });
 };
@@ -29,7 +29,7 @@ export const fetchUserProfileByID = async id => {
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(data => {
-      console.log(data);
+      // console.log(data);
       return data;
     });
 };
@@ -41,7 +41,7 @@ export const fetchContacts = async () => {
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(data => {
-      console.log(data); // [ {user1}, {user2} ]
+      // console.log(data); // [ {user1}, {user2} ]
       RAMUtils.setContacts(data);
       return data;
     });
@@ -54,7 +54,7 @@ export const fetchRecords = async partnerID => {
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(data => {
-      console.log(data); // [ {record1}, {record2} ]
+      // console.log(data); // [ {record1}, {record2} ]
       return data;
     });
 };
@@ -67,7 +67,7 @@ export const addContact = async partnerID => {
     .then(res => res.data)
     .then(({message}) => {
       RAMUtils.addContacts([{id: partnerID}]);
-      console.log(message);
+      // console.log(message);
       return message;
     });
 };
@@ -79,7 +79,7 @@ export const addRecord = async (partnerID, note) => {
     .post(url, {partnerID, note}, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(({message}) => {
-      console.log(message);
+      // console.log(message);
       return message;
     });
 };
@@ -93,7 +93,7 @@ export const updateProfile = async ({firstName, lastName, company, tel, position
     .then(({message}) => {
       RAMUtils.updateUser({firstName, lastName, tel, company, position});
       CacheUtils.setUser(RAMUtils.getUser());
-      console.log(message);
+      // console.log(message);
       return message;
     });
 };

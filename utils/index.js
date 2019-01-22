@@ -14,11 +14,11 @@ import {Alert} from 'react-native';
 export const handleError = err => {
   console.log(err);
   console.log(err.response);
-  let message = 'Internal Server Error';
+  let message = 'Something is error. Please try again.';
   if (err.response) {
     message = err.response.data.message;
   }
-  Alert.alert(message);
+  Alert.alert('Error', message);
 };
 
 export const testMatch = (pattern, object, fields) => {

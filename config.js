@@ -1,5 +1,5 @@
 export default {
-  apiUrl: 'http://api.most.bkchain.tk',
+  apiUrl: 'http://api.lab.bkchain.tk',
   constants: {
     authToken: 'AUTH_TOKEN',
     currentUser: 'CURRENT_USER',

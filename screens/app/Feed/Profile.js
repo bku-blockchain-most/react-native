@@ -40,6 +40,7 @@ export default class ProfileScreen extends React.Component {
       oldPassword: '',
       newPassword: '',
       confirmPass: '',
+      loadingChangePassword: false,
     };
   }
 
@@ -71,7 +72,7 @@ export default class ProfileScreen extends React.Component {
       .updateProfile(this.state.user)
       .then(msg => {
         this.setState({loading: false});
-        Alert.alert(msg);
+        Alert.alert('Successfully', 'Update profile successfully');
       })
       .catch(err => {
         this.setState({loading: false});
@@ -110,7 +111,7 @@ export default class ProfileScreen extends React.Component {
   renderModalChangePassword() {
     return (
       <Modal visible={this.state.showChangePassword} animationType="slide">
-        <View style={{padding: 20}}>
+        <Content style={{padding: 20}}>
           <H2 style={{marginTop: 15}}>Change Password</H2>
           <Form style={{marginBottom: 5, marginTop: 20}}>
             <Item regular underline={false} bordered={false} style={{marginVertical: 5}}>
@@ -147,12 +148,18 @@ export default class ProfileScreen extends React.Component {
               <Button dark onPress={() => this.setState({showChangePassword: false})} style={{margin: 3}}>
                 <Text>Cancel</Text>
               </Button>
-              <Button danger style={{margin: 3}} onPress={() => this.onChangePassword()}>
-                <Text>Change password</Text>
-              </Button>
+              {this.state.loadingChangePassword ? (
+                <Button disabled danger style={{margin: 3, paddingHorizontal: 32, paddingVertical: 10}}>
+                  <Spinner color={color.white} />
+                </Button>
+              ) : (
+                <Button danger style={{margin: 3}} onPress={() => this.onChangePassword()}>
+                  <Text>Change password</Text>
+                </Button>
+              )}
             </View>
           </Form>
-        </View>
+        </Content>
       </Modal>
     );
   }
@@ -339,22 +346,20 @@ export default class ProfileScreen extends React.Component {
 
   onChangePassword = async () => {
     if (this.state.oldPassword === '' || this.state.newPassword === '') {
-      return Alert.alert("Fields can't be empty");
+      return Alert.alert('Error', "Fields can't be empty");
     }
     if (this.state.newPassword !== this.state.confirmPass) {
-      return Alert.alert('Confirm password is not match');
+      return Alert.alert('Error', 'Confirm password is not match');
     }
-    this.setState({loading: true});
+    this.setState({loadingChangePassword: true});
     authApi
       .changePassword({oldPassword: this.state.oldPassword, newPassword: this.state.newPassword})
       .then(msg => {
-        this.setState({loading: false});
-        Alert.alert(msg);
-        this.setState({oldPassword: '', newPassword: '', confirmPass: '', showChangePassword: false});
+        Alert.alert('Successfully', 'Change password successfully');
+        this.setState({oldPassword: '', newPassword: '', confirmPass: '', showChangePassword: false, loadingChangePassword: false});
       })
       .catch(err => {
-        this.setState({loading: false});
-        console.log(err);
+        this.setState({loadingChangePassword: false});
         handleError(err);
       });
   };

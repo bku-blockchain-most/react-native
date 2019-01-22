@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {RefreshControl, Image, Modal, Linking, StyleSheet} from 'react-native';
+import {RefreshControl, Alert, Image, Modal, Linking, StyleSheet} from 'react-native';
 import {Icon, Content, ListItem, Body, Text, Button, View, Thumbnail, Card, H2, List, Spinner} from 'native-base';
 import moment from 'moment';
 import QRCode from 'react-native-qrcode';
@@ -29,14 +29,16 @@ class EventList extends Component {
       loading: false,
       refreshing: false,
       showDescription: false,
-      hadTicket: null,
       showQrCode: false,
       qrcodeContent: null,
+      ticket: null,
+      bookingTicket: false,
     };
   }
 
   componentWillMount() {
-    this.countDownLoading = 2;
+    // fetch event, villages, ticket
+    this.countDownLoading = 3;
     this.setState({loading: true});
     this.fetchEvent();
     this.fetchVillages();
@@ -47,6 +49,7 @@ class EventList extends Component {
       .fetchEvents()
       .then(events => {
         this.setState({loading: --this.countDownLoading > 0, event: events[0] || {}});
+        this.fetchTicket();
       })
       .catch(err => {
         this.setState({loading: --this.countDownLoading > 0});
@@ -66,47 +69,69 @@ class EventList extends Component {
       });
   }
 
-  handleRefresh() {}
-
   fetchTicket() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve(), 400);
-    });
+    appApi
+      .fetchTicketOfEvent({eventID: this.state.event.id})
+      .then(ticket => {
+        this.setState({loading: --this.countDownLoading > 0, refreshing: false, ticket});
+      })
+      .catch(err => {
+        this.setState({loading: --this.countDownLoading > 0, refreshing: false});
+        handleError(err);
+      });
   }
 
-  bookTicket() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => resolve({ticketID: 'uty38rnc23'}), 400);
-    });
+  handleRefresh() {
+    this.setState({refreshing: true});
+    this.fetchTicket();
   }
 
   handleOpenDescription() {
     this.setState({showDescription: true});
-    if (this.state.hadTicket == null) {
-      this.fetchTicket()
-        .then(() => this.setState({hadTicket: false}))
-        .catch(err => handleError(err));
-    }
   }
 
   handleOpenTicket() {
-    if (this.state.hadTicket && this.state.qrcodeContent) {
+    if (this.state.ticket) {
       this.setState({showQrCode: true});
+      if (!this.state.qrcodeContent) {
+        setTimeout(() => this.setState({qrcodeContent: this.retrieveQrCodeContent()}), 200);
+      }
     } else {
       this.handleOpenDescription();
     }
   }
 
   handleBookTicket() {
-    this.setState({hadTicket: null});
-    this.bookTicket()
-      .then(ticketID => {
-        this.setState({hadTicket: true, showQrCode: true});
-        setTimeout(() => this.setState({qrcodeContent: ticketID}), 300);
+    this.setState({bookingTicket: true});
+    appApi
+      .bookTicketOfEvent({eventID: this.state.event.id})
+      .then(ticket => {
+        this.setState({ticket, showQrCode: true, bookingTicket: false});
+        setTimeout(() => this.setState({qrcodeContent: this.retrieveQrCodeContent()}), 200);
       })
       .catch(err => {
         handleError(err);
       });
+  }
+
+  confirmBookTicket() {
+    Alert.alert('Confirmation', 'Do you want to book a ticket? A transaction will be created on Ethereum.', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'YES',
+        onPress: async () => {
+          this.handleBookTicket();
+        },
+      },
+    ]);
+  }
+
+  retrieveQrCodeContent() {
+    const {tid, txHash} = this.state.ticket || {};
+    return JSON.stringify({tid, txHash});
   }
 
   renderEvent() {
@@ -158,14 +183,14 @@ class EventList extends Component {
             <Text>{description}</Text>
           </View>
           <View style={{marginTop: 20}}>
-            {this.state.hadTicket == null ? ( // loading
+            {this.state.bookingTicket ? (
               <Spinner color={color.primary} />
-            ) : this.state.hadTicket ? (
+            ) : this.state.ticket ? (
               <Button full danger onPress={() => this.setState({showQrCode: true})}>
                 <Text>View your ticket</Text>
               </Button>
             ) : (
-              <Button full danger onPress={() => this.handleBookTicket()}>
+              <Button full danger onPress={() => this.confirmBookTicket()}>
                 <Text>Book a Ticket</Text>
               </Button>
             )}
@@ -199,14 +224,17 @@ class EventList extends Component {
         <View style={{padding: 20, alignItems: 'center', flex: 1}}>
           <H2 style={{marginTop: 15}}>Your Ticket</H2>
           <Text style={{marginTop: 30, alignSelf: 'flex-start'}}>
-            <Text style={{fontWeight: '700'}}>Ticket Code: </Text>
-            84yt0bv9nq3urn902u30r34
+            <Text style={{fontWeight: '700'}}>Ticket Code: </Text> {this.state.ticket.tid}
           </Text>
           <Text style={{marginTop: 10, alignSelf: 'flex-start'}}>
             <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
             <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL('hw84yt024ut9034n0ru2039urn203402934u03q342v34r34'))}>
-              hw84yt024ut9034n0ru2039urn203402934u03q342v34r34
+              {this.state.ticket.txHash}
             </Text>
+          </Text>
+          <Text style={{marginTop: 10, alignSelf: 'flex-start'}}>
+            <Text style={{fontWeight: '700'}}>Created At: </Text>
+            {moment(this.state.ticket.created_date).format('MMMM Do YYYY, h:mm:ss a')}
           </Text>
           <View style={customStyles.qrcodeSection}>
             {this.state.qrcodeContent ? (

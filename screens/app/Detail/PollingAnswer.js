@@ -68,13 +68,13 @@ class PollingAnswerScreen extends Component {
       });
     }
     // console.log(ballots);
-    Alert.alert('Confirmation', 'Do you want to submit your voting?', [
+    Alert.alert('Confirmation', 'Do you want to submit your voting? A transaction will be created on Ethereum.', [
       {
         text: 'Cancel',
         style: 'cancel',
       },
       {
-        text: 'OK',
+        text: 'YES',
         onPress: async () => {
           this.setState({loading: true});
           try {

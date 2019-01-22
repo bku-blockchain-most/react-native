@@ -19,7 +19,8 @@
     "clean:android": "rm -rf ./android/build/ ./android/app/build/",
     "clean": "npm run clean:ios && npm run clean:android",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
-    "build:android": "npm run bundle && rm -rf android/app/src/main/res/drawable-* && cd android && ./gradlew assembleRelease"
+    "prebuild:android": "npm run bundle && rm -rf android/app/src/main/res/drawable-*",
+    "build:android": "npm run prebuild:android && cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "axios": "^0.18.0",

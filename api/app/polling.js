@@ -14,7 +14,7 @@ export const fetchPollings = async () => {
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(pollings => {
-      console.log(pollings);
+      // console.log(pollings);
       return pollings;
     });
 };
@@ -25,7 +25,7 @@ export const fetchPollingsInPast = async () => {
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(pollings => {
-      console.log(pollings);
+      // console.log(pollings);
       return pollings;
     });
 };
@@ -36,7 +36,7 @@ export const fetchPollingsInComing = async () => {
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(pollings => {
-      console.log(pollings);
+      // console.log(pollings);
       return pollings;
     });
 };
@@ -47,7 +47,7 @@ export const votePollings = async (pollID, ballots) => {
     .post(url, {pollID, ballots}, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(vote => {
-      console.log(vote);
+      // console.log(vote);
       return vote;
     });
 };
@@ -61,7 +61,7 @@ export const getVoting = async pollID => {
     .get(url, {headers: {authorization: RAMUtils.getAuthToken()}})
     .then(res => res.data)
     .then(vote => {
-      console.log(vote);
+      // console.log(vote);
       return vote;
     });
 };
