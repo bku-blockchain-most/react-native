@@ -2,6 +2,10 @@
 
 Mobile Application using React Native
 
+## Snapshots - Android
+
+[View here](./snapshots.md)
+
 ## Development
 
 ### Quickstart
