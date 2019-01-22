@@ -221,14 +221,14 @@ class EventList extends Component {
     const qrcodeSize = 256;
     return (
       <Modal visible={this.state.showQrCode} animationType="slide">
-        <View style={{padding: 20, alignItems: 'center', flex: 1}}>
-          <H2 style={{marginTop: 15}}>Your Ticket</H2>
-          <Text style={{marginTop: 30, alignSelf: 'flex-start'}}>
+        <Content style={{padding: 20, alignItems: 'center'}}>
+          <H2 style={{marginTop: 10}}>Your Ticket</H2>
+          <Text style={{marginTop: 20, alignSelf: 'flex-start'}}>
             <Text style={{fontWeight: '700'}}>Ticket Code: </Text> {this.state.ticket.tid}
           </Text>
           <Text style={{marginTop: 10, alignSelf: 'flex-start'}}>
             <Text style={{fontWeight: '700'}}>Transaction Hash: </Text>
-            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL('hw84yt024ut9034n0ru2039urn203402934u03q342v34r34'))}>
+            <Text style={{color: 'blue'}} onPress={() => Linking.openURL(UrlUtils.getEtherscanTransactionURL(this.state.ticket.txHash))}>
               {this.state.ticket.txHash}
             </Text>
           </Text>
@@ -244,14 +244,14 @@ class EventList extends Component {
                 <Spinner color="red" />
               </View>
             )}
-            <Text style={{fontSize: 15, marginVertical: 20}}>Scan QR code to view ticket</Text>
+            <Text style={{fontSize: 15, marginVertical: 10}}>Scan QR code to view ticket</Text>
             <View style={{flexDirection: 'row', flex: 1, width: qrcodeSize, justifyContent: 'space-around', marginTop: 20}}>
               <Button dark full onPress={() => this.setState({showQrCode: false})} style={{flex: 1}}>
                 <Text>Close</Text>
               </Button>
             </View>
           </View>
-        </View>
+        </Content>
       </Modal>
     );
   }
