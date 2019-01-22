@@ -238,7 +238,7 @@ class LogsContact extends Component {
     const user = this.state.profile || {};
     const userFullname = user.firstName + ' ' + user.lastName;
     return (
-      <Modal visible={this.state.showNote} animationType="slide" onDismiss={() => this.setState({loading: false})}>
+      <Modal visible={this.state.showNote} animationType="slide" onRequestClose={() => this.setState({showNote: false})}>
         <Content style={{padding: 20}}>
           <H2 style={{marginTop: 15}}>Add Note</H2>
           <Text style={{marginTop: 20}}>Recording with {userFullname}</Text>

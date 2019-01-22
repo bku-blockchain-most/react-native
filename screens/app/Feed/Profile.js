@@ -110,7 +110,7 @@ export default class ProfileScreen extends React.Component {
 
   renderModalChangePassword() {
     return (
-      <Modal visible={this.state.showChangePassword} animationType="slide">
+      <Modal visible={this.state.showChangePassword} animationType="slide" onRequestClose={() => this.setState({showChangePassword: false})}>
         <Content style={{padding: 20}}>
           <H2 style={{marginTop: 15}}>Change Password</H2>
           <Form style={{marginBottom: 5, marginTop: 20}}>
@@ -167,7 +167,7 @@ export default class ProfileScreen extends React.Component {
   renderModalLogout() {
     const dialogSize = Math.round((Dimensions.get('screen').width * 4) / 5);
     return (
-      <Modal visible={this.state.showDialog} transparent animationType="none">
+      <Modal visible={this.state.showDialog} transparent animationType="none" onRequestClose={() => this.setState({showDialog: false})}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00000050'}}>
           <View style={{flexDirection: 'column', paddingHorizontal: 20, paddingVertical: 15, backgroundColor: color.white, width: dialogSize, borderRadius: 12}}>
             <Text style={{marginVertical: 15, fontSize: 18}}>Do you want to logout?</Text>
@@ -188,7 +188,7 @@ export default class ProfileScreen extends React.Component {
   renderModalQrCode() {
     const qrcodeSize = 256;
     return (
-      <Modal visible={this.state.showQrCode} animationType="slide">
+      <Modal visible={this.state.showQrCode} animationType="slide" onRequestClose={() => this.setState({showQrCode: false})}>
         <View style={{padding: 20, alignItems: 'center', flex: 1}}>
           <H2 style={{marginTop: 15}}>Share your QR Code</H2>
           <View style={styles.qrcodeSection}>

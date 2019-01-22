@@ -162,7 +162,7 @@ class EventList extends Component {
   renderModalEventDetail() {
     const {event_name, organizer, title, description, starting_date, photo_url} = this.state.event;
     return (
-      <Modal visible={this.state.showDescription} animationType="slide">
+      <Modal visible={this.state.showDescription} animationType="slide" onRequestClose={() => this.setState({showDescription: false})}>
         <Button transparent onPress={() => this.setState({showDescription: false})} style={{position: 'absolute', top: 4, left: 8}}>
           <Icon name="ios-arrow-back" />
         </Button>
@@ -220,9 +220,9 @@ class EventList extends Component {
   renderModalQrCode() {
     const qrcodeSize = 256;
     return (
-      <Modal visible={this.state.showQrCode} animationType="slide">
-        <Content style={{padding: 20, alignItems: 'center'}}>
-          <H2 style={{marginTop: 10}}>Your Ticket</H2>
+      <Modal visible={this.state.showQrCode} animationType="slide" onRequestClose={() => this.setState({showQrCode: false})}>
+        <Content style={{padding: 15, alignItems: 'center'}}>
+          <H2 style={{marginTop: 10, alignSelf: 'center'}}>Your Ticket</H2>
           <Text style={{marginTop: 20, alignSelf: 'flex-start'}}>
             <Text style={{fontWeight: '700'}}>Ticket Code: </Text> {this.state.ticket.tid}
           </Text>
