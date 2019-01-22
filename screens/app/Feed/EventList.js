@@ -166,7 +166,7 @@ class EventList extends Component {
         <Button transparent onPress={() => this.setState({showDescription: false})} style={{position: 'absolute', top: 4, left: 8}}>
           <Icon name="ios-arrow-back" />
         </Button>
-        <View style={{padding: 20, marginTop: 28}}>
+        <Content style={{paddingTop: 10, paddingHorizontal: 20, marginTop: 40}}>
           <View style={{flexDirection: 'row', marginTop: 4}}>
             <Thumbnail source={{uri: photo_url}} style={{flex: 0}} />
             <View style={{flex: 1, marginLeft: 10}}>
@@ -182,7 +182,7 @@ class EventList extends Component {
           <View style={{marginTop: 10}}>
             <Text>{description}</Text>
           </View>
-          <View style={{marginTop: 20}}>
+          <View style={{marginTop: 20, marginBottom: 30}}>
             {this.state.bookingTicket ? (
               <Spinner color={color.primary} />
             ) : this.state.ticket ? (
@@ -195,7 +195,7 @@ class EventList extends Component {
               </Button>
             )}
           </View>
-        </View>
+        </Content>
       </Modal>
     );
   }
@@ -221,8 +221,8 @@ class EventList extends Component {
     const qrcodeSize = 256;
     return (
       <Modal visible={this.state.showQrCode} animationType="slide" onRequestClose={() => this.setState({showQrCode: false})}>
-        <Content style={{padding: 15, alignItems: 'center'}}>
-          <H2 style={{marginTop: 10, alignSelf: 'center'}}>Your Ticket</H2>
+        <Content style={{padding: 15}} contentContainerStyle={{alignItems: 'center'}}>
+          <H2 style={{marginTop: 20}}>Your Ticket</H2>
           <Text style={{marginTop: 20, alignSelf: 'flex-start'}}>
             <Text style={{fontWeight: '700'}}>Ticket Code: </Text> {this.state.ticket.tid}
           </Text>
@@ -236,7 +236,7 @@ class EventList extends Component {
             <Text style={{fontWeight: '700'}}>Created At: </Text>
             {moment(this.state.ticket.created_date).format('MMMM Do YYYY, h:mm:ss a')}
           </Text>
-          <View style={customStyles.qrcodeSection}>
+          <View style={{...customStyles.qrcodeSection, marginBottom: 30}}>
             {this.state.qrcodeContent ? (
               <QRCode value={this.state.qrcodeContent} size={qrcodeSize} fgColor="white" />
             ) : (

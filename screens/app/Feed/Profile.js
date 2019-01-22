@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Dimensions, Alert, RefreshControl, Modal} from 'react-native';
+import {StyleSheet, View, Alert, RefreshControl, Modal} from 'react-native';
 import {Button, Icon, Text, Thumbnail, Form, Item, Label, Content, Input, Spinner, Badge, ListItem, List, Left, Right, Body, H2} from 'native-base';
 import QRCode from 'react-native-qrcode';
 import * as jws from '../../../utils/jws';
@@ -33,7 +33,6 @@ export default class ProfileScreen extends React.Component {
       qrcodeCountDown: 60,
       qrcodeContent: null,
 
-      showDialog: false,
       showQrCode: false,
       showChangePassword: false,
 
@@ -164,27 +163,6 @@ export default class ProfileScreen extends React.Component {
     );
   }
 
-  renderModalLogout() {
-    const dialogSize = Math.round((Dimensions.get('screen').width * 4) / 5);
-    return (
-      <Modal visible={this.state.showDialog} transparent animationType="none" onRequestClose={() => this.setState({showDialog: false})}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00000050'}}>
-          <View style={{flexDirection: 'column', paddingHorizontal: 20, paddingVertical: 15, backgroundColor: color.white, width: dialogSize, borderRadius: 12}}>
-            <Text style={{marginVertical: 15, fontSize: 18}}>Do you want to logout?</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5}}>
-              <Button dark onPress={() => this.setState({showDialog: false})} style={{margin: 3}}>
-                <Text>Cancel</Text>
-              </Button>
-              <Button danger onPress={this._onClickSignOut} style={{margin: 3}}>
-                <Text>OK</Text>
-              </Button>
-            </View>
-          </View>
-        </View>
-      </Modal>
-    );
-  }
-
   renderModalQrCode() {
     const qrcodeSize = 256;
     return (
@@ -272,7 +250,7 @@ export default class ProfileScreen extends React.Component {
         <View style={{position: 'absolute', top: 0, left: 0, height: 80, width: '100%', backgroundColor: color.primary}} />
         <View style={{height: 160, justifyContent: 'center', alignItems: 'center'}}>
           <View style={{flexDirection: 'row', flex: 1, height: 120, width: '100%', justifyContent: 'space-around', alignItems: 'center'}}>
-            <Button rounded small iconLeft style={{backgroundColor: '#d60022', alignSelf: 'center'}} onPress={() => this.setState({showDialog: true})}>
+            <Button rounded small iconLeft style={{backgroundColor: '#d60022', alignSelf: 'center'}} onPress={() => this.handleLogout()}>
               <Icon name="logout" type="SimpleLineIcons" style={{fontSize: 15}} />
               <Text style={{fontSize: 12}}>Logout</Text>
             </Button>
@@ -338,10 +316,24 @@ export default class ProfileScreen extends React.Component {
           </List>
           {this.renderModalQrCode()}
           {this.renderModalChangePassword()}
-          {this.renderModalLogout()}
         </Content>
       </AppScreenWrapper>
     );
+  }
+
+  handleLogout() {
+    Alert.alert('Warning', 'Do you want to logout?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'YES',
+        onPress: async () => {
+          this.signOut();
+        },
+      },
+    ]);
   }
 
   onChangePassword = async () => {
@@ -364,7 +356,7 @@ export default class ProfileScreen extends React.Component {
       });
   };
 
-  _onClickSignOut = async () => {
+  signOut = async () => {
     authApi
       .logout()
       .then(() => this.props.navigation.navigate('Auth'))
