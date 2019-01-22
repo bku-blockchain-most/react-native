@@ -5,13 +5,13 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, RefreshControl, Modal, Alert} from 'react-native';
-import {Text, Icon, Content, Header, Textarea, Form, H2, Accordion, Button, Item, Input, Card, CardItem, Body, Thumbnail, Spinner} from 'native-base';
+import {Text, Icon, Content, Textarea, Form, H2, Accordion, Button, Card, CardItem, Body, Thumbnail, Spinner} from 'native-base';
 import moment from 'moment';
 import communications from 'react-native-communications';
 
 import AppScreenWrapper from '../_wrapper';
 import {appApi} from '../../../api';
-import {handleError, testMatch, RAMUtils} from '../../../utils';
+import {handleError, RAMUtils} from '../../../utils';
 import {color, refreshControlColors} from '../../../styles';
 
 class LogsContact extends Component {
@@ -26,8 +26,7 @@ class LogsContact extends Component {
       loading: true,
       refreshing: false,
 
-      original: [], // { time, note, partner: { ... } }
-      filter: [],
+      records: [], // { time, note, partner: { ... } }
 
       profile: null,
       inContactList: false,
@@ -91,21 +90,13 @@ class LogsContact extends Component {
         this.setState({
           loading: false,
           refreshing: false,
-          original: records,
-          filter: records,
+          records,
         }),
       )
       .catch(err => {
         this.setState({loading: false, refreshing: false});
         handleError(err);
       });
-  };
-
-  onSearchInputChanged = text => {
-    const pattern = new RegExp(text, 'i');
-    this.setState({
-      filter: this.state.original.filter(o => testMatch(pattern, o, ['time', 'note'])),
-    });
   };
 
   addToContact() {
@@ -154,7 +145,7 @@ class LogsContact extends Component {
     return (
       <View style={{padding: 5}}>
         <Accordion
-          dataArray={this.state.filter.map(item => {
+          dataArray={this.state.records.map(item => {
             // { time, note, partner: { ... } }
             return {
               title: moment(item.time).calendar() + ' - ' + (item.note || '').substring(0, 18) + '...',
@@ -167,19 +158,8 @@ class LogsContact extends Component {
     );
   };
 
-  renderSearchBar = () => {
-    return (
-      <Header searchBar rounded>
-        <Item>
-          <Icon name="ios-search" />
-          <Input placeholder="Search" placeholderTextColor={color.inactive} onChangeText={text => this.onSearchInputChanged(text)} />
-        </Item>
-      </Header>
-    );
-  };
-
   renderProfile = () => {
-    const user = this.state.profile;
+    const user = this.state.profile || {};
     const userFullname = user.firstName + ' ' + user.lastName;
     const myFullname = RAMUtils.getUser().firstName + ' ' + RAMUtils.getUser().lastName;
     const message = `Hello ${userFullname},\nI'm ${myFullname}, ...`;
@@ -255,7 +235,8 @@ class LogsContact extends Component {
   };
 
   renderModalAddNote() {
-    const userFullname = this.state.profile.firstName + ' ' + this.state.profile.lastName;
+    const user = this.state.profile || {};
+    const userFullname = user.firstName + ' ' + user.lastName;
     return (
       <Modal visible={this.state.showNote} animationType="slide" onDismiss={() => this.setState({loading: false})}>
         <Content style={{padding: 20}}>
@@ -287,14 +268,14 @@ class LogsContact extends Component {
     return (
       <AppScreenWrapper loading={this.state.loading}>
         <Content refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.handleRefresh()} colors={refreshControlColors} />}>
-          {this.state.profile ? this.renderProfile() : null}
-          {/* {this.renderSearchBar()} */}
-          {this.state.inContactList && (
-            <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10, marginBottom: 15}}>
-              <Text style={{color: color.white}}>Your records</Text>
-            </View>
-          )}
-          {this.state.inContactList ? this.renderLogContent() : null}
+          {this.state.profile && this.renderProfile()}
+          {this.state.profile &&
+            this.state.inContactList && (
+              <View style={{backgroundColor: color.primary, paddingVertical: 4, paddingLeft: 10, marginTop: 10, marginBottom: 15}}>
+                <Text style={{color: color.white}}>Your records</Text>
+              </View>
+            )}
+          {this.state.inContactList && this.renderLogContent()}
           {this.state.profile &&
             !this.state.inContactList && (
               <Button primary full bordered transparent style={{alignSelf: 'center', marginTop: 20}} onPress={() => this.addToContact()}>
@@ -302,7 +283,7 @@ class LogsContact extends Component {
               </Button>
             )}
 
-          {this.renderModalAddNote()}
+          {this.state.profile && this.renderModalAddNote()}
         </Content>
       </AppScreenWrapper>
     );
