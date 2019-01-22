@@ -16,10 +16,17 @@ class AppScreenWrapper extends Component {
    */
   render() {
     return (
-      <Container>
+      <Container
+        style={
+          Platform.OS === 'ios'
+            ? {
+                paddingTop: 20, // offset for status bar
+              }
+            : {}
+        }>
         {Platform.select({
           android: <StatusBar backgroundColor={color.primaryDark} barStyle="light-content" />,
-          ios: <StatusBar backgroundColor={color.primary} barStyle="dark-content" />,
+          ios: <StatusBar barStyle="light-content" />,
         })}
         <Loading visible={this.props.loading} />
         {this.props.children}

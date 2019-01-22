@@ -49,8 +49,7 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-      <!-- Add my domain -->
-      <key>api.lab.bkchain.tk</key>
+			<key>api.lab.bkchain.tk</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -78,5 +77,7 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Application require the permission for camera usage</string>
 </dict>
 </plist>

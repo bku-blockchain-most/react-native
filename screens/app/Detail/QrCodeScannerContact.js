@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {Button, Text, Icon, Header, Left, View, Right, Body, Title, Toast} from 'native-base';
+import {Button, Text, Icon, Header, Left, View, Body, Title, Toast} from 'native-base';
 
 import AppScreenWrapper from '../_wrapper';
 import {color} from '../../../styles';

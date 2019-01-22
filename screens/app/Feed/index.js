@@ -67,7 +67,7 @@ const FeedAppNavigator = createTabNavigator(
       style: {
         backgroundColor: color.primary,
         marginTop: Platform.select({
-          ios: 20,
+          ios: 0,
           android: 0,
         }),
       },
