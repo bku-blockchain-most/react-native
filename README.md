@@ -63,6 +63,9 @@ Output file: `android/app/build/outputs/apk/release/app-release.apk`
 **IMPORTANT**
 Discard changes from `android/gradle.propertites`
 
+#### Create keystore
+Reference how to generate signed APK: https://facebook.github.io/react-native/docs/signed-apk-android
+
 #### Run iOS
 
 ```bash
