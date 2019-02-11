@@ -38,19 +38,30 @@ react-native link
 ```
 
 ### Build Android
+
+#### Keystore
+Download file `unite-stack-release.keystore`, put it in `android/app/src/`
+
+#### Config properties
++ Edit file `android/local.propertites` with
 ```bash
-# React-Native 0.49.0+
-react-native bundle --dev false --platform android --entry-file index.js --bundle-output ./android/app/build/intermediates/assets/debug/index.android.bundle --assets-dest ./android/app/build/intermediates/res/merged/debug
-
-# React-Native 0-0.49.0
-react-native bundle --dev false --platform android --entry-file index.android.js --bundle-output ./android/app/build/intermediates/assets/debug/index.android.bundle --assets-dest ./android/app/build/intermediates/res/merged/debug
-
-$ cd android
-# Create debug build:
-$ ./gradlew assembleDebug
-# Create release build:
-$ ./gradlew assembleRelease # Generated `apk` will be located at `android/app/build/outputs/apk`
+MYAPP_RELEASE_STORE_FILE=unite-stack-release.keystore
+MYAPP_RELEASE_KEY_ALIAS=unite-stack
+MYAPP_RELEASE_STORE_PASSWORD=???
+MYAPP_RELEASE_KEY_PASSWORD=???
 ```
+
++ Edit file `android/gradle.propertites` with the same lines as `local.propertites`
+
+
+#### Build
+```
+npm run build:android
+```
+Output file: `android/app/build/outputs/apk/release/app-release.apk`
+
+**IMPORTANT**
+Discard changes from `android/gradle.propertites`
 
 #### Run iOS
 
