@@ -40,7 +40,7 @@ react-native link
 ### Build Android
 
 #### Keystore
-Download file `unite-stack-release.keystore`, put it in `android/app/src/`
+Download file `unite-stack-release.keystore`, put it in `android/app/`
 
 #### Config properties
 + Edit file `android/local.propertites` with
